@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar, ThemeMode } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { CommandPalette } from './components/common/CommandPalette';
-import { LectureModal } from './components/lecture/LectureModal';
 import { HomePage } from './pages/HomePage';
 import { VisualizerPage } from './pages/VisualizerPage';
 import { ComparePage } from './pages/ComparePage';
 import { QuizPage } from './pages/QuizPage';
 import { TracksPage } from './pages/TracksPage';
-import { ALGORITHM_MODULES } from './data/modules';
-import { MODULE_LECTURES } from './data/lectures';
-import { AlgorithmModule } from './types/algorithm';
+import { LecturePage } from './pages/LecturePage';
+import { NotFoundPage } from './pages/NotFoundPage';
+
+// Scroll to top automatically on route change
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+  return null;
+};
 
 export const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks'>('home');
-  const [selectedModule, setSelectedModule] = useState<AlgorithmModule>(ALGORITHM_MODULES[0]);
-  const [lectureModule, setLectureModule] = useState<AlgorithmModule | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [theme, setTheme] = useState<ThemeMode>('dark');
 
@@ -24,68 +29,53 @@ export const App: React.FC = () => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  // Handle Tab Switch
-  const handleSelectTab = (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => {
-    setCurrentTab(tab);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectModule = (mod: AlgorithmModule) => {
-    setSelectedModule(mod);
-    setCurrentTab('visualizer');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleOpenLecture = (mod: AlgorithmModule) => {
-    setLectureModule(mod);
-  };
-
-  const activeLectureSlides = lectureModule ? (MODULE_LECTURES[lectureModule.id] || MODULE_LECTURES['sorting']) : [];
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Top sticky Navbar with Color Theme Selector */}
+      <ScrollToTop />
+
+      {/* Top sticky Navbar with Real Route Links & Color Theme Selector */}
       <Navbar
-        currentTab={currentTab}
-        onSelectTab={handleSelectTab}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         theme={theme}
         onSelectTheme={t => setTheme(t)}
       />
 
-      {/* Main Page Body */}
+      {/* Main Page Body via Real React Router Routes */}
       <main style={{ flex: 1, paddingTop: 'var(--space-4)' }}>
-        {currentTab === 'home' && (
-          <HomePage
-            onSelectModule={handleSelectModule}
-            onOpenLecture={handleOpenLecture}
-            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-            onNavigateTab={handleSelectTab}
+        <Routes>
+          <Route 
+            path="/" 
+            element={<HomePage onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />} 
           />
-        )}
-
-        {currentTab === 'visualizer' && (
-          <VisualizerPage
-            module={selectedModule}
-            onSelectModule={handleSelectModule}
-            onOpenLecture={handleOpenLecture}
+          <Route 
+            path="/visualizer" 
+            element={<VisualizerPage />} 
           />
-        )}
-
-        {currentTab === 'compare' && (
-          <ComparePage />
-        )}
-
-        {currentTab === 'quiz' && (
-          <QuizPage />
-        )}
-
-        {currentTab === 'tracks' && (
-          <TracksPage
-            onSelectModule={handleSelectModule}
-            onNavigateTab={handleSelectTab}
+          <Route 
+            path="/visualizer/:moduleId" 
+            element={<VisualizerPage />} 
           />
-        )}
+          <Route 
+            path="/compare" 
+            element={<ComparePage />} 
+          />
+          <Route 
+            path="/quiz" 
+            element={<QuizPage />} 
+          />
+          <Route 
+            path="/tracks" 
+            element={<TracksPage />} 
+          />
+          <Route 
+            path="/lecture/:moduleId" 
+            element={<LecturePage />} 
+          />
+          <Route 
+            path="*" 
+            element={<NotFoundPage />} 
+          />
+        </Routes>
       </main>
 
       {/* Footer */}
@@ -95,24 +85,9 @@ export const App: React.FC = () => {
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
-        onSelectModule={handleSelectModule}
-        onNavigateTab={handleSelectTab}
       />
-
-      {/* e-Lecture Slide Deck Modal */}
-      {lectureModule && (
-        <LectureModal
-          isOpen={!!lectureModule}
-          onClose={() => setLectureModule(null)}
-          slides={activeLectureSlides}
-          moduleTitle={lectureModule.title}
-          onLaunchSimulation={() => {
-            setSelectedModule(lectureModule);
-            setCurrentTab('visualizer');
-          }}
-        />
-      )}
     </div>
   );
 };
+
 export default App;

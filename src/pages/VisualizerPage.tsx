@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   Play, 
   RotateCcw, 
   BookOpen, 
   Sparkles, 
-  SlidersHorizontal, 
   Shuffle, 
-  ArrowDownUp, 
-  Terminal, 
-  Activity, 
-  CheckCircle2, 
-  Layers, 
   PlusCircle, 
-  Eye 
+  ChevronDown,
+  ArrowLeft
 } from 'lucide-react';
+import { ALGORITHM_MODULES } from '../data/modules';
 import { AlgorithmModule, VisualStep } from '../types/algorithm';
 import { PlaybackControls } from '../components/visualizer/PlaybackControls';
 import { CodeTracer } from '../components/visualizer/CodeTracer';
@@ -54,25 +51,23 @@ import {
   generateKnapsackSteps, 
   DP_PSEUDOCODE 
 } from '../algorithms/dp';
-import { Badge } from '../components/common/Badge';
 
-interface VisualizerPageProps {
-  module: AlgorithmModule;
-  onSelectModule: (module: AlgorithmModule) => void;
-  onOpenLecture: (module: AlgorithmModule) => void;
-}
+export const VisualizerPage: React.FC = () => {
+  const { moduleId } = useParams<{ moduleId: string }>();
+  const navigate = useNavigate();
 
-export const VisualizerPage: React.FC<VisualizerPageProps> = ({
-  module,
-  onOpenLecture
-}) => {
+  // Find module by route param (defaulting to sorting)
+  const currentModule = ALGORITHM_MODULES.find(m => m.id === moduleId) || ALGORITHM_MODULES[0];
+
   // Current algorithm variant
-  const [activeVariant, setActiveVariant] = useState<string>(module.variants[0] || 'Bubble Sort');
+  const [activeVariant, setActiveVariant] = useState<string>(currentModule.variants[0] || 'Bubble Sort');
   
   // Custom dataset
   const [dataArray, setDataArray] = useState<number[]>([42, 17, 89, 5, 23, 67, 31, 12, 94, 50]);
   const [customInputText, setCustomInputText] = useState('42, 17, 89, 5, 23, 67, 31, 12, 94, 50');
   const [showCustomModal, setShowCustomModal] = useState(false);
+  const [showModuleDropdown, setShowModuleDropdown] = useState(false);
+  const moduleDropdownRef = useRef<HTMLDivElement>(null);
 
   // Playback state
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -80,9 +75,27 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
   const [speed, setSpeed] = useState(1);
   const playTimerRef = useRef<number | null>(null);
 
+  // Sync active variant when module route changes
+  useEffect(() => {
+    setActiveVariant(currentModule.variants[0] || '');
+    setCurrentStepIndex(0);
+    setIsPlaying(false);
+  }, [currentModule.id]);
+
+  // Click outside to close module dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (moduleDropdownRef.current && !moduleDropdownRef.current.contains(e.target as Node)) {
+        setShowModuleDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Generate steps based on module and activeVariant
   const steps: VisualStep[] = React.useMemo(() => {
-    if (module.id === 'sorting') {
+    if (currentModule.id === 'sorting') {
       switch (activeVariant) {
         case 'Selection Sort':
           return generateSelectionSortSteps(dataArray);
@@ -96,55 +109,55 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
         default:
           return generateBubbleSortSteps(dataArray);
       }
-    } else if (module.id === 'bst-avl') {
+    } else if (currentModule.id === 'bst-avl') {
       if (activeVariant.includes('AVL')) {
         return generateAvlDemoSteps();
       } else {
         const tree = generateInitialTree();
         return generateBstInsertSteps(tree, 42);
       }
-    } else if (module.id === 'graph-traversal' || module.id === 'shortest-path' || module.id === 'mst') {
-      if (activeVariant.includes('Dijkstra') || module.id === 'shortest-path') {
+    } else if (currentModule.id === 'graph-traversal' || currentModule.id === 'shortest-path' || currentModule.id === 'mst') {
+      if (activeVariant.includes('Dijkstra') || currentModule.id === 'shortest-path') {
         return generateDijkstraSteps('0');
       } else {
         return generateBfsSteps('0');
       }
-    } else if (module.id === 'linear-structures') {
+    } else if (currentModule.id === 'linear-structures') {
       if (activeVariant.includes('Stack')) {
         return generateStackPushSteps([15, 30, 45], 90);
       } else {
         const list = getInitialLinkedList();
         return generateLinkedListInsertHeadSteps(list, 55);
       }
-    } else if (module.id === 'dynamic-programming') {
+    } else if (currentModule.id === 'dynamic-programming') {
       return generateKnapsackSteps();
     }
 
     // Default fallback to sorting
     return generateBubbleSortSteps(dataArray);
-  }, [module.id, activeVariant, dataArray]);
+  }, [currentModule.id, activeVariant, dataArray]);
 
   // Pseudocode lines
   const pseudocodeLines = React.useMemo(() => {
-    if (module.id === 'sorting') {
+    if (currentModule.id === 'sorting') {
       return SORTING_PSEUDOCODE[activeVariant as SortingVariant] || SORTING_PSEUDOCODE['Bubble Sort'];
-    } else if (module.id === 'bst-avl') {
+    } else if (currentModule.id === 'bst-avl') {
       return activeVariant.includes('AVL') ? TREE_PSEUDOCODE['AVL Insert'] : TREE_PSEUDOCODE['BST Insert'];
-    } else if (module.id === 'graph-traversal' || module.id === 'shortest-path') {
+    } else if (currentModule.id === 'graph-traversal' || currentModule.id === 'shortest-path') {
       return activeVariant.includes('Dijkstra') ? GRAPH_PSEUDOCODE['Dijkstra'] : GRAPH_PSEUDOCODE['BFS'];
-    } else if (module.id === 'linear-structures') {
+    } else if (currentModule.id === 'linear-structures') {
       return activeVariant.includes('Stack') ? LINEAR_PSEUDOCODE['Stack (LIFO)'] : LINEAR_PSEUDOCODE['Singly Linked List'];
-    } else if (module.id === 'dynamic-programming') {
+    } else if (currentModule.id === 'dynamic-programming') {
       return DP_PSEUDOCODE['0/1 Knapsack'];
     }
     return SORTING_PSEUDOCODE['Bubble Sort'];
-  }, [module.id, activeVariant]);
+  }, [currentModule.id, activeVariant]);
 
   // Reset step index when algorithm or variant changes
   useEffect(() => {
     setCurrentStepIndex(0);
     setIsPlaying(false);
-  }, [module.id, activeVariant, dataArray]);
+  }, [currentModule.id, activeVariant, dataArray]);
 
   // Playback timer ticker
   useEffect(() => {
@@ -241,15 +254,69 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
         borderBottom: 'var(--border-1) solid var(--border-subtle)',
         paddingBottom: 'var(--space-3)'
       }}>
-        {/* Module Title & Variants dropdown/buttons */}
+        {/* Module Switcher Dropdown & Variants */}
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-3)' }}>
-          <div>
-            <h1 style={{ fontSize: 'var(--text-xl)', margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <span>{module.title}</span>
-              {module.courseCode && (
-                <span className="badge badge-neutral" style={{ fontSize: '11px' }}>{module.courseCode}</span>
-              )}
-            </h1>
+          <div style={{ position: 'relative' }} ref={moduleDropdownRef}>
+            <button
+              onClick={() => setShowModuleDropdown(prev => !prev)}
+              className="btn btn-secondary btn-sm"
+              style={{
+                fontSize: 'var(--text-base)',
+                fontWeight: 'var(--weight-heavy)',
+                padding: '6px 12px',
+                gap: 'var(--space-2)'
+              }}
+            >
+              <span>{currentModule.title}</span>
+              <ChevronDown size={16} color="var(--text-tertiary)" />
+            </button>
+
+            {showModuleDropdown && (
+              <div style={{
+                position: 'absolute',
+                top: 'calc(100% + 6px)',
+                left: 0,
+                width: '280px',
+                maxHeight: '340px',
+                overflowY: 'auto',
+                backgroundColor: 'var(--surface-raised)',
+                border: 'var(--border-1) solid var(--border-default)',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--shadow-xl)',
+                padding: 'var(--space-2)',
+                zIndex: 120
+              }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '4px 8px', textTransform: 'uppercase', fontWeight: 'var(--weight-heavy)' }}>
+                  Switch Algorithm Module:
+                </div>
+                {ALGORITHM_MODULES.map(m => (
+                  <button
+                    key={m.id}
+                    onClick={() => {
+                      navigate(`/visualizer/${m.id}`);
+                      setShowModuleDropdown(false);
+                    }}
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 10px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: m.id === currentModule.id ? 'var(--primary-surface)' : 'transparent',
+                      color: m.id === currentModule.id ? 'var(--primary-400)' : 'var(--text-primary)',
+                      fontSize: 'var(--text-sm)',
+                      fontWeight: m.id === currentModule.id ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                      textAlign: 'left',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <span>{m.title}</span>
+                    <span className="badge badge-neutral" style={{ fontSize: '10px' }}>{m.complexity.timeAvg}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Variant picker pills */}
@@ -262,7 +329,7 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
             borderRadius: 'var(--radius-md)',
             border: 'var(--border-1) solid var(--border-subtle)'
           }}>
-            {module.variants.map(v => (
+            {currentModule.variants.map(v => (
               <button
                 key={v}
                 onClick={() => setActiveVariant(v)}
@@ -279,9 +346,9 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
           </div>
         </div>
 
-        {/* Right Action buttons: Dataset Presets & e-Lecture button */}
+        {/* Right Action buttons: Presets & Link to e-Lecture Route */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          {module.id === 'sorting' && (
+          {currentModule.id === 'sorting' && (
             <>
               <button
                 onClick={handleRandomize}
@@ -314,18 +381,19 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
                 title="Enter custom array"
               >
                 <PlusCircle size={14} />
-                <span>Custom Input</span>
+                <span>Custom</span>
               </button>
             </>
           )}
 
-          <button
-            onClick={() => onOpenLecture(module)}
+          <Link
+            to={`/lecture/${currentModule.id}`}
             className="btn btn-primary btn-sm"
+            title="Read structured e-Lecture slides"
           >
             <BookOpen size={14} />
-            <span>e-Lecture Slides</span>
-          </button>
+            <span>e-Lecture Route</span>
+          </Link>
         </div>
       </div>
 
@@ -354,19 +422,19 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
             justifyContent: 'center',
             position: 'relative'
           }}>
-            {module.id === 'sorting' && (
+            {currentModule.id === 'sorting' && (
               <SortingCanvas bars={currentStep.state} />
             )}
-            {module.id === 'bst-avl' && (
+            {currentModule.id === 'bst-avl' && (
               <TreeCanvas tree={currentStep.state} />
             )}
-            {(module.id === 'graph-traversal' || module.id === 'shortest-path' || module.id === 'mst') && (
+            {(currentModule.id === 'graph-traversal' || currentModule.id === 'shortest-path' || currentModule.id === 'mst') && (
               <GraphCanvas graph={currentStep.state} />
             )}
-            {module.id === 'linear-structures' && (
+            {currentModule.id === 'linear-structures' && (
               <LinearCanvas state={currentStep.state} variant={activeVariant} />
             )}
-            {module.id === 'dynamic-programming' && (
+            {currentModule.id === 'dynamic-programming' && (
               <DpCanvas state={currentStep.state} />
             )}
           </div>
@@ -436,15 +504,15 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)', fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)' }}>
               <div>
                 <span style={{ color: 'var(--text-tertiary)' }}>Best: </span>
-                <span style={{ color: 'var(--state-sorted)', fontWeight: 'var(--weight-heavy)' }}>{module.complexity.timeBest}</span>
+                <span style={{ color: 'var(--state-sorted)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeBest}</span>
               </div>
               <div>
                 <span style={{ color: 'var(--text-tertiary)' }}>Average: </span>
-                <span style={{ color: 'var(--state-inspect)', fontWeight: 'var(--weight-heavy)' }}>{module.complexity.timeAvg}</span>
+                <span style={{ color: 'var(--state-inspect)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeAvg}</span>
               </div>
               <div>
                 <span style={{ color: 'var(--text-tertiary)' }}>Worst: </span>
-                <span style={{ color: 'var(--state-pivot)', fontWeight: 'var(--weight-heavy)' }}>{module.complexity.timeWorst}</span>
+                <span style={{ color: 'var(--state-pivot)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeWorst}</span>
               </div>
             </div>
 
@@ -457,15 +525,15 @@ export const VisualizerPage: React.FC<VisualizerPageProps> = ({
               fontSize: '11px',
               color: 'var(--text-tertiary)'
             }}>
-              <span>Aux Space: <strong style={{ color: 'var(--text-secondary)' }}>{module.complexity.spaceWorst}</strong></span>
-              {module.complexity.stable !== undefined && (
-                <span>Stable: <strong style={{ color: module.complexity.stable ? 'var(--state-sorted)' : 'var(--text-tertiary)' }}>
-                  {module.complexity.stable ? 'Yes' : 'No'}
+              <span>Aux Space: <strong style={{ color: 'var(--text-secondary)' }}>{currentModule.complexity.spaceWorst}</strong></span>
+              {currentModule.complexity.stable !== undefined && (
+                <span>Stable: <strong style={{ color: currentModule.complexity.stable ? 'var(--state-sorted)' : 'var(--text-tertiary)' }}>
+                  {currentModule.complexity.stable ? 'Yes' : 'No'}
                 </strong></span>
               )}
-              {module.complexity.inPlace !== undefined && (
-                <span>In-Place: <strong style={{ color: module.complexity.inPlace ? 'var(--state-sorted)' : 'var(--text-tertiary)' }}>
-                  {module.complexity.inPlace ? 'Yes' : 'No'}
+              {currentModule.complexity.inPlace !== undefined && (
+                <span>In-Place: <strong style={{ color: currentModule.complexity.inPlace ? 'var(--state-sorted)' : 'var(--text-tertiary)' }}>
+                  {currentModule.complexity.inPlace ? 'Yes' : 'No'}
                 </strong></span>
               )}
             </div>

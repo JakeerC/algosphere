@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Sparkles, ArrowRight, X } from 'lucide-react';
 import { ALGORITHM_MODULES } from '../../data/modules';
 import { AlgorithmModule } from '../../types/algorithm';
@@ -6,8 +7,8 @@ import { AlgorithmModule } from '../../types/algorithm';
 interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectModule: (module: AlgorithmModule) => void;
-  onNavigateTab: (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => void;
+  onSelectModule?: (module: AlgorithmModule) => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({
@@ -16,6 +17,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onSelectModule,
   onNavigateTab
 }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,9 +36,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         if (isOpen) onClose();
-        else {
-          // Open triggered by parent
-        }
       } else if (e.key === 'Escape' && isOpen) {
         onClose();
       }
@@ -60,6 +59,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     );
   });
 
+  const handleLaunch = (module: AlgorithmModule) => {
+    if (onSelectModule) onSelectModule(module);
+    if (onNavigateTab) onNavigateTab('visualizer');
+    navigate(`/visualizer/${module.id}`);
+    onClose();
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -70,9 +76,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (filteredModules[selectedIndex]) {
-        onSelectModule(filteredModules[selectedIndex]);
-        onNavigateTab('visualizer');
-        onClose();
+        handleLaunch(filteredModules[selectedIndex]);
       }
     }
   };
@@ -162,11 +166,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
               return (
                 <div
                   key={module.id}
-                  onClick={() => {
-                    onSelectModule(module);
-                    onNavigateTab('visualizer');
-                    onClose();
-                  }}
+                  onClick={() => handleLaunch(module)}
                   onMouseEnter={() => setSelectedIndex(idx)}
                   style={{
                     display: 'flex',

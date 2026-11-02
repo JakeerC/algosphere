@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Sparkles, 
   Search, 
@@ -13,20 +14,17 @@ import {
 export type ThemeMode = 'dark' | 'cyberpunk' | 'emerald' | 'sunset' | 'light';
 
 interface NavbarProps {
-  currentTab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks';
-  onSelectTab: (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => void;
   onOpenCommandPalette: () => void;
   theme: ThemeMode;
   onSelectTheme: (theme: ThemeMode) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  currentTab,
-  onSelectTab,
   onOpenCommandPalette,
   theme,
   onSelectTheme
 }) => {
+  const location = useLocation();
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const themeMenuRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +46,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const isHome = location.pathname === '/';
+  const isVisualizer = location.pathname.startsWith('/visualizer');
+  const isCompare = location.pathname.startsWith('/compare');
+  const isQuiz = location.pathname.startsWith('/quiz');
+  const isTracks = location.pathname.startsWith('/tracks');
+
   return (
     <header style={{
       position: 'sticky',
@@ -66,14 +70,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         gap: 'var(--space-4)'
       }}>
         {/* Brand Logo */}
-        <div 
-          onClick={() => onSelectTab('home')}
+        <Link 
+          to="/"
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 'var(--space-3)',
             cursor: 'pointer',
-            userSelect: 'none'
+            userSelect: 'none',
+            textDecoration: 'none'
           }}
         >
           <div style={{
@@ -96,7 +101,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               letterSpacing: '-0.02em',
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--space-2)'
+              gap: 'var(--space-2)',
+              color: 'var(--text-primary)'
             }}>
               <span>AlgoSphere</span>
               <span className="badge badge-primary" style={{ fontSize: '10px', padding: '1px 6px' }}>v2.0</span>
@@ -105,9 +111,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               Reimagining VisuAlgo
             </div>
           </div>
-        </div>
+        </Link>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs with Real Routes */}
         <nav style={{
           display: 'none',
           alignItems: 'center',
@@ -117,65 +123,70 @@ export const Navbar: React.FC<NavbarProps> = ({
           borderRadius: 'var(--radius-lg)',
           border: 'var(--border-1) solid var(--border-subtle)'
         }} className="desktop-nav">
-          <button
-            onClick={() => onSelectTab('home')}
-            className={`btn btn-sm ${currentTab === 'home' ? 'btn-secondary' : 'btn-ghost'}`}
+          <Link
+            to="/"
+            className={`btn btn-sm ${isHome ? 'btn-secondary' : 'btn-ghost'}`}
             style={{ 
-              backgroundColor: currentTab === 'home' ? 'var(--surface-raised)' : 'transparent',
-              color: currentTab === 'home' ? 'var(--text-primary)' : 'var(--text-secondary)'
+              backgroundColor: isHome ? 'var(--surface-raised)' : 'transparent',
+              color: isHome ? 'var(--text-primary)' : 'var(--text-secondary)',
+              textDecoration: 'none'
             }}
           >
             <Layers size={15} />
             <span>Modules</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => onSelectTab('visualizer')}
-            className={`btn btn-sm ${currentTab === 'visualizer' ? 'btn-secondary' : 'btn-ghost'}`}
+          <Link
+            to="/visualizer/sorting"
+            className={`btn btn-sm ${isVisualizer ? 'btn-secondary' : 'btn-ghost'}`}
             style={{ 
-              backgroundColor: currentTab === 'visualizer' ? 'var(--surface-raised)' : 'transparent',
-              color: currentTab === 'visualizer' ? 'var(--text-primary)' : 'var(--text-secondary)'
+              backgroundColor: isVisualizer ? 'var(--surface-raised)' : 'transparent',
+              color: isVisualizer ? 'var(--text-primary)' : 'var(--text-secondary)',
+              textDecoration: 'none'
             }}
           >
             <Activity size={15} />
             <span>Interactive Visualizer</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => onSelectTab('compare')}
-            className={`btn btn-sm ${currentTab === 'compare' ? 'btn-secondary' : 'btn-ghost'}`}
+          <Link
+            to="/compare"
+            className={`btn btn-sm ${isCompare ? 'btn-secondary' : 'btn-ghost'}`}
             style={{ 
-              backgroundColor: currentTab === 'compare' ? 'var(--surface-raised)' : 'transparent',
-              color: currentTab === 'compare' ? 'var(--text-primary)' : 'var(--text-secondary)'
+              backgroundColor: isCompare ? 'var(--surface-raised)' : 'transparent',
+              color: isCompare ? 'var(--text-primary)' : 'var(--text-secondary)',
+              textDecoration: 'none'
             }}
           >
             <Sparkles size={15} />
             <span>Race Arena</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => onSelectTab('quiz')}
-            className={`btn btn-sm ${currentTab === 'quiz' ? 'btn-secondary' : 'btn-ghost'}`}
+          <Link
+            to="/quiz"
+            className={`btn btn-sm ${isQuiz ? 'btn-secondary' : 'btn-ghost'}`}
             style={{ 
-              backgroundColor: currentTab === 'quiz' ? 'var(--surface-raised)' : 'transparent',
-              color: currentTab === 'quiz' ? 'var(--text-primary)' : 'var(--text-secondary)'
+              backgroundColor: isQuiz ? 'var(--surface-raised)' : 'transparent',
+              color: isQuiz ? 'var(--text-primary)' : 'var(--text-secondary)',
+              textDecoration: 'none'
             }}
           >
             <Trophy size={15} />
             <span>Quiz & Training</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => onSelectTab('tracks')}
-            className={`btn btn-sm ${currentTab === 'tracks' ? 'btn-secondary' : 'btn-ghost'}`}
+          <Link
+            to="/tracks"
+            className={`btn btn-sm ${isTracks ? 'btn-secondary' : 'btn-ghost'}`}
             style={{ 
-              backgroundColor: currentTab === 'tracks' ? 'var(--surface-raised)' : 'transparent',
-              color: currentTab === 'tracks' ? 'var(--text-primary)' : 'var(--text-secondary)'
+              backgroundColor: isTracks ? 'var(--surface-raised)' : 'transparent',
+              color: isTracks ? 'var(--text-primary)' : 'var(--text-secondary)',
+              textDecoration: 'none'
             }}
           >
             <GraduationCap size={15} />
             <span>Tracks</span>
-          </button>
+          </Link>
         </nav>
 
         {/* Right Actions: Search + Color Theme Menu */}

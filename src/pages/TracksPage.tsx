@@ -1,18 +1,11 @@
 import React from 'react';
-import { GraduationCap, ArrowRight, CheckCircle2, Clock, BookOpen, Layers } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { GraduationCap, ArrowRight, Clock } from 'lucide-react';
 import { LEARNING_TRACKS, ALGORITHM_MODULES } from '../data/modules';
 import { AlgorithmModule } from '../types/algorithm';
 import { Badge } from '../components/common/Badge';
 
-interface TracksPageProps {
-  onSelectModule: (module: AlgorithmModule) => void;
-  onNavigateTab: (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => void;
-}
-
-export const TracksPage: React.FC<TracksPageProps> = ({
-  onSelectModule,
-  onNavigateTab
-}) => {
+export const TracksPage: React.FC = () => {
   return (
     <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', paddingBottom: 'var(--space-10)' }}>
       {/* Page Header */}
@@ -45,6 +38,8 @@ export const TracksPage: React.FC<TracksPageProps> = ({
           const trackModules = track.moduleIds
             .map(id => ALGORITHM_MODULES.find(m => m.id === id))
             .filter((m): m is AlgorithmModule => !!m);
+
+          const firstModule = trackModules[0];
 
           return (
             <div key={track.id} className="card" style={{ padding: 'var(--space-6)' }}>
@@ -82,18 +77,15 @@ export const TracksPage: React.FC<TracksPageProps> = ({
                   </p>
                 </div>
 
-                <button
-                  onClick={() => {
-                    if (trackModules[0]) {
-                      onSelectModule(trackModules[0]);
-                      onNavigateTab('visualizer');
-                    }
-                  }}
-                  className="btn btn-primary btn-sm"
-                >
-                  <span>Start Module 1</span>
-                  <ArrowRight size={14} />
-                </button>
+                {firstModule && (
+                  <Link
+                    to={`/visualizer/${firstModule.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
+                    <span>Start Module 1 ({firstModule.title})</span>
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
               </div>
 
               {/* Modules Roadmap Grid inside the track */}
@@ -115,12 +107,9 @@ export const TracksPage: React.FC<TracksPageProps> = ({
                   gap: 'var(--space-3)'
                 }}>
                   {trackModules.map((mod, stepNum) => (
-                    <div
+                    <Link
                       key={mod.id}
-                      onClick={() => {
-                        onSelectModule(mod);
-                        onNavigateTab('visualizer');
-                      }}
+                      to={`/visualizer/${mod.id}`}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -130,7 +119,8 @@ export const TracksPage: React.FC<TracksPageProps> = ({
                         border: 'var(--border-1) solid var(--border-default)',
                         borderRadius: 'var(--radius-lg)',
                         cursor: 'pointer',
-                        transition: 'all var(--transition-fast)'
+                        transition: 'all var(--transition-fast)',
+                        textDecoration: 'none'
                       }}
                       className="card-interactive"
                     >
@@ -162,7 +152,7 @@ export const TracksPage: React.FC<TracksPageProps> = ({
                       </div>
 
                       <ArrowRight size={14} color="var(--text-tertiary)" />
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

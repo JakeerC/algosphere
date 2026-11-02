@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Sparkles, 
   Search, 
   ArrowRight, 
   BookOpen, 
   Activity, 
-  GraduationCap, 
   Zap, 
   Layers, 
   ArrowUpDown, 
@@ -23,18 +23,13 @@ import { AlgorithmModule, AlgorithmCategory } from '../types/algorithm';
 import { Badge } from '../components/common/Badge';
 
 interface HomePageProps {
-  onSelectModule: (module: AlgorithmModule) => void;
-  onOpenLecture: (module: AlgorithmModule) => void;
   onOpenCommandPalette: () => void;
-  onNavigateTab: (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
-  onSelectModule,
-  onOpenLecture,
-  onOpenCommandPalette,
-  onNavigateTab
+  onOpenCommandPalette
 }) => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchFilter, setSearchFilter] = useState('');
 
@@ -154,14 +149,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               }}>⌘K</kbd>
             </button>
 
-            <button
-              onClick={() => onNavigateTab('compare')}
+            <Link
+              to="/compare"
               className="btn btn-secondary btn-lg"
               style={{ gap: 'var(--space-2)' }}
             >
               <Zap size={18} color="var(--state-swap)" />
               <span>Race Arena</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -180,14 +175,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               Structured tracks aligned with world-class university curricula and technical interview loops.
             </p>
           </div>
-          <button
-            onClick={() => onNavigateTab('tracks')}
+          <Link
+            to="/tracks"
             className="btn btn-ghost btn-sm"
             style={{ color: 'var(--primary-400)' }}
           >
             <span>View All Tracks</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
 
         <div style={{
@@ -204,16 +199,17 @@ export const HomePage: React.FC<HomePageProps> = ({
             const theme = trackColors[idx % trackColors.length];
 
             return (
-              <div
+              <Link
                 key={track.id}
-                onClick={() => onNavigateTab('tracks')}
+                to="/tracks"
                 className="card card-interactive"
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   gap: 'var(--space-3)',
-                  borderTop: `3px solid ${theme.border}`
+                  borderTop: `3px solid ${theme.border}`,
+                  textDecoration: 'none'
                 }}
               >
                 <div>
@@ -223,7 +219,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       {track.estimatedHours}
                     </span>
                   </div>
-                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)' }}>
+                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)', color: 'var(--text-primary)' }}>
                     {track.title}
                   </h3>
                   <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
@@ -245,7 +241,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     Start Track <ArrowRight size={12} />
                   </span>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -418,7 +414,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
                 </div>
 
-                {/* Bottom Action buttons */}
+                {/* Bottom Action buttons with real router links */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -426,23 +422,23 @@ export const HomePage: React.FC<HomePageProps> = ({
                   paddingTop: 'var(--space-3)',
                   borderTop: 'var(--border-1) solid var(--border-subtle)'
                 }}>
-                  <button
-                    onClick={() => onSelectModule(module)}
+                  <Link
+                    to={`/visualizer/${module.id}`}
                     className="btn btn-primary btn-sm"
                     style={{ flex: 1 }}
                   >
                     <Activity size={14} />
                     <span>Visualize</span>
-                  </button>
+                  </Link>
 
-                  <button
-                    onClick={() => onOpenLecture(module)}
+                  <Link
+                    to={`/lecture/${module.id}`}
                     className="btn btn-secondary btn-sm"
                     title="Open e-Lecture slides"
                   >
                     <BookOpen size={14} />
                     <span>Lecture</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             );
