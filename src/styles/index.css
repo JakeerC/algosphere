@@ -19,6 +19,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 body {
@@ -27,6 +28,7 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   background-color: var(--surface-canvas);
+  transition: background-color var(--transition-normal);
 }
 
 #root {

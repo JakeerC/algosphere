@@ -231,8 +231,8 @@
 /* ==========================================================================
    Theme 1: Dark Mode (Default: Midnight Indigo)
    ========================================================================== */
-:root[data-theme="dark"],
-:root:not([data-theme="light"]):not([data-theme="cyberpunk"]):not([data-theme="emerald"]):not([data-theme="sunset"]) {
+:root,
+:root[data-theme="dark"] {
   --surface-canvas: hsl(222, 47%, 6%);
   --surface-subtle: hsl(222, 47%, 8%);
   --surface-card: hsl(222, 47%, 10%);
