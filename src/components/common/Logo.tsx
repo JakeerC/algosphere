@@ -233,19 +233,22 @@ export const LogoMark: React.FC<LogoMarkProps> = ({
 };
 
 export const Logo: React.FC<LogoProps> = ({
-  width = 'auto',
+  width,
   height = 32,
   className = '',
   textColor,
   color
 }) => {
   const activeTextColor = textColor || (color && color !== 'currentColor' ? color : undefined) || 'var(--logo-text-color, #68a0f0)';
+  const calculatedWidth = width && width !== 'auto'
+    ? width
+    : (typeof height === 'number' ? Math.round(height * (341.69 / 60.4)) : undefined);
   return (
     <svg
       data-logo="logo"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 341.69000244140625 60.4"
-      width={width}
+      width={calculatedWidth}
       height={height}
       className={className}
       style={{

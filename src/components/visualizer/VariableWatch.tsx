@@ -9,24 +9,23 @@ export const VariableWatch: React.FC<VariableWatchProps> = ({ variables }) => {
   const entries = Object.entries(variables);
 
   return (
-    <div style={{
-      backgroundColor: 'var(--surface-subtle)',
-      borderTop: 'var(--border-1) solid var(--border-subtle)',
-      padding: 'var(--space-2) var(--space-3)'
+    <div className="card" style={{
+      padding: 'var(--space-3) var(--space-4)',
+      borderRadius: 'var(--radius-xl)'
     }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
         gap: 'var(--space-2)',
         marginBottom: 'var(--space-2)',
-        fontSize: 'var(--text-xs)',
+        fontSize: '11px',
         color: 'var(--text-tertiary)',
         fontWeight: 'var(--weight-heavy)',
         textTransform: 'uppercase',
         letterSpacing: '0.05em'
       }}>
-        <Eye size={12} />
-        <span>Variable Watch</span>
+        <Eye size={13} />
+        <span>Live Scope Variable Watch</span>
       </div>
 
       <div style={{
@@ -43,10 +42,10 @@ export const VariableWatch: React.FC<VariableWatchProps> = ({ variables }) => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                backgroundColor: 'var(--surface-card)',
-                border: 'var(--border-1) solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '2px 6px',
+                backgroundColor: 'var(--surface-subtle)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-full)',
+                padding: '3px 10px',
                 fontSize: 'var(--text-xs)',
                 fontFamily: 'var(--font-mono)'
               }}

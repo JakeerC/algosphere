@@ -60,10 +60,10 @@ export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
       <div style={{
         display: 'inline-block',
         backgroundColor: 'var(--surface-card)',
-        border: 'var(--border-1) solid var(--border-default)',
-        borderRadius: 'var(--radius-lg)',
+        border: '1px solid var(--border-default)',
+        borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-4)',
-        boxShadow: 'var(--shadow-sm)'
+        boxShadow: 'var(--shadow-md)'
       }}>
         <table style={{ borderCollapse: 'separate', borderSpacing: '4px' }}>
           <thead>
@@ -115,7 +115,7 @@ export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
                         height: '42px',
                         textAlign: 'center',
                         verticalAlign: 'middle',
-                        borderRadius: 'var(--radius-sm)',
+                        borderRadius: 'var(--radius-md)',
                         backgroundColor: getCellBg(cell.value, cell.state, isCurrent),
                         border: getCellBorder(cell.value, cell.state, isCurrent),
                         fontFamily: 'var(--font-mono)',

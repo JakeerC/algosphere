@@ -16,11 +16,22 @@ import {
   Boxes, 
   Hash, 
   Workflow, 
-  Share2 
+  Share2,
+  Trophy,
+  CheckCircle2,
+  Cpu
 } from 'lucide-react';
 import { ALGORITHM_MODULES, LEARNING_TRACKS } from '../data/modules';
 import { AlgorithmModule, AlgorithmCategory } from '../types/algorithm';
 import { Badge } from '../components/common/Badge';
+import {
+  ScribbleUnderline,
+  ScribbleSparkle,
+  ScribbleLoop,
+  ScribbleArrow,
+  ScribbleBadgeSticker,
+  ScribbleBlob
+} from '../components/common/ScribbleAccents';
 
 interface HomePageProps {
   onOpenCommandPalette: () => void;
@@ -34,13 +45,13 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [searchFilter, setSearchFilter] = useState('');
 
   const categories = [
-    { id: 'all', label: 'All Modules', color: 'var(--primary-500)' },
-    { id: 'sorting', label: 'Sorting', color: 'var(--cat-sorting)' },
-    { id: 'trees', label: 'Trees & Heaps', color: 'var(--cat-trees)' },
-    { id: 'graphs', label: 'Graphs & Paths', color: 'var(--cat-graphs)' },
-    { id: 'linear', label: 'Linear ADTs', color: 'var(--cat-linear)' },
-    { id: 'dp', label: 'Dynamic Programming', color: 'var(--cat-dp)' },
-    { id: 'hashing', label: 'Hashing & Sets', color: 'var(--cat-hashing)' }
+    { id: 'all', label: 'All Modules', count: ALGORITHM_MODULES.length, color: 'var(--primary-500)' },
+    { id: 'sorting', label: 'Sorting', count: ALGORITHM_MODULES.filter(m => m.category === 'sorting').length, color: 'var(--cat-sorting)' },
+    { id: 'trees', label: 'Trees & Heaps', count: ALGORITHM_MODULES.filter(m => m.category === 'trees').length, color: 'var(--cat-trees)' },
+    { id: 'graphs', label: 'Graphs & Paths', count: ALGORITHM_MODULES.filter(m => m.category === 'graphs').length, color: 'var(--cat-graphs)' },
+    { id: 'linear', label: 'Linear ADTs', count: ALGORITHM_MODULES.filter(m => m.category === 'linear').length, color: 'var(--cat-linear)' },
+    { id: 'dp', label: 'Dynamic Programming', count: ALGORITHM_MODULES.filter(m => m.category === 'dp').length, color: 'var(--cat-dp)' },
+    { id: 'hashing', label: 'Hashing & Sets', count: ALGORITHM_MODULES.filter(m => m.category === 'hashing').length, color: 'var(--cat-hashing)' }
   ];
 
   const getCategoryTheme = (cat: AlgorithmCategory) => {
@@ -89,49 +100,92 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-9)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-10)', position: 'relative' }}>
+      {/* Soft Ambient Background Blobs */}
+      <ScribbleBlob color="var(--primary-surface)" width={450} height={450} opacity={0.4} style={{ top: '-80px', right: '-120px' }} />
+      <ScribbleBlob color="var(--state-swap-bg)" width={380} height={380} opacity={0.3} style={{ top: '250px', left: '-100px' }} />
+
       {/* Hero Section */}
       <section style={{
         paddingTop: 'var(--space-8)',
         paddingBottom: 'var(--space-4)',
         textAlign: 'center',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 1
       }}>
         <div className="container-narrow" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ marginBottom: 'var(--space-3)' }}>
-            <Badge variant="primary" icon={<Sparkles size={14} />}>
-              Next-Generation Algorithm Studio
-            </Badge>
+          
+          {/* Top Scribble Pill Tag */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            backgroundColor: 'var(--surface-card)',
+            border: 'var(--border-1) solid var(--border-default)',
+            borderRadius: 'var(--radius-full)',
+            padding: '6px 16px',
+            marginBottom: 'var(--space-4)',
+            boxShadow: 'var(--shadow-xs)'
+          }}>
+            <ScribbleSparkle size={16} color="var(--primary-500)" />
+            <span style={{
+              fontSize: 'var(--text-xs)',
+              fontWeight: 700,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              color: 'var(--text-primary)'
+            }}>
+              Scribble-Crafted CS Laboratory
+            </span>
+            <span style={{
+              fontSize: '10px',
+              backgroundColor: 'var(--primary-surface)',
+              color: 'var(--primary-500)',
+              padding: '2px 8px',
+              borderRadius: 'var(--radius-full)',
+              fontWeight: 800
+            }}>
+              v2.0
+            </span>
           </div>
 
+          {/* Punchy Headline with Scribble Wave */}
           <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-            fontWeight: 'var(--weight-bold)',
-            lineHeight: 'var(--leading-tight)',
-            marginBottom: 'var(--space-3)',
-            background: 'linear-gradient(135deg, var(--text-primary) 20%, var(--primary-400) 60%, var(--state-swap) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            fontSize: 'clamp(2.4rem, 5.8vw, 4.2rem)',
+            fontWeight: 800,
+            lineHeight: 1.15,
+            letterSpacing: '-0.035em',
+            marginBottom: 'var(--space-4)',
+            color: 'var(--text-primary)',
+            maxWidth: '22ch'
           }}>
-            Visualize, understand & master computer science algorithms.
+            Visualize, understand &{' '}
+            <span style={{ position: 'relative', display: 'inline-block' }}>
+              master every step
+              <ScribbleUnderline color="var(--primary-500)" style={{ position: 'absolute', bottom: '-10px', left: 0 }} />
+            </span>
           </h1>
 
           <p style={{
-            fontSize: 'var(--text-lg)',
+            fontSize: 'clamp(1rem, 2vw, 1.15rem)',
             color: 'var(--text-secondary)',
             marginBottom: 'var(--space-6)',
-            textAlign: 'center'
+            textAlign: 'center',
+            lineHeight: 1.65,
+            maxWidth: '56ch'
           }}>
-            Reimagining NUS VisuAlgo with fluid interactive workspaces, synchronized line-by-line pseudocode tracers, side-by-side algorithm races, and procedural quizzes.
+            Reimagining NUS VisuAlgo with silky 60fps animations, synchronized line-by-line pseudocode tracers, live duel arenas, and procedural mastery quizzes.
           </p>
 
-          {/* Quick Search Banner / Button */}
+          {/* Action Row */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 'var(--space-3)'
+            gap: 'var(--space-3)',
+            marginBottom: 'var(--space-6)',
+            position: 'relative'
           }}>
             <button
               onClick={onOpenCommandPalette}
@@ -139,13 +193,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               style={{ gap: 'var(--space-3)' }}
             >
               <Search size={18} />
-              <span>Explore Algorithms</span>
+              <span>Explore All Algorithms</span>
               <kbd style={{
-                backgroundColor: 'hsla(0, 0%, 100%, 0.2)',
-                padding: '2px 6px',
-                borderRadius: 'var(--radius-xs)',
+                backgroundColor: 'hsla(0, 0%, 0%, 0.15)',
+                padding: '3px 8px',
+                borderRadius: 'var(--radius-full)',
                 fontSize: '11px',
-                fontFamily: 'var(--font-mono)'
+                fontFamily: 'var(--font-mono)',
+                color: 'currentColor'
               }}>⌘K</kbd>
             </button>
 
@@ -155,9 +210,100 @@ export const HomePage: React.FC<HomePageProps> = ({
               style={{ gap: 'var(--space-2)' }}
             >
               <Zap size={18} color="var(--state-swap)" />
-              <span>Race Arena</span>
+              <span>Duel Arena</span>
             </Link>
+
+            {/* Playful Floating Arrow Doodle on Desktop */}
+            <div style={{
+              display: 'none',
+              position: 'absolute',
+              right: '-140px',
+              top: '5px',
+              alignItems: 'center',
+              gap: '6px'
+            }} className="desktop-arrow">
+              <ScribbleArrow color="var(--state-swap)" width={40} height={28} />
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '12px',
+                color: 'var(--text-tertiary)',
+                transform: 'rotate(-4deg)',
+                whiteSpace: 'nowrap'
+              }}>
+                Try side-by-side!
+              </span>
+            </div>
           </div>
+
+          {/* Scribble Feature Pills */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              backgroundColor: 'var(--surface-card)',
+              border: 'var(--border-1) solid var(--border-subtle)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-secondary)'
+            }}>
+              <CheckCircle2 size={13} color="var(--state-sorted)" />
+              <span>12+ Full Visualizers</span>
+            </div>
+
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              backgroundColor: 'var(--surface-card)',
+              border: 'var(--border-1) solid var(--border-subtle)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-secondary)'
+            }}>
+              <Activity size={13} color="var(--primary-500)" />
+              <span>60 FPS Scrubbable Director</span>
+            </div>
+
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              backgroundColor: 'var(--surface-card)',
+              border: 'var(--border-1) solid var(--border-subtle)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-secondary)'
+            }}>
+              <Cpu size={13} color="var(--state-swap)" />
+              <span>Synchronized Variable Watch</span>
+            </div>
+
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              backgroundColor: 'var(--surface-card)',
+              border: 'var(--border-1) solid var(--border-subtle)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-secondary)'
+            }}>
+              <Trophy size={13} color="var(--state-inspect)" />
+              <span>Procedural Quizzes</span>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -172,13 +318,13 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div>
             <h2 style={{ fontSize: 'var(--text-xl)' }}>Curated Learning Pathways</h2>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)' }}>
-              Structured tracks aligned with world-class university curricula and technical interview loops.
+              Structured tracks aligned with world-class university curricula (NUS CS2040) and technical interview loops.
             </p>
           </div>
           <Link
             to="/tracks"
             className="btn btn-ghost btn-sm"
-            style={{ color: 'var(--primary-400)' }}
+            style={{ color: 'var(--primary-500)' }}
           >
             <span>View All Tracks</span>
             <ArrowRight size={14} />
@@ -188,7 +334,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 'var(--space-4)'
+          gap: 'var(--space-5)'
         }}>
           {LEARNING_TRACKS.map((track, idx) => {
             const trackColors = [
@@ -202,27 +348,28 @@ export const HomePage: React.FC<HomePageProps> = ({
               <Link
                 key={track.id}
                 to="/tracks"
-                className="card card-interactive"
+                className="card"
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  gap: 'var(--space-3)',
-                  borderTop: `3px solid ${theme.border}`,
-                  textDecoration: 'none'
+                  gap: 'var(--space-4)',
+                  borderTop: `4px solid ${theme.border}`,
+                  textDecoration: 'none',
+                  borderRadius: 'var(--radius-xl)'
                 }}
               >
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-3)' }}>
                     <Badge variant={theme.badge}>{track.badge}</Badge>
                     <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
                       {track.estimatedHours}
                     </span>
                   </div>
-                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)', color: 'var(--text-primary)' }}>
+                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
                     {track.title}
                   </h3>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                     {track.description}
                   </p>
                 </div>
@@ -237,7 +384,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   color: 'var(--text-tertiary)'
                 }}>
                   <span>{track.moduleIds.length} Core Modules Included</span>
-                  <span style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-heavy)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ color: 'var(--primary-500)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     Start Track <ArrowRight size={12} />
                   </span>
                 </div>
@@ -270,22 +417,22 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* In-page filter search */}
-            <div style={{ minWidth: '240px' }}>
+            <div style={{ minWidth: '260px' }}>
               <input
                 type="text"
                 placeholder="Filter algorithms or tags..."
                 value={searchFilter}
                 onChange={e => setSearchFilter(e.target.value)}
-                style={{ width: '100%' }}
+                style={{ width: '100%', borderRadius: 'var(--radius-full)' }}
               />
             </div>
           </div>
 
-          {/* Category Tabs */}
+          {/* Category Tabs with Pill styling */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: 'var(--space-2)',
+            gap: '8px',
             borderBottom: 'var(--border-1) solid var(--border-subtle)',
             paddingBottom: 'var(--space-3)'
           }}>
@@ -297,10 +444,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
                   style={{
-                    borderLeft: !isSelected && cat.id !== 'all' ? `3px solid ${cat.color}` : undefined
+                    borderRadius: 'var(--radius-full)',
+                    gap: '6px'
                   }}
                 >
-                  {cat.label}
+                  <span>{cat.label}</span>
+                  <span style={{
+                    fontSize: '10px',
+                    opacity: 0.8,
+                    backgroundColor: isSelected ? 'hsla(0, 0%, 0%, 0.15)' : 'var(--surface-subtle)',
+                    padding: '1px 6px',
+                    borderRadius: 'var(--radius-full)'
+                  }}>
+                    {cat.count}
+                  </span>
                 </button>
               );
             })}
@@ -326,16 +483,18 @@ export const HomePage: React.FC<HomePageProps> = ({
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   gap: 'var(--space-4)',
-                  borderTop: `3px solid ${theme.color}`
+                  borderRadius: 'var(--radius-xl)',
+                  borderTop: `4px solid ${theme.color}`,
+                  padding: 'var(--space-6)'
                 }}
               >
                 <div>
                   {/* Header row: Icon, Title, Course badge */}
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
                     <div style={{
-                      width: '42px',
-                      height: '42px',
-                      borderRadius: 'var(--radius-md)',
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: 'var(--radius-lg)',
                       backgroundColor: theme.bg,
                       border: `1px solid ${theme.border}`,
                       display: 'flex',
@@ -358,7 +517,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>
                     {module.title}
                   </h3>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
                     {module.shortDescription}
                   </p>
 
@@ -366,7 +525,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <div style={{
                     display: 'flex',
                     flexWrap: 'wrap',
-                    gap: '4px',
+                    gap: '6px',
                     marginBottom: 'var(--space-4)'
                   }}>
                     {module.variants.slice(0, 3).map((v, i) => (
@@ -377,8 +536,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                           fontFamily: 'var(--font-mono)',
                           backgroundColor: 'var(--surface-subtle)',
                           border: 'var(--border-1) solid var(--border-subtle)',
-                          borderRadius: 'var(--radius-sm)',
-                          padding: '2px 6px',
+                          borderRadius: 'var(--radius-full)',
+                          padding: '3px 8px',
                           color: 'var(--text-secondary)'
                         }}
                       >
@@ -386,7 +545,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </span>
                     ))}
                     {module.variants.length > 3 && (
-                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '2px' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '2px 4px' }}>
                         +{module.variants.length - 3} more
                       </span>
                     )}
@@ -398,13 +557,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                     gridTemplateColumns: 'repeat(2, 1fr)',
                     gap: 'var(--space-2)',
                     backgroundColor: 'var(--surface-subtle)',
-                    padding: 'var(--space-2) var(--space-3)',
+                    padding: 'var(--space-3) var(--space-4)',
                     borderRadius: 'var(--radius-md)',
                     fontSize: 'var(--text-xs)',
-                    fontFamily: 'var(--font-mono)'
+                    fontFamily: 'var(--font-mono)',
+                    border: 'var(--border-1) solid var(--border-subtle)'
                   }}>
                     <div>
-                      <span style={{ color: 'var(--text-tertiary)' }}>Time (Avg): </span>
+                      <span style={{ color: 'var(--text-tertiary)' }}>Time: </span>
                       <strong style={{ color: 'var(--state-inspect)' }}>{module.complexity.timeAvg}</strong>
                     </div>
                     <div>
@@ -414,7 +574,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
                 </div>
 
-                {/* Bottom Action buttons with real router links */}
+                {/* Bottom Action buttons */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -445,6 +605,103 @@ export const HomePage: React.FC<HomePageProps> = ({
           })}
         </div>
       </section>
+
+      {/* Scribble Studio Architecture Feature Grid */}
+      <section className="container" style={{ marginBottom: 'var(--space-10)' }}>
+        <div style={{
+          backgroundColor: 'var(--surface-subtle)',
+          borderRadius: 'var(--radius-2xl)',
+          padding: 'var(--space-8) var(--space-6)',
+          border: 'var(--border-1) solid var(--border-default)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto var(--space-8)' }}>
+            <Badge variant="purple" icon={<Sparkles size={13} />}>Scribble Studio Engine</Badge>
+            <h2 style={{ fontSize: 'var(--text-3xl)', marginTop: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+              Engineered for Fluidity & Conceptual Joy
+            </h2>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Built from first principles to turn abstract mathematical invariants into tactile, scrubbable visualizations.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: 'var(--space-5)'
+          }}>
+            <div className="card" style={{ borderRadius: 'var(--radius-xl)' }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--primary-surface)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--primary-500)',
+                marginBottom: 'var(--space-3)'
+              }}>
+                <Activity size={20} />
+              </div>
+              <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>Tri-Engine Director</h3>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                Synchronized 60fps canvas stage, live variable state inspector, and exact line-by-line pseudocode highlighting.
+              </p>
+            </div>
+
+            <div className="card" style={{ borderRadius: 'var(--radius-xl)' }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--state-swap-bg)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--state-swap)',
+                marginBottom: 'var(--space-3)'
+              }}>
+                <Zap size={20} />
+              </div>
+              <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>Side-by-Side Arena</h3>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                Pit algorithms against each other on identical inputs. Watch operation counters, comparisons, and swaps unfold in real-time.
+              </p>
+            </div>
+
+            <div className="card" style={{ borderRadius: 'var(--radius-xl)' }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--state-sorted-bg)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--state-sorted)',
+                marginBottom: 'var(--space-3)'
+              }}>
+                <Trophy size={20} />
+              </div>
+              <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>Procedural Training</h3>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                Unlimited dynamic quiz problems that test state invariants, recursion depth, and tree balance with instant step replay.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .desktop-arrow {
+            display: flex !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
+

@@ -107,23 +107,28 @@ export const Navbar: React.FC<NavbarProps> = ({
     
         </Link>
 
-        {/* Navigation Tabs with Real Routes */}
+        {/* Navigation Tabs with Real Routes - Soft ScribbleKit Pill Island */}
         <nav style={{
           display: 'none',
           alignItems: 'center',
-          gap: 'var(--space-1)',
-          backgroundColor: 'var(--surface-card)',
-          padding: '4px',
-          borderRadius: 'var(--radius-lg)',
-          border: 'var(--border-1) solid var(--border-subtle)'
+          gap: '4px',
+          backgroundColor: 'var(--surface-subtle)',
+          padding: '4px 6px',
+          borderRadius: 'var(--radius-full)',
+          border: 'var(--border-1) solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)'
         }} className="desktop-nav">
           <Link
             to="/"
-            className={`btn btn-sm ${isHome ? 'btn-secondary' : 'btn-ghost'}`}
+            className="btn btn-sm"
             style={{ 
-              backgroundColor: isHome ? 'var(--surface-raised)' : 'transparent',
-              color: isHome ? 'var(--text-primary)' : 'var(--text-secondary)',
-              textDecoration: 'none'
+              backgroundColor: isHome ? 'var(--surface-card)' : 'transparent',
+              color: isHome ? 'var(--primary-500)' : 'var(--text-secondary)',
+              border: isHome ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isHome ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isHome ? 700 : 500,
+              padding: '6px 14px'
             }}
           >
             <Layers size={15} />
@@ -132,37 +137,49 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <Link
             to="/visualizer/sorting"
-            className={`btn btn-sm ${isVisualizer ? 'btn-secondary' : 'btn-ghost'}`}
+            className="btn btn-sm"
             style={{ 
-              backgroundColor: isVisualizer ? 'var(--surface-raised)' : 'transparent',
-              color: isVisualizer ? 'var(--text-primary)' : 'var(--text-secondary)',
-              textDecoration: 'none'
+              backgroundColor: isVisualizer ? 'var(--surface-card)' : 'transparent',
+              color: isVisualizer ? 'var(--primary-500)' : 'var(--text-secondary)',
+              border: isVisualizer ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isVisualizer ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isVisualizer ? 700 : 500,
+              padding: '6px 14px'
             }}
           >
-            <Activity size={15} />
-            <span>Interactive Visualizer</span>
+            <Sparkles size={15} />
+            <span>Visualizer</span>
           </Link>
 
           <Link
             to="/compare"
-            className={`btn btn-sm ${isCompare ? 'btn-secondary' : 'btn-ghost'}`}
+            className="btn btn-sm"
             style={{ 
-              backgroundColor: isCompare ? 'var(--surface-raised)' : 'transparent',
-              color: isCompare ? 'var(--text-primary)' : 'var(--text-secondary)',
-              textDecoration: 'none'
+              backgroundColor: isCompare ? 'var(--surface-card)' : 'transparent',
+              color: isCompare ? 'var(--primary-500)' : 'var(--text-secondary)',
+              border: isCompare ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isCompare ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isCompare ? 700 : 500,
+              padding: '6px 14px'
             }}
           >
-            <Sparkles size={15} />
-            <span>Race Arena</span>
+            <Activity size={15} />
+            <span>Duel Arena</span>
           </Link>
 
           <Link
             to="/quiz"
-            className={`btn btn-sm ${isQuiz ? 'btn-secondary' : 'btn-ghost'}`}
+            className="btn btn-sm"
             style={{ 
-              backgroundColor: isQuiz ? 'var(--surface-raised)' : 'transparent',
-              color: isQuiz ? 'var(--text-primary)' : 'var(--text-secondary)',
-              textDecoration: 'none'
+              backgroundColor: isQuiz ? 'var(--surface-card)' : 'transparent',
+              color: isQuiz ? 'var(--primary-500)' : 'var(--text-secondary)',
+              border: isQuiz ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isQuiz ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isQuiz ? 700 : 500,
+              padding: '6px 14px'
             }}
           >
             <Trophy size={15} />
@@ -171,11 +188,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <Link
             to="/tracks"
-            className={`btn btn-sm ${isTracks ? 'btn-secondary' : 'btn-ghost'}`}
+            className="btn btn-sm"
             style={{ 
-              backgroundColor: isTracks ? 'var(--surface-raised)' : 'transparent',
-              color: isTracks ? 'var(--text-primary)' : 'var(--text-secondary)',
-              textDecoration: 'none'
+              backgroundColor: isTracks ? 'var(--surface-card)' : 'transparent',
+              color: isTracks ? 'var(--primary-500)' : 'var(--text-secondary)',
+              border: isTracks ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isTracks ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isTracks ? 700 : 500,
+              padding: '6px 14px'
             }}
           >
             <GraduationCap size={15} />
@@ -183,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Link>
         </nav>
 
-        {/* Right Actions: Search + Color Theme Menu */}
+        {/* Right Actions: Search + Color Theme Menu - Soft ScribbleKit Buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <button
             onClick={onOpenCommandPalette}
@@ -191,20 +212,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             style={{
               gap: 'var(--space-3)',
               color: 'var(--text-secondary)',
-              padding: '6px 12px'
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-full)'
             }}
             title="Search algorithms (Cmd+K)"
           >
-            <Search size={15} />
-            <span style={{ display: 'none' }} className="search-text">Search algorithms...</span>
+            <Search size={14} />
+            <span style={{ display: 'none' }} className="search-text">Search...</span>
             <kbd style={{
               backgroundColor: 'var(--surface-subtle)',
               border: 'var(--border-1) solid var(--border-default)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '2px 5px',
-              fontSize: '11px',
+              borderRadius: 'var(--radius-full)',
+              padding: '2px 7px',
+              fontSize: '10px',
               fontFamily: 'var(--font-mono)',
-              color: 'var(--text-tertiary)'
+              color: 'var(--text-tertiary)',
+              letterSpacing: '0.04em'
             }}>⌘K</kbd>
           </button>
 
@@ -216,16 +239,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--space-2)',
-                padding: '6px 10px'
+                gap: '8px',
+                padding: '7px 12px',
+                borderRadius: 'var(--radius-full)'
               }}
               title="Select color theme"
             >
-              <Palette size={16} color="var(--primary-500)" />
+              <Palette size={15} color="var(--primary-500)" />
               <span
                 style={{
-                  width: '10px',
-                  height: '10px',
+                  width: '9px',
+                  height: '9px',
                   borderRadius: 'var(--radius-full)',
                   backgroundColor: 'var(--primary-500)',
                   boxShadow: '0 0 6px var(--primary-500)'
@@ -238,10 +262,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 position: 'absolute',
                 top: 'calc(100% + 8px)',
                 right: 0,
-                width: '210px',
+                width: '220px',
                 backgroundColor: 'var(--surface-raised)',
                 border: 'var(--border-1) solid var(--border-default)',
-                borderRadius: 'var(--radius-lg)',
+                borderRadius: 'var(--radius-xl)',
                 boxShadow: 'var(--shadow-xl)',
                 padding: 'var(--space-2)',
                 zIndex: 110,

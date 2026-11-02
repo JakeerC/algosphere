@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrayBar } from '../../types/visualizer';
-import { Sparkles, Palette } from 'lucide-react';
+import { Palette } from 'lucide-react';
 
 interface SortingCanvasProps {
   bars: ArrayBar[];
@@ -14,28 +14,44 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
   const [colorMode, setColorMode] = useState<'rainbow' | 'semantic' | 'neon'>('rainbow');
   const effectiveMax = Math.max(...bars.map(b => b.value), maxValue);
 
-  const getBarColor = (bar: ArrayBar) => {
+  const getBarGradient = (bar: ArrayBar) => {
     // If state is not default, semantic color takes priority
-    if (bar.state === 'inspect') return 'var(--state-inspect)';
-    if (bar.state === 'swap') return 'var(--state-swap)';
-    if (bar.state === 'pivot') return 'var(--state-pivot)';
-    if (bar.state === 'sorted') return 'var(--state-sorted)';
+    if (bar.state === 'inspect') {
+      return 'linear-gradient(180deg, var(--state-inspect) 0%, hsl(38, 92%, 42%) 100%)';
+    }
+    if (bar.state === 'swap') {
+      return 'linear-gradient(180deg, var(--state-swap) 0%, hsl(271, 85%, 52%) 100%)';
+    }
+    if (bar.state === 'pivot') {
+      return 'linear-gradient(180deg, var(--state-pivot) 0%, hsl(346, 80%, 48%) 100%)';
+    }
+    if (bar.state === 'sorted') {
+      return 'linear-gradient(180deg, var(--state-sorted) 0%, hsl(160, 80%, 35%) 100%)';
+    }
 
     // In default state, apply chosen color mode
     if (colorMode === 'rainbow') {
-      // Continuous spectrum from hue 200° (cyan/blue) through 280° (purple) to 340° (rose)
+      // Continuous soft pastel spectrum from hue 195° through 275° to 335°
       const ratio = bar.value / effectiveMax;
-      const hue = Math.round(195 + ratio * 145);
-      return `hsl(${hue}, 88%, 56%)`;
+      const hue = Math.round(195 + ratio * 140);
+      return `linear-gradient(180deg, hsl(${hue}, 85%, 62%) 0%, hsl(${hue}, 80%, 48%) 100%)`;
     }
 
     if (colorMode === 'neon') {
       const ratio = bar.value / effectiveMax;
-      const hue = Math.round(140 + ratio * 180); // Emerald to Violet neon
-      return `hsl(${hue}, 95%, 52%)`;
+      const hue = Math.round(145 + ratio * 175);
+      return `linear-gradient(180deg, hsl(${hue}, 95%, 56%) 0%, hsl(${hue}, 90%, 42%) 100%)`;
     }
 
-    return 'var(--primary-500)';
+    return 'linear-gradient(180deg, var(--primary-400) 0%, var(--primary-600) 100%)';
+  };
+
+  const getBarGlow = (bar: ArrayBar) => {
+    if (bar.state === 'inspect') return '0 6px 18px hsla(38, 92%, 50%, 0.4)';
+    if (bar.state === 'swap') return '0 6px 20px hsla(271, 91%, 65%, 0.45)';
+    if (bar.state === 'pivot') return '0 6px 20px hsla(346, 87%, 57%, 0.45)';
+    if (bar.state === 'sorted') return '0 6px 16px hsla(160, 84%, 39%, 0.35)';
+    return '0 2px 6px hsla(0, 0%, 0%, 0.12)';
   };
 
   return (
@@ -46,62 +62,107 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
       flexDirection: 'column',
       justifyContent: 'space-between',
       position: 'relative',
-      padding: 'var(--space-3) var(--space-4) var(--space-3) var(--space-4)'
+      padding: 'var(--space-3) var(--space-4)'
     }}>
-      {/* Top Bar: Color Mode Selector */}
+      {/* Top Bar: Color Mode Selector & Live Legend */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: 'var(--space-2)',
         marginBottom: 'var(--space-2)',
         zIndex: 10
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <Palette size={14} color="var(--text-tertiary)" />
+          <Palette size={13} color="var(--text-tertiary)" />
           <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Color Spectrum:
+            Palette:
           </span>
-          <div style={{ display: 'flex', gap: '4px' }}>
+          <div style={{
+            display: 'flex',
+            backgroundColor: 'var(--surface-card)',
+            padding: '2px',
+            borderRadius: 'var(--radius-full)',
+            border: '1px solid var(--border-subtle)'
+          }}>
             <button
               onClick={() => setColorMode('rainbow')}
-              className={`btn btn-sm ${colorMode === 'rainbow' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ padding: '2px 8px', fontSize: '11px', height: '22px' }}
+              style={{
+                borderRadius: 'var(--radius-full)',
+                padding: '3px 10px',
+                fontSize: '11px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: colorMode === 'rainbow' ? 'var(--primary-500)' : 'transparent',
+                color: colorMode === 'rainbow' ? '#ffffff' : 'var(--text-secondary)',
+                fontWeight: colorMode === 'rainbow' ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                transition: 'all var(--transition-fast)'
+              }}
             >
-              🌈 Rainbow Spectrum
+              🌈 Rainbow
             </button>
             <button
               onClick={() => setColorMode('neon')}
-              className={`btn btn-sm ${colorMode === 'neon' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ padding: '2px 8px', fontSize: '11px', height: '22px' }}
+              style={{
+                borderRadius: 'var(--radius-full)',
+                padding: '3px 10px',
+                fontSize: '11px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: colorMode === 'neon' ? 'var(--primary-500)' : 'transparent',
+                color: colorMode === 'neon' ? '#ffffff' : 'var(--text-secondary)',
+                fontWeight: colorMode === 'neon' ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                transition: 'all var(--transition-fast)'
+              }}
             >
-              ⚡ Neon Chroma
+              ⚡ Neon
             </button>
             <button
               onClick={() => setColorMode('semantic')}
-              className={`btn btn-sm ${colorMode === 'semantic' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ padding: '2px 8px', fontSize: '11px', height: '22px' }}
+              style={{
+                borderRadius: 'var(--radius-full)',
+                padding: '3px 10px',
+                fontSize: '11px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: colorMode === 'semantic' ? 'var(--primary-500)' : 'transparent',
+                color: colorMode === 'semantic' ? '#ffffff' : 'var(--text-secondary)',
+                fontWeight: colorMode === 'semantic' ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                transition: 'all var(--transition-fast)'
+              }}
             >
-              🎯 State Focused
+              🎯 State
             </button>
           </div>
         </div>
 
-        {/* Live Legend */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', fontSize: '11px', color: 'var(--text-tertiary)' }}>
+        {/* Live State Legend */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-3)',
+          fontSize: '11px',
+          color: 'var(--text-tertiary)',
+          backgroundColor: 'var(--surface-subtle)',
+          padding: '3px 10px',
+          borderRadius: 'var(--radius-full)',
+          border: '1px solid var(--border-subtle)'
+        }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--state-inspect)' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-inspect)' }} />
             Inspect
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--state-swap)' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-swap)' }} />
             Swap
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--state-pivot)' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-pivot)' }} />
             Pivot
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--state-sorted)' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-sorted)' }} />
             Sorted
           </span>
         </div>
@@ -113,11 +174,11 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'center',
-        gap: bars.length > 25 ? '2px' : 'var(--space-2)',
+        gap: bars.length > 25 ? '3px' : 'var(--space-2)',
         position: 'relative',
-        paddingBottom: '24px'
+        paddingBottom: '26px'
       }}>
-        {/* Background horizontal gridlines */}
+        {/* Ambient Gridlines */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -125,7 +186,7 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
           flexDirection: 'column',
           justifyContent: 'space-between',
           pointerEvents: 'none',
-          opacity: 0.12
+          opacity: 0.1
         }}>
           <div style={{ borderTop: '1px dashed var(--text-tertiary)' }} />
           <div style={{ borderTop: '1px dashed var(--text-tertiary)' }} />
@@ -133,8 +194,9 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
         </div>
 
         {bars.map((bar, idx) => {
-          const heightPercent = Math.max(10, (bar.value / effectiveMax) * 85);
-          const color = getBarColor(bar);
+          const heightPercent = Math.max(12, (bar.value / effectiveMax) * 85);
+          const bg = getBarGradient(bar);
+          const glow = getBarGlow(bar);
           const isSpecial = bar.state !== 'default';
 
           return (
@@ -142,7 +204,7 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
               key={bar.id}
               style={{
                 flex: 1,
-                maxWidth: '48px',
+                maxWidth: '44px',
                 minWidth: '10px',
                 height: `${heightPercent}%`,
                 display: 'flex',
@@ -157,25 +219,29 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
               {bars.length <= 22 && (
                 <span style={{
                   position: 'absolute',
-                  top: '-22px',
+                  top: '-24px',
                   fontSize: '11px',
                   fontFamily: 'var(--font-mono)',
                   fontWeight: isSpecial ? 'var(--weight-heavy)' : 'var(--weight-normal)',
-                  color: isSpecial ? color : 'var(--text-secondary)'
+                  color: isSpecial ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  backgroundColor: isSpecial ? 'var(--surface-card)' : 'transparent',
+                  padding: isSpecial ? '1px 5px' : '0',
+                  borderRadius: 'var(--radius-full)',
+                  boxShadow: isSpecial ? 'var(--shadow-sm)' : 'none',
+                  border: isSpecial ? '1px solid var(--border-default)' : 'none'
                 }}>
                   {bar.value}
                 </span>
               )}
 
-              {/* The Bar Element */}
+              {/* The Soft Capsule Bar Element */}
               <div
                 style={{
                   width: '100%',
                   height: '100%',
-                  backgroundColor: color,
-                  borderRadius: 'var(--radius-sm) var(--radius-sm) 0 0',
-                  boxShadow: isSpecial ? `0 0 16px ${color}` : `0 2px 4px hsla(0, 0%, 0%, 0.15)`,
-                  opacity: 0.95,
+                  background: bg,
+                  borderRadius: '12px 12px 4px 4px',
+                  boxShadow: glow,
                   transition: 'all var(--transition-fast)'
                 }}
               />

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, ArrowRight, Clock } from 'lucide-react';
+import { GraduationCap, ArrowRight, Clock, Sparkles } from 'lucide-react';
 import { LEARNING_TRACKS, ALGORITHM_MODULES } from '../data/modules';
 import { AlgorithmModule } from '../types/algorithm';
 import { Badge } from '../components/common/Badge';
+import { ScribbleSparkle, ScribbleUnderline } from '../components/common/ScribbleAccents';
 
 export const TracksPage: React.FC = () => {
   return (
@@ -15,18 +16,20 @@ export const TracksPage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 'var(--space-4)',
-        paddingTop: 'var(--space-4)',
-        borderBottom: 'var(--border-1) solid var(--border-subtle)',
+        paddingTop: 'var(--space-3)',
+        borderBottom: '1px solid var(--border-subtle)',
         paddingBottom: 'var(--space-4)'
       }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
             <Badge variant="primary" icon={<GraduationCap size={14} />}>Curated Syllabi</Badge>
+            <ScribbleSparkle size={16} color="var(--primary-400)" />
           </div>
-          <h1 style={{ fontSize: 'var(--text-3xl)', margin: 0 }}>
+          <h1 style={{ fontSize: 'var(--text-3xl)', margin: 0, position: 'relative', display: 'inline-block' }}>
             Structured Learning Pathways
+            <ScribbleUnderline color="var(--primary-400)" width={180} height={10} style={{ position: 'absolute', bottom: -6, right: 0 }} />
           </h1>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
             Guided algorithmic roadmaps designed for classroom study and technical coding interview mastery.
           </p>
         </div>
@@ -42,7 +45,7 @@ export const TracksPage: React.FC = () => {
           const firstModule = trackModules[0];
 
           return (
-            <div key={track.id} className="card" style={{ padding: 'var(--space-6)' }}>
+            <div key={track.id} className="card" style={{ padding: 'var(--space-6)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-md)' }}>
               {/* Track Title and Meta info */}
               <div style={{
                 display: 'flex',
@@ -51,7 +54,7 @@ export const TracksPage: React.FC = () => {
                 justifyContent: 'space-between',
                 gap: 'var(--space-3)',
                 marginBottom: 'var(--space-4)',
-                borderBottom: 'var(--border-1) solid var(--border-subtle)',
+                borderBottom: '1px solid var(--border-subtle)',
                 paddingBottom: 'var(--space-4)'
               }}>
                 <div>
@@ -63,7 +66,10 @@ export const TracksPage: React.FC = () => {
                       gap: '4px',
                       fontSize: 'var(--text-xs)',
                       color: 'var(--text-tertiary)',
-                      fontFamily: 'var(--font-mono)'
+                      fontFamily: 'var(--font-mono)',
+                      backgroundColor: 'var(--surface-subtle)',
+                      padding: '2px 8px',
+                      borderRadius: 'var(--radius-full)'
                     }}>
                       <Clock size={12} />
                       {track.estimatedHours}
@@ -72,7 +78,7 @@ export const TracksPage: React.FC = () => {
                   <h2 style={{ fontSize: 'var(--text-2xl)', margin: 0 }}>
                     {track.title}
                   </h2>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)', lineHeight: 1.6 }}>
                     {track.description}
                   </p>
                 </div>
@@ -81,6 +87,7 @@ export const TracksPage: React.FC = () => {
                   <Link
                     to={`/visualizer/${firstModule.id}`}
                     className="btn btn-primary btn-sm"
+                    style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px' }}
                   >
                     <span>Start Module 1 ({firstModule.title})</span>
                     <ArrowRight size={14} />
@@ -91,7 +98,7 @@ export const TracksPage: React.FC = () => {
               {/* Modules Roadmap Grid inside the track */}
               <div>
                 <h4 style={{
-                  fontSize: 'var(--text-xs)',
+                  fontSize: '11px',
                   fontWeight: 'var(--weight-heavy)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
@@ -116,7 +123,7 @@ export const TracksPage: React.FC = () => {
                         justifyContent: 'space-between',
                         padding: 'var(--space-3) var(--space-4)',
                         backgroundColor: 'var(--surface-subtle)',
-                        border: 'var(--border-1) solid var(--border-default)',
+                        border: '1px solid var(--border-default)',
                         borderRadius: 'var(--radius-lg)',
                         cursor: 'pointer',
                         transition: 'all var(--transition-fast)',
@@ -126,11 +133,11 @@ export const TracksPage: React.FC = () => {
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                         <span style={{
-                          width: '24px',
-                          height: '24px',
+                          width: '28px',
+                          height: '28px',
                           borderRadius: 'var(--radius-full)',
                           backgroundColor: 'var(--surface-card)',
-                          border: 'var(--border-1) solid var(--border-strong)',
+                          border: '1px solid var(--border-strong)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -163,3 +170,4 @@ export const TracksPage: React.FC = () => {
     </div>
   );
 };
+

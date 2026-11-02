@@ -139,7 +139,7 @@ export const LinearCanvas: React.FC<LinearCanvasProps> = ({ state, variant = 'Si
                 <div style={{
                   display: 'flex',
                   border: `2px solid ${isInspect ? 'var(--state-inspect)' : 'var(--border-strong)'}`,
-                  borderRadius: 'var(--radius-md)',
+                  borderRadius: 'var(--radius-lg)',
                   backgroundColor: 'var(--surface-card)',
                   overflow: 'hidden',
                   boxShadow: isInspect ? 'var(--shadow-glow-primary)' : 'var(--shadow-sm)',
