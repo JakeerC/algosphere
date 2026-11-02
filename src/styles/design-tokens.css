@@ -1,0 +1,217 @@
+/**
+ * AlgoSphere Design System Tokens
+ * Strictly adhering to /web-ui-design-system specifications.
+ * All spacing, typography, colors, depth, and radii defined once as system tokens.
+ */
+
+:root {
+  /* 1. Spacing Scale (non-linear, adjacent values differ by >= ~25%) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 192px;
+  --space-12: 256px;
+  --space-13: 384px;
+  --space-14: 512px;
+  --space-15: 640px;
+  --space-16: 768px;
+
+  /* 2. Type Scale (hand-picked px values) */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 60px;
+  --text-7xl: 72px;
+
+  /* Line Heights */
+  --leading-none: 1.0;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* 3. Font Weights (Strict 2-3 weights rule) */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-heavy: 600;
+  --weight-bold: 700;
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+
+  /* 4. Radius & Borders (Uniform radius family) */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  --border-1: 1px;
+  --border-2: 2px;
+
+  /* 5. Depth & Layered Shadows (Light from above: Direct light + Ambient occlusion) */
+  --shadow-xs: 0 1px 2px hsla(222, 47%, 4%, 0.12);
+  --shadow-sm: 0 1px 3px hsla(222, 47%, 4%, 0.15), 0 1px 2px hsla(222, 47%, 4%, 0.08);
+  --shadow-md: 0 4px 6px -1px hsla(222, 47%, 4%, 0.16), 0 2px 4px -2px hsla(222, 47%, 4%, 0.10);
+  --shadow-lg: 0 10px 15px -3px hsla(222, 47%, 4%, 0.18), 0 4px 6px -4px hsla(222, 47%, 4%, 0.10);
+  --shadow-xl: 0 20px 25px -5px hsla(222, 47%, 4%, 0.22), 0 8px 10px -6px hsla(222, 47%, 4%, 0.12);
+  --shadow-glow-primary: 0 0 20px -3px hsla(221, 83%, 53%, 0.4);
+  --shadow-glow-success: 0 0 20px -3px hsla(158, 64%, 48%, 0.4);
+
+  /* Containers */
+  --container-sm: 640px;
+  --container-md: 860px;
+  --container-lg: 1140px;
+  --container-xl: 1380px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Dark Mode Theme Tokens (Default: sleek, developer-grade aesthetic)
+   ========================================================================== */
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  /* Surfaces & Elevation */
+  --surface-canvas: hsl(222, 47%, 6%);       /* Deep background */
+  --surface-subtle: hsl(222, 47%, 8%);       /* Headers, sidebars */
+  --surface-card: hsl(222, 47%, 10%);        /* Cards, workspaces */
+  --surface-raised: hsl(222, 47%, 14%);      /* Tooltips, floating drawers */
+  --surface-hover: hsl(222, 47%, 18%);       /* Hovered elements */
+  --surface-active: hsl(222, 47%, 22%);      /* Active/Pressed elements */
+
+  /* Borders & Dividers */
+  --border-subtle: hsl(222, 30%, 15%);
+  --border-default: hsl(222, 28%, 20%);
+  --border-strong: hsl(222, 25%, 30%);
+  --border-highlight: hsla(222, 100%, 100%, 0.08);
+
+  /* Text Colors (Three distinct hierarchy tiers) */
+  --text-primary: hsl(210, 40%, 98%);       /* Highest contrast */
+  --text-secondary: hsl(215, 20%, 72%);     /* Mid-contrast readable */
+  --text-tertiary: hsl(215, 16%, 52%);      /* Quiet labels, meta info */
+  --text-disabled: hsl(215, 12%, 36%);
+
+  /* Primary Brand (Indigo/Blue ramp) */
+  --primary-50: hsl(221, 83%, 96%);
+  --primary-100: hsl(221, 83%, 90%);
+  --primary-200: hsl(221, 83%, 80%);
+  --primary-300: hsl(221, 83%, 70%);
+  --primary-400: hsl(221, 83%, 62%);
+  --primary-500: hsl(221, 83%, 53%);        /* Core interactive */
+  --primary-600: hsl(221, 83%, 45%);
+  --primary-700: hsl(221, 83%, 36%);
+  --primary-800: hsl(221, 83%, 26%);
+  --primary-900: hsl(221, 83%, 16%);
+  --primary-surface: hsla(221, 83%, 53%, 0.12);
+  --primary-border: hsla(221, 83%, 53%, 0.35);
+
+  /* Semantic Algorithm State Accents (HSL hand-picked) */
+  /* 1. Inspecting / Comparing (Amber) */
+  --state-inspect: hsl(38, 92%, 50%);
+  --state-inspect-bg: hsla(38, 92%, 50%, 0.16);
+  --state-inspect-border: hsla(38, 92%, 50%, 0.5);
+
+  /* 2. Swapping / Mutating / Active pointer (Purple) */
+  --state-swap: hsl(271, 91%, 65%);
+  --state-swap-bg: hsla(271, 91%, 65%, 0.18);
+  --state-swap-border: hsla(271, 91%, 65%, 0.5);
+
+  /* 3. Sorted / Complete / Success (Emerald) */
+  --state-sorted: hsl(158, 64%, 48%);
+  --state-sorted-bg: hsla(158, 64%, 48%, 0.15);
+  --state-sorted-border: hsla(158, 64%, 48%, 0.5);
+
+  /* 4. Pivot / Marked / Danger (Coral) */
+  --state-pivot: hsl(350, 89%, 60%);
+  --state-pivot-bg: hsla(350, 89%, 60%, 0.16);
+  --state-pivot-border: hsla(350, 89%, 60%, 0.5);
+
+  /* 5. Visited / Discovered / Route (Cyan) */
+  --state-visited: hsl(190, 95%, 48%);
+  --state-visited-bg: hsla(190, 95%, 48%, 0.15);
+  --state-visited-border: hsla(190, 95%, 48%, 0.5);
+
+  /* Code Editor / Tracer specifics */
+  --code-bg: hsl(222, 47%, 7%);
+  --code-line-active: hsla(221, 83%, 53%, 0.22);
+  --code-line-border: hsl(221, 83%, 53%);
+  --code-token-keyword: hsl(280, 85%, 72%);
+  --code-token-function: hsl(205, 90%, 68%);
+  --code-token-variable: hsl(150, 60%, 65%);
+  --code-token-number: hsl(35, 90%, 65%);
+  --code-token-comment: hsl(215, 14%, 48%);
+}
+
+/* ==========================================================================
+   Light Mode Theme Tokens (Clean, crisp, high-contrast)
+   ========================================================================== */
+:root[data-theme="light"] {
+  --surface-canvas: hsl(210, 40%, 98%);
+  --surface-subtle: hsl(210, 35%, 95%);
+  --surface-card: hsl(0, 0%, 100%);
+  --surface-raised: hsl(0, 0%, 100%);
+  --surface-hover: hsl(210, 25%, 92%);
+  --surface-active: hsl(210, 25%, 86%);
+
+  --border-subtle: hsl(215, 20%, 90%);
+  --border-default: hsl(215, 20%, 82%);
+  --border-strong: hsl(215, 20%, 68%);
+  --border-highlight: hsla(0, 0%, 0%, 0.04);
+
+  --text-primary: hsl(222, 47%, 11%);
+  --text-secondary: hsl(215, 25%, 35%);
+  --text-tertiary: hsl(215, 16%, 52%);
+  --text-disabled: hsl(215, 12%, 75%);
+
+  --primary-500: hsl(221, 83%, 50%);
+  --primary-surface: hsla(221, 83%, 53%, 0.08);
+  --primary-border: hsla(221, 83%, 53%, 0.25);
+
+  --state-inspect: hsl(32, 95%, 44%);
+  --state-inspect-bg: hsla(38, 92%, 50%, 0.12);
+  --state-inspect-border: hsla(38, 92%, 50%, 0.4);
+
+  --state-swap: hsl(271, 85%, 55%);
+  --state-swap-bg: hsla(271, 91%, 65%, 0.12);
+  --state-swap-border: hsla(271, 91%, 65%, 0.4);
+
+  --state-sorted: hsl(158, 70%, 36%);
+  --state-sorted-bg: hsla(158, 64%, 48%, 0.12);
+  --state-sorted-border: hsla(158, 64%, 48%, 0.4);
+
+  --state-pivot: hsl(350, 85%, 50%);
+  --state-pivot-bg: hsla(350, 89%, 60%, 0.12);
+  --state-pivot-border: hsla(350, 89%, 60%, 0.4);
+
+  --state-visited: hsl(190, 95%, 38%);
+  --state-visited-bg: hsla(190, 95%, 48%, 0.12);
+  --state-visited-border: hsla(190, 95%, 48%, 0.4);
+
+  --code-bg: hsl(210, 30%, 96%);
+  --code-line-active: hsla(221, 83%, 53%, 0.12);
+  --code-line-border: hsl(221, 83%, 50%);
+  --code-token-keyword: hsl(280, 80%, 45%);
+  --code-token-function: hsl(205, 90%, 42%);
+  --code-token-variable: hsl(150, 70%, 35%);
+  --code-token-number: hsl(30, 90%, 42%);
+  --code-token-comment: hsl(215, 16%, 55%);
+}
