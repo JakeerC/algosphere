@@ -8,7 +8,6 @@ import {
   GraduationCap, 
   Zap, 
   Layers, 
-  ShieldCheck, 
   ArrowUpDown, 
   GitFork, 
   Network, 
@@ -40,14 +39,33 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [searchFilter, setSearchFilter] = useState('');
 
   const categories = [
-    { id: 'all', label: 'All Modules' },
-    { id: 'sorting', label: 'Sorting' },
-    { id: 'trees', label: 'Trees & Heaps' },
-    { id: 'graphs', label: 'Graphs & Paths' },
-    { id: 'linear', label: 'Linear ADTs' },
-    { id: 'dp', label: 'Dynamic Programming' },
-    { id: 'hashing', label: 'Hashing & Sets' }
+    { id: 'all', label: 'All Modules', color: 'var(--primary-500)' },
+    { id: 'sorting', label: 'Sorting', color: 'var(--cat-sorting)' },
+    { id: 'trees', label: 'Trees & Heaps', color: 'var(--cat-trees)' },
+    { id: 'graphs', label: 'Graphs & Paths', color: 'var(--cat-graphs)' },
+    { id: 'linear', label: 'Linear ADTs', color: 'var(--cat-linear)' },
+    { id: 'dp', label: 'Dynamic Programming', color: 'var(--cat-dp)' },
+    { id: 'hashing', label: 'Hashing & Sets', color: 'var(--cat-hashing)' }
   ];
+
+  const getCategoryTheme = (cat: AlgorithmCategory) => {
+    switch (cat) {
+      case 'sorting':
+        return { color: 'var(--cat-sorting)', bg: 'var(--cat-sorting-surface)', border: 'var(--cat-sorting-border)' };
+      case 'trees':
+        return { color: 'var(--cat-trees)', bg: 'var(--cat-trees-surface)', border: 'var(--cat-trees-border)' };
+      case 'graphs':
+        return { color: 'var(--cat-graphs)', bg: 'var(--cat-graphs-surface)', border: 'var(--cat-graphs-border)' };
+      case 'linear':
+        return { color: 'var(--cat-linear)', bg: 'var(--cat-linear-surface)', border: 'var(--cat-linear-border)' };
+      case 'dp':
+        return { color: 'var(--cat-dp)', bg: 'var(--cat-dp-surface)', border: 'var(--cat-dp-border)' };
+      case 'hashing':
+        return { color: 'var(--cat-hashing)', bg: 'var(--cat-hashing-surface)', border: 'var(--cat-hashing-border)' };
+      default:
+        return { color: 'var(--primary-500)', bg: 'var(--primary-surface)', border: 'var(--primary-border)' };
+    }
+  };
 
   const filteredModules = ALGORITHM_MODULES.filter(m => {
     const matchesCategory = selectedCategory === 'all' || m.category === selectedCategory;
@@ -96,7 +114,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             fontWeight: 'var(--weight-bold)',
             lineHeight: 'var(--leading-tight)',
             marginBottom: 'var(--space-3)',
-            background: 'linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%)',
+            background: 'linear-gradient(135deg, var(--text-primary) 20%, var(--primary-400) 60%, var(--state-swap) 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
@@ -139,8 +157,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button
               onClick={() => onNavigateTab('compare')}
               className="btn btn-secondary btn-lg"
+              style={{ gap: 'var(--space-2)' }}
             >
-              <Zap size={18} color="var(--primary-500)" />
+              <Zap size={18} color="var(--state-swap)" />
               <span>Race Arena</span>
             </button>
           </div>
@@ -176,49 +195,59 @@ export const HomePage: React.FC<HomePageProps> = ({
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: 'var(--space-4)'
         }}>
-          {LEARNING_TRACKS.map(track => (
-            <div
-              key={track.id}
-              onClick={() => onNavigateTab('tracks')}
-              className="card card-interactive"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: 'var(--space-3)'
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
-                  <Badge variant="primary">{track.badge}</Badge>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
-                    {track.estimatedHours}
+          {LEARNING_TRACKS.map((track, idx) => {
+            const trackColors = [
+              { border: 'var(--cat-sorting)', badge: 'primary' as const },
+              { border: 'var(--cat-dp)', badge: 'purple' as const },
+              { border: 'var(--cat-trees)', badge: 'success' as const }
+            ];
+            const theme = trackColors[idx % trackColors.length];
+
+            return (
+              <div
+                key={track.id}
+                onClick={() => onNavigateTab('tracks')}
+                className="card card-interactive"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: 'var(--space-3)',
+                  borderTop: `3px solid ${theme.border}`
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
+                    <Badge variant={theme.badge}>{track.badge}</Badge>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+                      {track.estimatedHours}
+                    </span>
+                  </div>
+                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)' }}>
+                    {track.title}
+                  </h3>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    {track.description}
+                  </p>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingTop: 'var(--space-3)',
+                  borderTop: 'var(--border-1) solid var(--border-subtle)',
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-tertiary)'
+                }}>
+                  <span>{track.moduleIds.length} Core Modules Included</span>
+                  <span style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-heavy)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    Start Track <ArrowRight size={12} />
                   </span>
                 </div>
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)' }}>
-                  {track.title}
-                </h3>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-                  {track.description}
-                </p>
               </div>
-
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingTop: 'var(--space-3)',
-                borderTop: 'var(--border-1) solid var(--border-subtle)',
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-tertiary)'
-              }}>
-                <span>{track.moduleIds.length} Core Modules Included</span>
-                <span style={{ color: 'var(--primary-400)', fontWeight: 'var(--weight-heavy)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  Start Track <ArrowRight size={12} />
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -264,15 +293,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             borderBottom: 'var(--border-1) solid var(--border-subtle)',
             paddingBottom: 'var(--space-3)'
           }}>
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`btn btn-sm ${selectedCategory === cat.id ? 'btn-primary' : 'btn-secondary'}`}
-              >
-                {cat.label}
-              </button>
-            ))}
+            {categories.map(cat => {
+              const isSelected = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{
+                    borderLeft: !isSelected && cat.id !== 'all' ? `3px solid ${cat.color}` : undefined
+                  }}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -283,130 +318,135 @@ export const HomePage: React.FC<HomePageProps> = ({
           gap: 'var(--space-5)',
           marginBottom: 'var(--space-10)'
         }}>
-          {filteredModules.map(module => (
-            <div
-              key={module.id}
-              className="card"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: 'var(--space-4)'
-              }}
-            >
-              <div>
-                {/* Header row: Icon, Title, Course badge */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
-                  <div style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'var(--primary-surface)',
-                    border: 'var(--border-1) solid var(--primary-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--primary-500)',
-                    flexShrink: 0
-                  }}>
-                    {getModuleIcon(module.icon)}
+          {filteredModules.map(module => {
+            const theme = getCategoryTheme(module.category);
+
+            return (
+              <div
+                key={module.id}
+                className="card"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  gap: 'var(--space-4)',
+                  borderTop: `3px solid ${theme.color}`
+                }}
+              >
+                <div>
+                  {/* Header row: Icon, Title, Course badge */}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
+                    <div style={{
+                      width: '42px',
+                      height: '42px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: theme.bg,
+                      border: `1px solid ${theme.border}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: theme.color,
+                      flexShrink: 0
+                    }}>
+                      {getModuleIcon(module.icon)}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
+                      {module.courseCode && (
+                        <span className="badge badge-neutral">{module.courseCode}</span>
+                      )}
+                      <span className="badge badge-primary">{module.difficulty}</span>
+                    </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
-                    {module.courseCode && (
-                      <span className="badge badge-neutral">{module.courseCode}</span>
+                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>
+                    {module.title}
+                  </h3>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
+                    {module.shortDescription}
+                  </p>
+
+                  {/* Variants pills */}
+                  <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '4px',
+                    marginBottom: 'var(--space-4)'
+                  }}>
+                    {module.variants.slice(0, 3).map((v, i) => (
+                      <span
+                        key={i}
+                        style={{
+                          fontSize: '11px',
+                          fontFamily: 'var(--font-mono)',
+                          backgroundColor: 'var(--surface-subtle)',
+                          border: 'var(--border-1) solid var(--border-subtle)',
+                          borderRadius: 'var(--radius-sm)',
+                          padding: '2px 6px',
+                          color: 'var(--text-secondary)'
+                        }}
+                      >
+                        {v}
+                      </span>
+                    ))}
+                    {module.variants.length > 3 && (
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '2px' }}>
+                        +{module.variants.length - 3} more
+                      </span>
                     )}
-                    <span className="badge badge-primary">{module.difficulty}</span>
+                  </div>
+
+                  {/* Big-O Complexity HUD */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: 'var(--space-2)',
+                    backgroundColor: 'var(--surface-subtle)',
+                    padding: 'var(--space-2) var(--space-3)',
+                    borderRadius: 'var(--radius-md)',
+                    fontSize: 'var(--text-xs)',
+                    fontFamily: 'var(--font-mono)'
+                  }}>
+                    <div>
+                      <span style={{ color: 'var(--text-tertiary)' }}>Time (Avg): </span>
+                      <strong style={{ color: 'var(--state-inspect)' }}>{module.complexity.timeAvg}</strong>
+                    </div>
+                    <div>
+                      <span style={{ color: 'var(--text-tertiary)' }}>Space: </span>
+                      <strong style={{ color: 'var(--text-primary)' }}>{module.complexity.spaceWorst}</strong>
+                    </div>
                   </div>
                 </div>
 
-                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)' }}>
-                  {module.title}
-                </h3>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
-                  {module.shortDescription}
-                </p>
-
-                {/* Variants pills */}
+                {/* Bottom Action buttons */}
                 <div style={{
                   display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '4px',
-                  marginBottom: 'var(--space-4)'
-                }}>
-                  {module.variants.slice(0, 3).map((v, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        fontSize: '11px',
-                        fontFamily: 'var(--font-mono)',
-                        backgroundColor: 'var(--surface-subtle)',
-                        border: 'var(--border-1) solid var(--border-subtle)',
-                        borderRadius: 'var(--radius-sm)',
-                        padding: '2px 6px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      {v}
-                    </span>
-                  ))}
-                  {module.variants.length > 3 && (
-                    <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '2px' }}>
-                      +{module.variants.length - 3} more
-                    </span>
-                  )}
-                </div>
-
-                {/* Big-O Complexity HUD */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  alignItems: 'center',
                   gap: 'var(--space-2)',
-                  backgroundColor: 'var(--surface-subtle)',
-                  padding: 'var(--space-2) var(--space-3)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--text-xs)',
-                  fontFamily: 'var(--font-mono)'
+                  paddingTop: 'var(--space-3)',
+                  borderTop: 'var(--border-1) solid var(--border-subtle)'
                 }}>
-                  <div>
-                    <span style={{ color: 'var(--text-tertiary)' }}>Time (Avg): </span>
-                    <strong style={{ color: 'var(--state-inspect)' }}>{module.complexity.timeAvg}</strong>
-                  </div>
-                  <div>
-                    <span style={{ color: 'var(--text-tertiary)' }}>Space: </span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{module.complexity.spaceWorst}</strong>
-                  </div>
+                  <button
+                    onClick={() => onSelectModule(module)}
+                    className="btn btn-primary btn-sm"
+                    style={{ flex: 1 }}
+                  >
+                    <Activity size={14} />
+                    <span>Visualize</span>
+                  </button>
+
+                  <button
+                    onClick={() => onOpenLecture(module)}
+                    className="btn btn-secondary btn-sm"
+                    title="Open e-Lecture slides"
+                  >
+                    <BookOpen size={14} />
+                    <span>Lecture</span>
+                  </button>
                 </div>
               </div>
-
-              {/* Bottom Action buttons */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-2)',
-                paddingTop: 'var(--space-3)',
-                borderTop: 'var(--border-1) solid var(--border-subtle)'
-              }}>
-                <button
-                  onClick={() => onSelectModule(module)}
-                  className="btn btn-primary btn-sm"
-                  style={{ flex: 1 }}
-                >
-                  <Activity size={14} />
-                  <span>Visualize</span>
-                </button>
-
-                <button
-                  onClick={() => onOpenLecture(module)}
-                  className="btn btn-secondary btn-sm"
-                  title="Open e-Lecture slides"
-                >
-                  <BookOpen size={14} />
-                  <span>Lecture</span>
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>

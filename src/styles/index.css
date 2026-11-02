@@ -247,6 +247,36 @@ code, pre {
   border: var(--border-1) solid var(--state-pivot-border);
 }
 
+.badge-purple {
+  background-color: var(--state-swap-bg);
+  color: var(--state-swap);
+  border: var(--border-1) solid var(--state-swap-border);
+}
+
+.badge-cyan {
+  background-color: var(--state-visited-bg);
+  color: var(--state-visited);
+  border: var(--border-1) solid var(--state-visited-border);
+}
+
+.badge-orange {
+  background-color: var(--cat-linear-surface);
+  color: var(--cat-linear);
+  border: var(--border-1) solid var(--cat-linear-border);
+}
+
+.badge-fuchsia {
+  background-color: var(--cat-dp-surface);
+  color: var(--cat-dp);
+  border: var(--border-1) solid var(--cat-dp-border);
+}
+
+.badge-teal {
+  background-color: var(--cat-geometry-surface);
+  color: var(--cat-geometry);
+  border: var(--border-1) solid var(--cat-geometry-border);
+}
+
 .badge-neutral {
   background-color: var(--surface-subtle);
   color: var(--text-secondary);

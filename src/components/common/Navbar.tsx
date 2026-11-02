@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Sparkles, 
   Search, 
-  Moon, 
-  Sun, 
   Layers, 
   Trophy, 
   Activity, 
-  GraduationCap 
+  GraduationCap, 
+  Palette, 
+  Check 
 } from 'lucide-react';
+
+export type ThemeMode = 'dark' | 'cyberpunk' | 'emerald' | 'sunset' | 'light';
 
 interface NavbarProps {
   currentTab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks';
   onSelectTab: (tab: 'home' | 'visualizer' | 'compare' | 'quiz' | 'tracks') => void;
   onOpenCommandPalette: () => void;
-  theme: 'dark' | 'light';
-  onToggleTheme: () => void;
+  theme: ThemeMode;
+  onSelectTheme: (theme: ThemeMode) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -23,8 +25,29 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectTab,
   onOpenCommandPalette,
   theme,
-  onToggleTheme
+  onSelectTheme
 }) => {
+  const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
+
+  const themeOptions: { id: ThemeMode; label: string; dotColor: string }[] = [
+    { id: 'dark', label: 'Midnight Indigo', dotColor: 'hsl(221, 83%, 53%)' },
+    { id: 'cyberpunk', label: 'Cyberpunk Neon', dotColor: 'hsl(315, 95%, 60%)' },
+    { id: 'emerald', label: 'Emerald Matrix', dotColor: 'hsl(158, 64%, 48%)' },
+    { id: 'sunset', label: 'Sunset Solar', dotColor: 'hsl(24, 95%, 53%)' },
+    { id: 'light', label: 'Daylight Clean', dotColor: 'hsl(215, 20%, 75%)' }
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) {
+        setIsThemeMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <header style={{
       position: 'sticky',
@@ -57,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             width: '36px',
             height: '36px',
             borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, var(--primary-500) 0%, hsl(271, 91%, 65%) 100%)',
+            background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--state-swap) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -155,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </nav>
 
-        {/* Right Actions: Command Search + Theme Toggle */}
+        {/* Right Actions: Search + Color Theme Menu */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <button
             onClick={onOpenCommandPalette}
@@ -180,14 +203,93 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}>⌘K</kbd>
           </button>
 
-          <button
-            onClick={onToggleTheme}
-            className="btn-icon"
-            aria-label="Toggle theme"
-            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
+          {/* Color Themes Menu */}
+          <div style={{ position: 'relative' }} ref={themeMenuRef}>
+            <button
+              onClick={() => setIsThemeMenuOpen(prev => !prev)}
+              className="btn btn-secondary btn-sm"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                padding: '6px 10px'
+              }}
+              title="Select color theme"
+            >
+              <Palette size={16} color="var(--primary-500)" />
+              <span
+                style={{
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: 'var(--radius-full)',
+                  backgroundColor: 'var(--primary-500)',
+                  boxShadow: '0 0 6px var(--primary-500)'
+                }}
+              />
+            </button>
+
+            {isThemeMenuOpen && (
+              <div style={{
+                position: 'absolute',
+                top: 'calc(100% + 8px)',
+                right: 0,
+                width: '190px',
+                backgroundColor: 'var(--surface-raised)',
+                border: 'var(--border-1) solid var(--border-default)',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--shadow-xl)',
+                padding: 'var(--space-2)',
+                zIndex: 110,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px'
+              }}>
+                <div style={{
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  fontWeight: 'var(--weight-heavy)',
+                  color: 'var(--text-tertiary)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}>
+                  Color Theme
+                </div>
+                {themeOptions.map(opt => (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      onSelectTheme(opt.id);
+                      setIsThemeMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '6px 10px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: theme === opt.id ? 'var(--primary-surface)' : 'transparent',
+                      color: theme === opt.id ? 'var(--primary-400)' : 'var(--text-primary)',
+                      fontSize: 'var(--text-xs)',
+                      fontWeight: theme === opt.id ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                      textAlign: 'left',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: 'var(--radius-full)',
+                        backgroundColor: opt.dotColor
+                      }} />
+                      <span>{opt.label}</span>
+                    </div>
+                    {theme === opt.id && <Check size={14} color="var(--primary-500)" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

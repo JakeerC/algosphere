@@ -6,34 +6,43 @@ interface DpCanvasProps {
 }
 
 export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
-  const getCellBg = (cellState: string, isCurrent: boolean) => {
+  // Find max value in table for heatmap normalization
+  let maxTableVal = 1;
+  state.table.forEach(row => {
+    row.forEach(cell => {
+      if (cell.value > maxTableVal) maxTableVal = cell.value;
+    });
+  });
+
+  const getCellBg = (cellValue: number, cellState: string, isCurrent: boolean) => {
     if (isCurrent) return 'var(--primary-surface)';
-    switch (cellState) {
-      case 'inspect':
-        return 'var(--state-inspect-bg)';
-      case 'active':
-        return 'var(--state-swap-bg)';
-      case 'pivot':
-        return 'var(--state-pivot-bg)';
-      case 'sorted':
-        return 'hsla(158, 64%, 48%, 0.1)';
-      default:
-        return 'transparent';
-    }
+    if (cellState === 'inspect') return 'var(--state-inspect-bg)';
+    if (cellState === 'active') return 'var(--state-swap-bg)';
+    if (cellState === 'pivot') return 'var(--state-pivot-bg)';
+
+    if (cellValue === 0) return 'transparent';
+
+    // Vibrant Heatmap scale: Hue shifts from 210° (blue) to 280° (purple) to 340° (rose)
+    const ratio = cellValue / maxTableVal;
+    const hue = Math.round(200 + ratio * 130);
+    const lightness = 50;
+    return `hsla(${hue}, 85%, ${lightness}%, 0.22)`;
   };
 
-  const getCellBorder = (cellState: string, isCurrent: boolean) => {
+  const getCellBorder = (cellValue: number, cellState: string, isCurrent: boolean) => {
     if (isCurrent) return '2px solid var(--primary-500)';
-    switch (cellState) {
-      case 'inspect':
-        return '2px solid var(--state-inspect)';
-      case 'active':
-        return '2px solid var(--state-swap)';
-      case 'pivot':
-        return '2px solid var(--state-pivot)';
-      default:
-        return '1px solid var(--border-subtle)';
+    if (cellState === 'inspect') return '2px solid var(--state-inspect)';
+    if (cellState === 'active') return '2px solid var(--state-swap)';
+    if (cellState === 'pivot') return '2px solid var(--state-pivot)';
+    if (cellState === 'sorted') return '2px solid var(--state-sorted)';
+
+    if (cellValue > 0) {
+      const ratio = cellValue / maxTableVal;
+      const hue = Math.round(200 + ratio * 130);
+      return `1px solid hsla(${hue}, 85%, 55%, 0.5)`;
     }
+
+    return '1px solid var(--border-subtle)';
   };
 
   return (
@@ -45,7 +54,8 @@ export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 'var(--space-4)',
-      overflowX: 'auto'
+      overflowX: 'auto',
+      position: 'relative'
     }}>
       <div style={{
         display: 'inline-block',
@@ -101,17 +111,17 @@ export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
                     <td
                       key={cIdx}
                       style={{
-                        width: '44px',
-                        height: '40px',
+                        width: '46px',
+                        height: '42px',
                         textAlign: 'center',
                         verticalAlign: 'middle',
                         borderRadius: 'var(--radius-sm)',
-                        backgroundColor: getCellBg(cell.state, isCurrent),
-                        border: getCellBorder(cell.state, isCurrent),
+                        backgroundColor: getCellBg(cell.value, cell.state, isCurrent),
+                        border: getCellBorder(cell.value, cell.state, isCurrent),
                         fontFamily: 'var(--font-mono)',
                         fontSize: 'var(--text-sm)',
-                        fontWeight: isCurrent ? 'var(--weight-heavy)' : 'var(--weight-normal)',
-                        color: isCurrent ? 'var(--primary-400)' : 'var(--text-primary)',
+                        fontWeight: isCurrent || cell.value > 0 ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                        color: isCurrent ? 'var(--primary-400)' : cell.value > 0 ? 'var(--text-primary)' : 'var(--text-tertiary)',
                         transition: 'all var(--transition-fast)'
                       }}
                     >
@@ -123,6 +133,27 @@ export const DpCanvas: React.FC<DpCanvasProps> = ({ state }) => {
             ))}
           </tbody>
         </table>
+
+        {/* Heatmap Spectrum Legend at bottom */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: 'var(--space-3)',
+          paddingTop: 'var(--space-2)',
+          borderTop: 'var(--border-1) solid var(--border-subtle)',
+          fontSize: '11px',
+          color: 'var(--text-tertiary)'
+        }}>
+          <span>Heatmap Value: Low (0)</span>
+          <div style={{
+            width: '120px',
+            height: '6px',
+            borderRadius: 'var(--radius-full)',
+            background: 'linear-gradient(to right, hsl(200, 85%, 50%), hsl(270, 85%, 55%), hsl(340, 90%, 60%))'
+          }} />
+          <span>Optimal Peak ({maxTableVal})</span>
+        </div>
       </div>
     </div>
   );

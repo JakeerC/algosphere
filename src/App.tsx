@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/common/Navbar';
+import { Navbar, ThemeMode } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { CommandPalette } from './components/common/CommandPalette';
 import { LectureModal } from './components/lecture/LectureModal';
@@ -17,7 +17,7 @@ export const App: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<AlgorithmModule>(ALGORITHM_MODULES[0]);
   const [lectureModule, setLectureModule] = useState<AlgorithmModule | null>(null);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<ThemeMode>('dark');
 
   // Sync theme with document root
   useEffect(() => {
@@ -40,21 +40,17 @@ export const App: React.FC = () => {
     setLectureModule(mod);
   };
 
-  const handleToggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
   const activeLectureSlides = lectureModule ? (MODULE_LECTURES[lectureModule.id] || MODULE_LECTURES['sorting']) : [];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Top sticky Navbar */}
+      {/* Top sticky Navbar with Color Theme Selector */}
       <Navbar
         currentTab={currentTab}
         onSelectTab={handleSelectTab}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         theme={theme}
-        onToggleTheme={handleToggleTheme}
+        onSelectTheme={t => setTheme(t)}
       />
 
       {/* Main Page Body */}

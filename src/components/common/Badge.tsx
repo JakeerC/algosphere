@@ -2,7 +2,7 @@ import React from 'react';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral';
+  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral' | 'purple' | 'cyan' | 'orange' | 'fuchsia' | 'teal';
   size?: 'sm' | 'md';
   icon?: React.ReactNode;
 }

@@ -10,44 +10,60 @@ interface NodeLayout {
   x: number;
   y: number;
   node: TreeNodeData;
+  branchSide?: 'left' | 'right' | 'root';
 }
 
 export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
-  // Compute positions
   const layouts: Record<string, NodeLayout> = {};
   const width = 640;
   const height = 360;
 
-  function calculatePositions(nodeId: string | undefined, x: number, y: number, offset: number) {
+  function calculatePositions(
+    nodeId: string | undefined, 
+    x: number, 
+    y: number, 
+    offset: number,
+    branchSide: 'left' | 'right' | 'root' = 'root'
+  ) {
     if (!nodeId || !tree.nodes[nodeId]) return;
     const node = tree.nodes[nodeId];
-    layouts[nodeId] = { id: nodeId, x, y, node };
+    layouts[nodeId] = { id: nodeId, x, y, node, branchSide };
 
     if (node.leftId) {
-      calculatePositions(node.leftId, x - offset, y + 70, offset / 1.9);
+      calculatePositions(node.leftId, x - offset, y + 70, offset / 1.9, 'left');
     }
     if (node.rightId) {
-      calculatePositions(node.rightId, x + offset, y + 70, offset / 1.9);
+      calculatePositions(node.rightId, x + offset, y + 70, offset / 1.9, 'right');
     }
   }
 
   if (tree.rootId) {
-    calculatePositions(tree.rootId, width / 2, 50, 140);
+    calculatePositions(tree.rootId, width / 2, 50, 140, 'root');
   }
 
-  const getNodeColor = (state: TreeNodeData['state']) => {
-    switch (state) {
-      case 'inspect':
-        return 'var(--state-inspect)';
-      case 'active':
-        return 'var(--state-swap)';
-      case 'sorted':
-        return 'var(--state-sorted)';
-      case 'visited':
-        return 'var(--state-visited)';
-      default:
-        return 'var(--primary-500)';
-    }
+  const getNodeBorderColor = (layout: NodeLayout) => {
+    const { node, branchSide } = layout;
+    if (node.state === 'inspect') return 'var(--state-inspect)';
+    if (node.state === 'active') return 'var(--state-swap)';
+    if (node.state === 'sorted') return 'var(--state-sorted)';
+    if (node.state === 'visited') return 'var(--state-visited)';
+
+    // Subtree color assignment
+    if (branchSide === 'left') return 'var(--cyan-500)';
+    if (branchSide === 'right') return 'var(--purple-400)';
+    return 'var(--primary-500)';
+  };
+
+  const getNodeFillColor = (layout: NodeLayout) => {
+    const { node, branchSide } = layout;
+    if (node.state === 'inspect') return 'var(--state-inspect-bg)';
+    if (node.state === 'active') return 'var(--state-swap-bg)';
+    if (node.state === 'sorted') return 'var(--state-sorted-bg)';
+    if (node.state === 'visited') return 'var(--state-visited-bg)';
+
+    if (branchSide === 'left') return 'hsla(190, 95%, 48%, 0.12)';
+    if (branchSide === 'right') return 'hsla(271, 91%, 65%, 0.12)';
+    return 'var(--surface-card)';
   };
 
   return (
@@ -55,11 +71,34 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
       width: '100%',
       height: '380px',
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
       overflow: 'hidden'
     }}>
+      {/* Visual Subtree Color Indicator */}
+      <div style={{
+        position: 'absolute',
+        top: 'var(--space-3)',
+        left: 'var(--space-4)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-3)',
+        fontSize: '11px',
+        color: 'var(--text-tertiary)',
+        zIndex: 5
+      }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--cyan-500)' }} />
+          Left Subtree (&lt; Parent)
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--purple-400)' }} />
+          Right Subtree (&gt; Parent)
+        </span>
+      </div>
+
       <svg
         viewBox={`0 0 ${width} ${height}`}
         style={{
@@ -68,7 +107,7 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
           maxHeight: '380px'
         }}
       >
-        {/* Draw Edges */}
+        {/* Draw Branch Connecting Edges */}
         {Object.values(layouts).map(layout => {
           const { node, x, y } = layout;
           const leftTarget = node.leftId ? layouts[node.leftId] : null;
@@ -82,9 +121,10 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
                   y1={y}
                   x2={leftTarget.x}
                   y2={leftTarget.y}
-                  stroke="var(--border-strong)"
-                  strokeWidth="2"
+                  stroke="var(--cyan-600)"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
+                  opacity="0.75"
                 />
               )}
               {rightTarget && (
@@ -93,9 +133,10 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
                   y1={y}
                   x2={rightTarget.x}
                   y2={rightTarget.y}
-                  stroke="var(--border-strong)"
-                  strokeWidth="2"
+                  stroke="var(--purple-600)"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
+                  opacity="0.75"
                 />
               )}
             </g>
@@ -105,7 +146,8 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
         {/* Draw Nodes */}
         {Object.values(layouts).map(layout => {
           const { node, x, y } = layout;
-          const color = getNodeColor(node.state);
+          const borderColor = getNodeBorderColor(layout);
+          const fillColor = getNodeFillColor(layout);
           const isInspecting = node.state === 'inspect' || node.state === 'active';
 
           return (
@@ -115,11 +157,11 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
                 <circle
                   cx={x}
                   cy={y}
-                  r="26"
+                  r="27"
                   fill="none"
-                  stroke={color}
-                  strokeWidth="3"
-                  opacity="0.4"
+                  stroke={borderColor}
+                  strokeWidth="3.5"
+                  opacity="0.5"
                 />
               )}
 
@@ -128,8 +170,8 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
                 cx={x}
                 cy={y}
                 r="20"
-                fill="var(--surface-card)"
-                stroke={color}
+                fill={fillColor}
+                stroke={borderColor}
                 strokeWidth={isInspecting ? 3 : 2}
                 style={{ transition: 'all var(--transition-normal)' }}
               />
@@ -141,7 +183,7 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
                 textAnchor="middle"
                 fill="var(--text-primary)"
                 fontSize="13"
-                fontWeight="600"
+                fontWeight="700"
                 fontFamily="var(--font-mono)"
               >
                 {node.value}
@@ -150,7 +192,12 @@ export const TreeCanvas: React.FC<TreeCanvasProps> = ({ tree }) => {
               {/* Balance Factor badge if present */}
               {node.balanceFactor !== undefined && (
                 <g transform={`translate(${x + 14}, ${y - 14})`}>
-                  <circle r="9" fill="var(--surface-subtle)" stroke="var(--border-default)" strokeWidth="1" />
+                  <circle
+                    r="9"
+                    fill={node.balanceFactor > 1 || node.balanceFactor < -1 ? 'var(--state-pivot-bg)' : 'var(--surface-subtle)'}
+                    stroke={node.balanceFactor > 1 || node.balanceFactor < -1 ? 'var(--state-pivot)' : 'var(--border-default)'}
+                    strokeWidth="1"
+                  />
                   <text
                     x="0"
                     y="3"

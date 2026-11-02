@@ -6,8 +6,8 @@ interface GraphCanvasProps {
 }
 
 export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
-  const getVertexColor = (state: GraphVertex['state']) => {
-    switch (state) {
+  const getVertexBorderColor = (vertex: GraphVertex) => {
+    switch (vertex.state) {
       case 'inspect':
         return 'var(--state-inspect)';
       case 'active':
@@ -21,12 +21,27 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
     }
   };
 
-  const getEdgeColor = (state: GraphEdge['state']) => {
-    switch (state) {
+  const getVertexFillColor = (vertex: GraphVertex) => {
+    switch (vertex.state) {
+      case 'inspect':
+        return 'var(--state-inspect-bg)';
+      case 'active':
+        return 'var(--state-swap-bg)';
+      case 'sorted':
+        return 'var(--state-sorted-bg)';
+      case 'visited':
+        return 'var(--state-visited-bg)';
+      default:
+        return 'var(--surface-card)';
+    }
+  };
+
+  const getEdgeStroke = (edge: GraphEdge) => {
+    switch (edge.state) {
       case 'inspect':
         return 'var(--state-inspect)';
       case 'visited':
-        return 'var(--state-visited)';
+        return 'var(--cyan-500)';
       default:
         return 'var(--border-strong)';
     }
@@ -40,6 +55,32 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
       display: 'flex',
       flexDirection: 'column'
     }}>
+      {/* Top Legend Bar */}
+      <div style={{
+        position: 'absolute',
+        top: 'var(--space-3)',
+        right: 'var(--space-4)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-3)',
+        fontSize: '11px',
+        color: 'var(--text-tertiary)',
+        zIndex: 10
+      }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-visited)' }} />
+          Visited (Cyan)
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-sorted)' }} />
+          Finalized / Locked (Emerald)
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-swap)' }} />
+          Active Relaxing (Purple)
+        </span>
+      </div>
+
       {/* Queue HUD overlay if present */}
       {graph.queueOrStack && graph.queueOrStack.length > 0 && (
         <div style={{
@@ -64,7 +105,7 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                 key={i}
                 style={{
                   backgroundColor: i === 0 ? 'var(--primary-surface)' : 'var(--surface-card)',
-                  color: i === 0 ? 'var(--primary-500)' : 'var(--text-primary)',
+                  color: i === 0 ? 'var(--primary-400)' : 'var(--text-primary)',
                   border: 'var(--border-1) solid var(--border-subtle)',
                   borderRadius: 'var(--radius-xs)',
                   padding: '1px 5px',
@@ -91,13 +132,26 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
           const v = graph.vertices.find(vert => vert.id === edge.target);
           if (!u || !v) return null;
 
-          const strokeColor = getEdgeColor(edge.state);
+          const strokeColor = getEdgeStroke(edge);
           const isHighlighted = edge.state !== 'default';
           const midX = (u.x + v.x) / 2;
           const midY = (u.y + v.y) / 2;
 
           return (
             <g key={edge.id}>
+              {isHighlighted && (
+                <line
+                  x1={u.x}
+                  y1={u.y}
+                  x2={v.x}
+                  y2={v.y}
+                  stroke={strokeColor}
+                  strokeWidth="6"
+                  opacity="0.3"
+                  strokeLinecap="round"
+                />
+              )}
+
               <line
                 x1={u.x}
                 y1={u.y}
@@ -118,7 +172,7 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                     width="24"
                     height="18"
                     rx="4"
-                    fill="var(--surface-subtle)"
+                    fill="var(--surface-card)"
                     stroke="var(--border-default)"
                     strokeWidth="1"
                   />
@@ -126,9 +180,9 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                     x="0"
                     y="4"
                     textAnchor="middle"
-                    fill="var(--text-secondary)"
+                    fill={edge.weight <= 3 ? 'var(--cyan-400)' : 'var(--amber-400)'}
                     fontSize="10"
-                    fontWeight="600"
+                    fontWeight="700"
                     fontFamily="var(--font-mono)"
                   >
                     {edge.weight}
@@ -141,7 +195,8 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
 
         {/* Draw Vertices */}
         {graph.vertices.map(vertex => {
-          const color = getVertexColor(vertex.state);
+          const borderColor = getVertexBorderColor(vertex);
+          const fillColor = getVertexFillColor(vertex);
           const isSelected = vertex.state === 'inspect' || vertex.state === 'active';
 
           return (
@@ -150,11 +205,11 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                 <circle
                   cx={vertex.x}
                   cy={vertex.y}
-                  r="27"
+                  r="28"
                   fill="none"
-                  stroke={color}
-                  strokeWidth="3"
-                  opacity="0.4"
+                  stroke={borderColor}
+                  strokeWidth="3.5"
+                  opacity="0.5"
                 />
               )}
 
@@ -162,8 +217,8 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                 cx={vertex.x}
                 cy={vertex.y}
                 r="20"
-                fill="var(--surface-card)"
-                stroke={color}
+                fill={fillColor}
+                stroke={borderColor}
                 strokeWidth={isSelected ? 3 : 2}
               />
 
@@ -196,9 +251,9 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
                     x="0"
                     y="4"
                     textAnchor="middle"
-                    fill={vertex.distance === Infinity ? 'var(--text-tertiary)' : 'var(--primary-400)'}
+                    fill={vertex.distance === Infinity ? 'var(--text-tertiary)' : 'var(--cyan-400)'}
                     fontSize="10"
-                    fontWeight="600"
+                    fontWeight="700"
                     fontFamily="var(--font-mono)"
                   >
                     {vertex.distance === Infinity ? '∞' : vertex.distance}
