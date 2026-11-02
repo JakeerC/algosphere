@@ -358,6 +358,57 @@ export const ComparePage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Global Live State Legend (clean, visible, unclipped) */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 'var(--space-3)',
+          paddingTop: 'var(--space-3)',
+          marginTop: 'var(--space-3)',
+          borderTop: '1px solid var(--border-subtle)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <span style={{ fontSize: '11px', fontWeight: 'var(--weight-heavy)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              State Legend:
+            </span>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-3)',
+              fontSize: '11px',
+              color: 'var(--text-secondary)',
+              backgroundColor: 'var(--surface-subtle)',
+              padding: '4px 12px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-subtle)',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary-500)' }} />
+                Rest (Uniform)
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-inspect)' }} />
+                Comparing
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-swap)' }} />
+                Swapping / Writing
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-pivot)' }} />
+                Pivot / Partition
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-sorted)' }} />
+                Sorted / In-Place
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Concurrent Competitor Tracks */}
@@ -409,9 +460,9 @@ export const ComparePage: React.FC = () => {
                 )}
               </div>
 
-              {/* Visualization Canvas */}
-              <div style={{ height: '240px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <SortingCanvas bars={currentStep.state} />
+              {/* Visualization Canvas (sized cleanly at 240px with no clipping) */}
+              <div style={{ height: '240px', width: '100%', overflow: 'hidden' }}>
+                <SortingCanvas bars={currentStep.state} height="240px" showControls={false} showLegend={false} />
               </div>
 
               {/* Telemetry Metrics */}
