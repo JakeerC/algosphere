@@ -250,9 +250,9 @@ export const VisualizerPage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 'var(--space-3)',
-        paddingTop: 'var(--space-3)',
-        borderBottom: 'var(--border-1) solid var(--border-subtle)',
-        paddingBottom: 'var(--space-3)'
+        paddingTop: 'var(--space-2)',
+        paddingBottom: 'var(--space-3)',
+        borderBottom: '1px solid var(--border-subtle)'
       }}>
         {/* Module Switcher Dropdown & Variants */}
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-3)' }}>
@@ -263,31 +263,32 @@ export const VisualizerPage: React.FC = () => {
               style={{
                 fontSize: 'var(--text-base)',
                 fontWeight: 'var(--weight-heavy)',
-                padding: '6px 12px',
+                padding: '6px 16px',
+                borderRadius: 'var(--radius-full)',
                 gap: 'var(--space-2)'
               }}
             >
               <span>{currentModule.title}</span>
-              <ChevronDown size={16} color="var(--text-tertiary)" />
+              <ChevronDown size={15} color="var(--text-tertiary)" />
             </button>
 
             {showModuleDropdown && (
               <div style={{
                 position: 'absolute',
-                top: 'calc(100% + 6px)',
+                top: 'calc(100% + 8px)',
                 left: 0,
-                width: '280px',
-                maxHeight: '340px',
+                width: '300px',
+                maxHeight: '360px',
                 overflowY: 'auto',
                 backgroundColor: 'var(--surface-raised)',
-                border: 'var(--border-1) solid var(--border-default)',
-                borderRadius: 'var(--radius-lg)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-xl)',
                 boxShadow: 'var(--shadow-xl)',
-                padding: 'var(--space-2)',
+                padding: 'var(--space-3)',
                 zIndex: 120
               }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '4px 8px', textTransform: 'uppercase', fontWeight: 'var(--weight-heavy)' }}>
-                  Switch Algorithm Module:
+                <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', padding: '4px 10px', textTransform: 'uppercase', fontWeight: 'var(--weight-heavy)', letterSpacing: '0.05em' }}>
+                  Switch Algorithm Module
                 </div>
                 {ALGORITHM_MODULES.map(m => (
                   <button
@@ -301,14 +302,16 @@ export const VisualizerPage: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      padding: '8px 10px',
-                      borderRadius: 'var(--radius-md)',
+                      padding: '8px 12px',
+                      borderRadius: 'var(--radius-lg)',
                       backgroundColor: m.id === currentModule.id ? 'var(--primary-surface)' : 'transparent',
                       color: m.id === currentModule.id ? 'var(--primary-400)' : 'var(--text-primary)',
                       fontSize: 'var(--text-sm)',
                       fontWeight: m.id === currentModule.id ? 'var(--weight-heavy)' : 'var(--weight-normal)',
                       textAlign: 'left',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      border: 'none',
+                      transition: 'all var(--transition-fast)'
                     }}
                   >
                     <span>{m.title}</span>
@@ -325,9 +328,9 @@ export const VisualizerPage: React.FC = () => {
             alignItems: 'center',
             gap: 'var(--space-1)',
             backgroundColor: 'var(--surface-subtle)',
-            padding: '3px',
-            borderRadius: 'var(--radius-md)',
-            border: 'var(--border-1) solid var(--border-subtle)'
+            padding: '3px 4px',
+            borderRadius: 'var(--radius-full)',
+            border: '1px solid var(--border-subtle)'
           }}>
             {currentModule.variants.map(v => (
               <button
@@ -335,9 +338,10 @@ export const VisualizerPage: React.FC = () => {
                 onClick={() => setActiveVariant(v)}
                 className={`btn btn-sm ${activeVariant === v ? 'btn-primary' : 'btn-ghost'}`}
                 style={{
-                  padding: '4px 10px',
+                  padding: '4px 12px',
                   fontSize: 'var(--text-xs)',
-                  height: '28px'
+                  height: '28px',
+                  borderRadius: 'var(--radius-full)'
                 }}
               >
                 {v}
@@ -353,15 +357,17 @@ export const VisualizerPage: React.FC = () => {
               <button
                 onClick={handleRandomize}
                 className="btn btn-secondary btn-sm"
+                style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px' }}
                 title="Generate random array"
               >
-                <Shuffle size={14} />
+                <Shuffle size={13} />
                 <span>Random</span>
               </button>
 
               <button
                 onClick={handleNearlySorted}
                 className="btn btn-secondary btn-sm"
+                style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px' }}
                 title="Nearly sorted array"
               >
                 <span>Nearly Sorted</span>
@@ -370,6 +376,7 @@ export const VisualizerPage: React.FC = () => {
               <button
                 onClick={handleReverseSorted}
                 className="btn btn-secondary btn-sm"
+                style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px' }}
                 title="Reverse sorted array"
               >
                 <span>Reverse</span>
@@ -378,9 +385,10 @@ export const VisualizerPage: React.FC = () => {
               <button
                 onClick={() => setShowCustomModal(true)}
                 className="btn btn-secondary btn-sm"
+                style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px' }}
                 title="Enter custom array"
               >
-                <PlusCircle size={14} />
+                <PlusCircle size={13} />
                 <span>Custom</span>
               </button>
             </>
@@ -389,10 +397,11 @@ export const VisualizerPage: React.FC = () => {
           <Link
             to={`/lecture/${currentModule.id}`}
             className="btn btn-primary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px' }}
             title="Read structured e-Lecture slides"
           >
             <BookOpen size={14} />
-            <span>e-Lecture Route</span>
+            <span>e-Lecture</span>
           </Link>
         </div>
       </div>
@@ -406,7 +415,7 @@ export const VisualizerPage: React.FC = () => {
       }} className="visualizer-grid">
         
         {/* Left Column: Visualizer Stage + Playback Controls */}
-        <div className="visualizer-stage" style={{ minHeight: '520px' }}>
+        <div className="visualizer-stage" style={{ minHeight: '520px', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
           {/* Step Natural Language Narration */}
           <StepNarrator
             description={currentStep.description}
@@ -423,7 +432,7 @@ export const VisualizerPage: React.FC = () => {
             position: 'relative'
           }}>
             {currentModule.id === 'sorting' && (
-              <SortingCanvas bars={currentStep.state} />
+              <SortingCanvas bars={currentStep.state} height="380px" showControls={true} showLegend={true} />
             )}
             {currentModule.id === 'bst-avl' && (
               <TreeCanvas tree={currentStep.state} />
@@ -486,31 +495,32 @@ export const VisualizerPage: React.FC = () => {
           <VariableWatch variables={currentStep.variables} />
 
           {/* Complexity HUD Summary */}
-          <div className="card" style={{ padding: 'var(--space-3) var(--space-4)' }}>
+          <div className="card" style={{ padding: 'var(--space-3) var(--space-4)', borderRadius: 'var(--radius-xl)' }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               marginBottom: 'var(--space-2)',
-              fontSize: 'var(--text-xs)',
+              fontSize: '11px',
               fontWeight: 'var(--weight-heavy)',
               color: 'var(--text-tertiary)',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
             }}>
               <span>Big-O Complexity Metrics</span>
               <span className="badge badge-neutral" style={{ fontSize: '10px' }}>Theoretical</span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-2)', fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)' }}>
-              <div>
+              <div style={{ backgroundColor: 'var(--surface-subtle)', padding: '6px 10px', borderRadius: 'var(--radius-md)' }}>
                 <span style={{ color: 'var(--text-tertiary)' }}>Best: </span>
                 <span style={{ color: 'var(--state-sorted)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeBest}</span>
               </div>
-              <div>
+              <div style={{ backgroundColor: 'var(--surface-subtle)', padding: '6px 10px', borderRadius: 'var(--radius-md)' }}>
                 <span style={{ color: 'var(--text-tertiary)' }}>Average: </span>
                 <span style={{ color: 'var(--state-inspect)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeAvg}</span>
               </div>
-              <div>
+              <div style={{ backgroundColor: 'var(--surface-subtle)', padding: '6px 10px', borderRadius: 'var(--radius-md)' }}>
                 <span style={{ color: 'var(--text-tertiary)' }}>Worst: </span>
                 <span style={{ color: 'var(--state-pivot)', fontWeight: 'var(--weight-heavy)' }}>{currentModule.complexity.timeWorst}</span>
               </div>
@@ -521,7 +531,7 @@ export const VisualizerPage: React.FC = () => {
               gap: 'var(--space-4)',
               marginTop: 'var(--space-2)',
               paddingTop: 'var(--space-2)',
-              borderTop: 'var(--border-1) solid var(--border-subtle)',
+              borderTop: '1px solid var(--border-subtle)',
               fontSize: '11px',
               color: 'var(--text-tertiary)'
             }}>

@@ -38,11 +38,12 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
   return (
     <div style={{
       backgroundColor: 'var(--surface-subtle)',
-      borderTop: 'var(--border-1) solid var(--border-subtle)',
+      borderTop: '1px solid var(--border-subtle)',
       padding: 'var(--space-3) var(--space-4)',
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--space-2)'
+      gap: 'var(--space-2)',
+      borderRadius: '0 0 var(--radius-xl) var(--radius-xl)'
     }}>
       {/* Scrubbable Timeline Slider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
@@ -64,7 +65,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
             onChange={e => onSeek(Number(e.target.value))}
             style={{
               width: '100%',
-              height: '6px',
+              height: '8px',
               borderRadius: 'var(--radius-full)',
               background: `linear-gradient(to right, var(--primary-500) 0%, var(--primary-500) ${progressPercent}%, var(--border-default) ${progressPercent}%, var(--border-default) 100%)`,
               outline: 'none',
@@ -98,9 +99,10 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
           <button
             onClick={onReset}
             className="btn btn-secondary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px' }}
             title="Reset to step 0 (R)"
           >
-            <RotateCcw size={14} />
+            <RotateCcw size={13} />
             <span>Reset</span>
           </button>
 
@@ -108,16 +110,22 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
             onClick={onStepBackward}
             disabled={currentStep <= 0}
             className="btn btn-secondary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px' }}
             title="Step backward (←)"
           >
-            <SkipBack size={14} />
-            <span>Step -1</span>
+            <SkipBack size={13} />
+            <span>Prev</span>
           </button>
 
           <button
             onClick={onPlayPause}
             className="btn btn-primary btn-sm"
-            style={{ minWidth: '88px' }}
+            style={{ 
+              borderRadius: 'var(--radius-full)', 
+              minWidth: '96px',
+              padding: '6px 16px',
+              boxShadow: 'var(--shadow-sm)'
+            }}
             title="Play / Pause (Space)"
           >
             {isPlaying ? (
@@ -137,17 +145,26 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
             onClick={onStepForward}
             disabled={currentStep >= totalSteps - 1}
             className="btn btn-secondary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '5px 14px' }}
             title="Step forward (→)"
           >
-            <span>Step +1</span>
-            <SkipForward size={14} />
+            <span>Next</span>
+            <SkipForward size={13} />
           </button>
         </div>
 
-        {/* Speed Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)' }}>
-            <Gauge size={14} />
+        {/* Speed Selector Pills */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--space-1)',
+          backgroundColor: 'var(--surface-card)',
+          padding: '3px 6px',
+          borderRadius: 'var(--radius-full)',
+          border: '1px solid var(--border-subtle)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '3px', color: 'var(--text-tertiary)', fontSize: '11px', paddingLeft: '4px', paddingRight: '4px' }}>
+            <Gauge size={12} />
             <span>Speed:</span>
           </div>
 
@@ -156,14 +173,16 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
               key={s}
               onClick={() => onSpeedChange(s)}
               style={{
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: 'var(--text-xs)',
+                padding: '3px 8px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '11px',
                 fontFamily: 'var(--font-mono)',
-                backgroundColor: speed === s ? 'var(--primary-500)' : 'var(--surface-card)',
+                backgroundColor: speed === s ? 'var(--primary-500)' : 'transparent',
                 color: speed === s ? '#ffffff' : 'var(--text-secondary)',
-                border: 'var(--border-1) solid var(--border-subtle)',
-                fontWeight: speed === s ? 'var(--weight-heavy)' : 'var(--weight-normal)'
+                border: 'none',
+                fontWeight: speed === s ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)'
               }}
             >
               {s}x

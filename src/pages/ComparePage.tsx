@@ -8,7 +8,8 @@ import {
   Shuffle, 
   ArrowDownUp, 
   Layers, 
-  Gauge 
+  Gauge,
+  Sparkles
 } from 'lucide-react';
 import { 
   generateBubbleSortSteps, 
@@ -22,6 +23,7 @@ import { VisualStep } from '../types/algorithm';
 import { ArrayBar } from '../types/visualizer';
 import { SortingCanvas } from '../components/visualizer/SortingCanvas';
 import { Badge } from '../components/common/Badge';
+import { ScribbleSparkle, ScribbleUnderline } from '../components/common/ScribbleAccents';
 
 interface Competitor {
   id: string;
@@ -201,18 +203,20 @@ export const ComparePage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 'var(--space-4)',
-        paddingTop: 'var(--space-4)',
-        borderBottom: 'var(--border-1) solid var(--border-subtle)',
+        paddingTop: 'var(--space-3)',
+        borderBottom: '1px solid var(--border-subtle)',
         paddingBottom: 'var(--space-4)'
       }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-            <Badge variant="primary" icon={<Zap size={14} />}>Real-Time Benchmarking</Badge>
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+            <Badge variant="primary" icon={<Zap size={14} />}>Live Benchmarking Arena</Badge>
+            <ScribbleSparkle size={18} color="var(--primary-400)" />
           </div>
-          <h1 style={{ fontSize: 'var(--text-3xl)', margin: 0 }}>
-            Side-by-Side Algorithm Race Arena
+          <h1 style={{ fontSize: 'var(--text-3xl)', margin: 0, position: 'relative', display: 'inline-block' }}>
+            Side-by-Side Algorithm Race
+            <ScribbleUnderline color="var(--primary-400)" width={180} height={10} style={{ position: 'absolute', bottom: -6, right: 0 }} />
           </h1>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
             Watch multiple algorithms race simultaneously on identical data. Visually benchmark comparisons and memory operations.
           </p>
         </div>
@@ -222,24 +226,25 @@ export const ComparePage: React.FC = () => {
           <button
             onClick={handleReset}
             className="btn btn-secondary"
+            style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px' }}
           >
-            <RotateCcw size={16} />
-            <span>Reset</span>
+            <RotateCcw size={15} />
+            <span>Reset Duel</span>
           </button>
 
           <button
             onClick={() => setIsRunning(prev => !prev)}
             className="btn btn-primary"
-            style={{ minWidth: '130px' }}
+            style={{ minWidth: '140px', borderRadius: 'var(--radius-full)', padding: '8px 20px', boxShadow: 'var(--shadow-sm)' }}
           >
-            <Play size={16} fill="currentColor" />
+            <Play size={15} fill="currentColor" />
             <span>{isRunning ? 'Pause Race' : 'Start Race'}</span>
           </button>
         </div>
       </div>
 
       {/* Configuration bar: Competitor selector, dataset type, array size */}
-      <div className="card" style={{ padding: 'var(--space-4)' }}>
+      <div className="card" style={{ padding: 'var(--space-4)', borderRadius: 'var(--radius-xl)' }}>
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -249,8 +254,8 @@ export const ComparePage: React.FC = () => {
         }}>
           {/* Select Competitors */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--weight-heavy)', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
-              Competitors (Select 2-3):
+            <span style={{ fontSize: '11px', fontWeight: 'var(--weight-heavy)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Select Racers:
             </span>
             {allSortingOptions.map(algo => {
               const isSelected = selectedAlgos.includes(algo);
@@ -259,7 +264,11 @@ export const ComparePage: React.FC = () => {
                   key={algo}
                   onClick={() => toggleAlgoSelection(algo)}
                   className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
-                  style={{ fontSize: 'var(--text-xs)' }}
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    borderRadius: 'var(--radius-full)',
+                    padding: '4px 12px'
+                  }}
                 >
                   {algo}
                 </button>
@@ -270,36 +279,55 @@ export const ComparePage: React.FC = () => {
           {/* Dataset Configuration */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
             {/* Type */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', backgroundColor: 'var(--surface-subtle)', padding: '2px', borderRadius: 'var(--radius-md)' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px',
+              backgroundColor: 'var(--surface-subtle)',
+              padding: '3px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-subtle)'
+            }}>
               <button
                 onClick={() => setDatasetType('random')}
                 className={`btn btn-sm ${datasetType === 'random' ? 'btn-secondary' : 'btn-ghost'}`}
+                style={{ borderRadius: 'var(--radius-full)', padding: '3px 10px', fontSize: '11px' }}
               >
                 Random
               </button>
               <button
                 onClick={() => setDatasetType('reversed')}
                 className={`btn btn-sm ${datasetType === 'reversed' ? 'btn-secondary' : 'btn-ghost'}`}
+                style={{ borderRadius: 'var(--radius-full)', padding: '3px 10px', fontSize: '11px' }}
               >
                 Reversed (Worst-case)
               </button>
               <button
                 onClick={() => setDatasetType('nearly')}
                 className={`btn btn-sm ${datasetType === 'nearly' ? 'btn-secondary' : 'btn-ghost'}`}
+                style={{ borderRadius: 'var(--radius-full)', padding: '3px 10px', fontSize: '11px' }}
               >
                 Nearly Sorted
               </button>
             </div>
 
             {/* Size */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>Size:</span>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-1)',
+              backgroundColor: 'var(--surface-subtle)',
+              padding: '3px 8px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-subtle)'
+            }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Size:</span>
               {[15, 25, 40].map(s => (
                 <button
                   key={s}
                   onClick={() => setArraySize(s)}
                   className={`btn btn-sm ${arraySize === s ? 'btn-primary' : 'btn-ghost'}`}
-                  style={{ padding: '2px 8px', fontSize: 'var(--text-xs)' }}
+                  style={{ padding: '2px 8px', fontSize: '11px', borderRadius: 'var(--radius-full)' }}
                 >
                   {s}
                 </button>
@@ -307,18 +335,77 @@ export const ComparePage: React.FC = () => {
             </div>
 
             {/* Speed */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
-              <Gauge size={14} color="var(--text-tertiary)" />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-1)',
+              backgroundColor: 'var(--surface-subtle)',
+              padding: '3px 8px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-subtle)'
+            }}>
+              <Gauge size={12} color="var(--text-tertiary)" />
               {[1, 2, 4].map(sp => (
                 <button
                   key={sp}
                   onClick={() => setSpeed(sp)}
                   className={`btn btn-sm ${speed === sp ? 'btn-primary' : 'btn-ghost'}`}
-                  style={{ padding: '2px 6px', fontSize: '11px' }}
+                  style={{ padding: '2px 8px', fontSize: '11px', borderRadius: 'var(--radius-full)' }}
                 >
                   {sp}x
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Global Live State Legend (clean, visible, unclipped) */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 'var(--space-3)',
+          paddingTop: 'var(--space-3)',
+          marginTop: 'var(--space-3)',
+          borderTop: '1px solid var(--border-subtle)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <span style={{ fontSize: '11px', fontWeight: 'var(--weight-heavy)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              State Legend:
+            </span>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-3)',
+              fontSize: '11px',
+              color: 'var(--text-secondary)',
+              backgroundColor: 'var(--surface-subtle)',
+              padding: '4px 12px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--border-subtle)',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary-500)' }} />
+                Rest (Uniform)
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-inspect)' }} />
+                Comparing
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-swap)' }} />
+                Swapping / Writing
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-pivot)' }} />
+                Pivot / Partition
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-sorted)' }} />
+                Sorted / In-Place
+              </span>
             </div>
           </div>
         </div>
@@ -343,8 +430,9 @@ export const ComparePage: React.FC = () => {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 padding: 'var(--space-4)',
+                borderRadius: 'var(--radius-xl)',
                 borderColor: comp.isFinished ? 'var(--state-sorted)' : 'var(--border-subtle)',
-                boxShadow: comp.finishRank === 1 ? 'var(--shadow-glow-success)' : 'var(--shadow-sm)'
+                boxShadow: comp.finishRank === 1 ? '0 12px 32px -4px hsla(160, 84%, 39%, 0.35)' : 'var(--shadow-md)'
               }}
             >
               {/* Header with Title and Rank Trophy */}
@@ -353,7 +441,7 @@ export const ComparePage: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 marginBottom: 'var(--space-3)',
-                borderBottom: 'var(--border-1) solid var(--border-subtle)',
+                borderBottom: '1px solid var(--border-subtle)',
                 paddingBottom: 'var(--space-2)'
               }}>
                 <div>
@@ -372,9 +460,9 @@ export const ComparePage: React.FC = () => {
                 )}
               </div>
 
-              {/* Visualization Canvas */}
-              <div style={{ height: '240px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <SortingCanvas bars={currentStep.state} />
+              {/* Visualization Canvas (sized cleanly at 240px with no clipping) */}
+              <div style={{ height: '240px', width: '100%', overflow: 'hidden' }}>
+                <SortingCanvas bars={currentStep.state} height="240px" showControls={false} showLegend={false} />
               </div>
 
               {/* Telemetry Metrics */}
@@ -382,20 +470,21 @@ export const ComparePage: React.FC = () => {
                 marginTop: 'var(--space-4)',
                 backgroundColor: 'var(--surface-subtle)',
                 padding: 'var(--space-3)',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: 'var(--radius-lg)',
+                border: '1px solid var(--border-subtle)',
                 display: 'grid',
                 gridTemplateColumns: 'repeat(2, 1fr)',
                 gap: 'var(--space-2)',
                 fontSize: 'var(--text-xs)',
                 fontFamily: 'var(--font-mono)'
               }}>
-                <div>
+                <div style={{ backgroundColor: 'var(--surface-card)', padding: '6px 10px', borderRadius: 'var(--radius-md)' }}>
                   <span style={{ color: 'var(--text-tertiary)' }}>Comparisons: </span>
                   <strong style={{ color: 'var(--state-inspect)', fontSize: 'var(--text-sm)' }}>
                     {comp.comparisonsCount}
                   </strong>
                 </div>
-                <div>
+                <div style={{ backgroundColor: 'var(--surface-card)', padding: '6px 10px', borderRadius: 'var(--radius-md)' }}>
                   <span style={{ color: 'var(--text-tertiary)' }}>Swaps / Writes: </span>
                   <strong style={{ color: 'var(--state-swap)', fontSize: 'var(--text-sm)' }}>
                     {comp.swapsCount}

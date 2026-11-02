@@ -29,11 +29,11 @@ export const App: React.FC = () => {
       'dark', 'cyberpunk', 'emerald', 'sunset', 'light',
       'catppuccin-mocha', 'catppuccin-macchiato', 'catppuccin-frappe', 'catppuccin-latte'
     ];
-    // If the saved theme was the previous default 'dark', upgrade it to 'catppuccin-macchiato'
-    if (saved && validThemes.includes(saved) && saved !== 'dark') {
+    // Default to 'catppuccin-mocha'
+    if (saved && validThemes.includes(saved) && saved !== 'dark' && saved !== 'catppuccin-macchiato') {
       return saved;
     }
-    return 'catppuccin-macchiato';
+    return 'catppuccin-mocha';
   });
 
   // Sync theme with document root & localStorage

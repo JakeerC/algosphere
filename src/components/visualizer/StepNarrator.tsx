@@ -1,5 +1,13 @@
 import React from 'react';
-import { Info, ArrowLeftRight, CheckCircle2, Crosshair, RefreshCw, GitBranch, Terminal } from 'lucide-react';
+import { 
+  ArrowLeftRight, 
+  CheckCircle2, 
+  Crosshair, 
+  RefreshCw, 
+  GitBranch, 
+  Terminal,
+  Sparkles
+} from 'lucide-react';
 import { Badge } from '../common/Badge';
 
 interface StepNarratorProps {
@@ -35,11 +43,12 @@ export const StepNarrator: React.FC<StepNarratorProps> = ({
   return (
     <div style={{
       backgroundColor: 'var(--surface-subtle)',
-      borderBottom: 'var(--border-1) solid var(--border-subtle)',
+      borderBottom: '1px solid var(--border-subtle)',
       padding: 'var(--space-3) var(--space-4)',
       display: 'flex',
       alignItems: 'center',
-      gap: 'var(--space-3)'
+      gap: 'var(--space-3)',
+      borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0'
     }}>
       <div style={{ flexShrink: 0 }}>
         {getActionBadge()}
@@ -49,15 +58,20 @@ export const StepNarrator: React.FC<StepNarratorProps> = ({
         fontSize: 'var(--text-sm)',
         color: 'var(--text-primary)',
         lineHeight: 'var(--leading-normal)',
+        fontWeight: 'var(--weight-normal)',
         flex: 1
       }}>
         {description}
       </div>
 
       <div style={{
-        fontSize: 'var(--text-xs)',
+        fontSize: '11px',
         fontFamily: 'var(--font-mono)',
         color: 'var(--text-tertiary)',
+        backgroundColor: 'var(--surface-card)',
+        padding: '3px 10px',
+        borderRadius: 'var(--radius-full)',
+        border: '1px solid var(--border-subtle)',
         flexShrink: 0
       }}>
         Step #{stepIndex}

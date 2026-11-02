@@ -48,16 +48,17 @@ export const LecturePage: React.FC = () => {
         justifyContent: 'space-between',
         gap: 'var(--space-3)',
         paddingTop: 'var(--space-3)',
-        borderBottom: 'var(--border-1) solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)',
         paddingBottom: 'var(--space-3)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
           <button
             onClick={() => navigate(-1)}
             className="btn btn-secondary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '6px 16px' }}
             title="Go back"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={15} />
             <span>Back</span>
           </button>
 
@@ -70,28 +71,32 @@ export const LecturePage: React.FC = () => {
           </div>
         </div>
 
-        <Link to={`/visualizer/${module.id}`} className="btn btn-primary btn-sm">
+        <Link
+          to={`/visualizer/${module.id}`}
+          className="btn btn-primary btn-sm"
+          style={{ borderRadius: 'var(--radius-full)', padding: '6px 18px' }}
+        >
           <Activity size={15} />
           <span>Launch Interactive Visualizer</span>
         </Link>
       </div>
 
       {/* Main Slide Card Container */}
-      <div className="card" style={{ maxWidth: '840px', margin: '0 auto', width: '100%', padding: 'var(--space-6)' }}>
+      <div className="card" style={{ maxWidth: '840px', margin: '0 auto', width: '100%', padding: 'var(--space-6)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-xl)' }}>
         {/* Header with Title and Slide Progress */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 'var(--space-4)',
-          borderBottom: 'var(--border-1) solid var(--border-subtle)',
+          borderBottom: '1px solid var(--border-subtle)',
           paddingBottom: 'var(--space-3)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: 'var(--radius-md)',
+              width: '38px',
+              height: '38px',
+              borderRadius: 'var(--radius-full)',
               backgroundColor: 'var(--primary-surface)',
               display: 'flex',
               alignItems: 'center',
@@ -101,7 +106,7 @@ export const LecturePage: React.FC = () => {
               <BookOpen size={18} />
             </div>
             <div>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Pedagogical Slide Deck • {module.title}
               </div>
               <h2 style={{ fontSize: 'var(--text-xl)', margin: 0 }}>
@@ -137,7 +142,7 @@ export const LecturePage: React.FC = () => {
               display: 'flex',
               gap: 'var(--space-3)',
               padding: 'var(--space-4)',
-              borderRadius: 'var(--radius-md)',
+              borderRadius: 'var(--radius-lg)',
               backgroundColor: slide.callout.type === 'tip' ? 'var(--state-sorted-bg)' :
                                slide.callout.type === 'warning' ? 'var(--state-pivot-bg)' : 'var(--state-inspect-bg)',
               border: `1px solid ${slide.callout.type === 'tip' ? 'var(--state-sorted-border)' :
@@ -158,7 +163,7 @@ export const LecturePage: React.FC = () => {
           {slide.keyInvariants && slide.keyInvariants.length > 0 && (
             <div>
               <div style={{
-                fontSize: 'var(--text-xs)',
+                fontSize: '11px',
                 fontWeight: 'var(--weight-heavy)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
@@ -169,7 +174,7 @@ export const LecturePage: React.FC = () => {
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
                 {slide.keyInvariants.map((inv, idx) => (
-                  <span key={idx} className="badge badge-neutral" style={{ padding: '6px 10px', fontSize: 'var(--text-xs)' }}>
+                  <span key={idx} className="badge badge-neutral" style={{ padding: '4px 12px', borderRadius: 'var(--radius-full)', fontSize: '11px' }}>
                     ✓ {inv}
                   </span>
                 ))}
@@ -179,7 +184,7 @@ export const LecturePage: React.FC = () => {
 
           {/* Code snippet */}
           {slide.codeSnippet && (
-            <div className="code-panel">
+            <div className="code-panel" style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
               <div className="code-header">
                 <span>Algorithmic Reference Implementation</span>
               </div>
@@ -195,19 +200,20 @@ export const LecturePage: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderTop: 'var(--border-1) solid var(--border-subtle)',
+          borderTop: '1px solid var(--border-subtle)',
           paddingTop: 'var(--space-4)'
         }}>
           <button
             onClick={() => setCurrentSlideIndex(prev => Math.max(0, prev - 1))}
             disabled={currentSlideIndex === 0}
             className="btn btn-secondary btn-sm"
+            style={{ borderRadius: 'var(--radius-full)', padding: '6px 16px' }}
           >
             <ChevronLeft size={16} />
             <span>Previous Slide</span>
           </button>
 
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+          <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
             Use ← and → arrow keys to navigate
           </span>
 
@@ -215,12 +221,17 @@ export const LecturePage: React.FC = () => {
             <button
               onClick={() => setCurrentSlideIndex(prev => Math.min(slides.length - 1, prev + 1))}
               className="btn btn-primary btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '6px 16px' }}
             >
               <span>Next Slide</span>
               <ChevronRight size={16} />
             </button>
           ) : (
-            <Link to={`/visualizer/${module.id}`} className="btn btn-primary btn-sm">
+            <Link
+              to={`/visualizer/${module.id}`}
+              className="btn btn-primary btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '6px 18px' }}
+            >
               <Sparkles size={14} />
               <span>Launch Visualizer</span>
             </Link>

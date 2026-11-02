@@ -65,6 +65,10 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = ({ graph }) => {
         gap: 'var(--space-3)',
         fontSize: '11px',
         color: 'var(--text-tertiary)',
+        backgroundColor: 'var(--surface-subtle)',
+        padding: '3px 10px',
+        borderRadius: 'var(--radius-full)',
+        border: '1px solid var(--border-subtle)',
         zIndex: 10
       }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>

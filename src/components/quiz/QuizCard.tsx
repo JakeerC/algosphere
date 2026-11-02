@@ -45,14 +45,14 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   const isCorrect = selectedOption === question.correctIndex;
 
   return (
-    <div className="card" style={{ maxWidth: '720px', margin: '0 auto' }}>
+    <div className="card" style={{ maxWidth: '720px', margin: '0 auto', borderRadius: 'var(--radius-xl)', padding: 'var(--space-6)', boxShadow: 'var(--shadow-lg)' }}>
       {/* Quiz Header */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: 'var(--space-4)',
-        borderBottom: 'var(--border-1) solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)',
         paddingBottom: 'var(--space-3)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
@@ -68,7 +68,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
       <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
         {question.title}
       </h3>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)', marginBottom: 'var(--space-5)' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)', marginBottom: 'var(--space-5)', lineHeight: 1.6 }}>
         {question.prompt}
       </p>
 
@@ -77,7 +77,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
         <div style={{
           backgroundColor: 'var(--surface-subtle)',
           padding: 'var(--space-3)',
-          borderRadius: 'var(--radius-md)',
+          borderRadius: 'var(--radius-lg)',
           marginBottom: 'var(--space-5)',
           display: 'flex',
           alignItems: 'center',
@@ -88,9 +88,9 @@ export const QuizCard: React.FC<QuizCardProps> = ({
             {question.initialArray.map((v, i) => (
               <span key={i} style={{
                 backgroundColor: 'var(--surface-card)',
-                border: 'var(--border-1) solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '2px 8px',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-full)',
+                padding: '2px 10px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 'var(--text-xs)',
                 fontWeight: 'var(--weight-heavy)'
@@ -142,10 +142,10 @@ export const QuizCard: React.FC<QuizCardProps> = ({
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                 <span style={{
-                  width: '24px',
-                  height: '24px',
+                  width: '26px',
+                  height: '26px',
                   borderRadius: 'var(--radius-full)',
-                  border: 'var(--border-1) solid var(--border-strong)',
+                  border: '1px solid var(--border-strong)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -171,7 +171,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
         <div style={{
           backgroundColor: isCorrect ? 'var(--state-sorted-bg)' : 'var(--surface-subtle)',
           border: `1px solid ${isCorrect ? 'var(--state-sorted-border)' : 'var(--border-default)'}`,
-          borderRadius: 'var(--radius-lg)',
+          borderRadius: 'var(--radius-xl)',
           padding: 'var(--space-4)',
           marginBottom: 'var(--space-6)'
         }}>
@@ -202,6 +202,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
             onClick={handleSubmit}
             disabled={selectedOption === null}
             className="btn btn-primary"
+            style={{ borderRadius: 'var(--radius-full)', padding: '9px 22px' }}
           >
             <span>Submit Verification</span>
             <CheckCircle2 size={16} />
@@ -210,6 +211,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
           <button
             onClick={handleNextClick}
             className="btn btn-primary"
+            style={{ borderRadius: 'var(--radius-full)', padding: '9px 22px' }}
           >
             <span>Next Question</span>
             <ArrowRight size={16} />
