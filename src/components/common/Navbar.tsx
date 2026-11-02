@@ -10,6 +10,7 @@ import {
   Palette, 
   Check 
 } from 'lucide-react';
+import { Logo } from './Logo';
 
 export type ThemeMode = 'dark' | 'cyberpunk' | 'emerald' | 'sunset' | 'light';
 
@@ -82,32 +83,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           }}
         >
           <div style={{
-            width: '36px',
-            height: '36px',
+            width: '34px',
+            height: '34px',
             borderRadius: 'var(--radius-md)',
             background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--state-swap) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#ffffff',
-            boxShadow: 'var(--shadow-sm)'
+            boxShadow: 'var(--shadow-sm)',
+            flexShrink: 0
           }}>
-            <Sparkles size={20} />
+            <Sparkles size={18} />
           </div>
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
             <div style={{ 
-              fontWeight: 'var(--weight-heavy)', 
-              fontSize: 'var(--text-lg)', 
-              letterSpacing: '-0.02em',
               display: 'flex',
               alignItems: 'center',
               gap: 'var(--space-2)',
               color: 'var(--text-primary)'
             }}>
-              <span>AlgoSphere</span>
+              <Logo width={128} height={16} color="currentColor" />
               <span className="badge badge-primary" style={{ fontSize: '10px', padding: '1px 6px' }}>v2.0</span>
             </div>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', marginTop: '-2px' }}>
+            <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.02em' }}>
               Reimagining VisuAlgo
             </div>
           </div>
