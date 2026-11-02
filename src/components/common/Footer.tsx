@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { Logo } from './Logo';
 
 export const Footer: React.FC = () => {
@@ -20,21 +20,9 @@ export const Footer: React.FC = () => {
         }}>
           {/* Brand info */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
-              <div style={{
-                width: '30px',
-                height: '30px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--state-swap) 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                flexShrink: 0
-              }}>
-                <Sparkles size={16} />
-              </div>
-              <Logo width={128} height={16} color="currentColor" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+              <Logo height={28} />
+              <span className="badge badge-primary" style={{ fontSize: '10px', padding: '2px 6px', fontWeight: 'bold' }}>v2.0</span>
             </div>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
               A high-performance, aesthetically crafted interactive algorithm visualization platform. Reimagining VisuAlgo with modern developer ergonomics.

@@ -76,40 +76,26 @@ export const Navbar: React.FC<NavbarProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--space-3)',
+            gap: 'var(--space-2)',
             cursor: 'pointer',
             userSelect: 'none',
             textDecoration: 'none'
           }}
+          title="AlgoSphere - Interactive Algorithm Visualizer"
         >
-          <div style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, var(--primary-500) 0%, var(--state-swap) 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#ffffff',
-            boxShadow: 'var(--shadow-sm)',
-            flexShrink: 0
-          }}>
-            <Sparkles size={18} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-            <div style={{ 
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
-              color: 'var(--text-primary)'
-            }}>
-              <Logo width={128} height={16} color="currentColor" />
-              <span className="badge badge-primary" style={{ fontSize: '10px', padding: '1px 6px' }}>v2.0</span>
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.02em' }}>
-              Reimagining VisuAlgo
-            </div>
-          </div>
+          <Logo height={32} />
+          <span 
+            className="badge badge-primary" 
+            style={{ 
+              fontSize: '10px', 
+              padding: '2px 7px',
+              fontWeight: 'var(--font-bold)',
+              letterSpacing: '0.04em',
+              lineHeight: 1
+            }}
+          >
+            v2.0
+          </span>
         </Link>
 
         {/* Navigation Tabs with Real Routes */}
