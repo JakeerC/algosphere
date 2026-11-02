@@ -51,8 +51,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'emerald', label: 'Emerald Matrix', dotColor: 'hsl(158, 64%, 48%)', group: 'Core' },
     { id: 'sunset', label: 'Sunset Solar', dotColor: 'hsl(24, 95%, 53%)', group: 'Core' },
     { id: 'light', label: 'Daylight Clean', dotColor: 'hsl(215, 20%, 75%)', group: 'Core' },
-    { id: 'catppuccin-mocha', label: 'Catppuccin Mocha', dotColor: '#cba6f7', group: 'Catppuccin' },
     { id: 'catppuccin-macchiato', label: 'Catppuccin Macchiato', dotColor: '#8aadf4', group: 'Catppuccin' },
+    { id: 'catppuccin-mocha', label: 'Catppuccin Mocha', dotColor: '#cba6f7', group: 'Catppuccin' },
     { id: 'catppuccin-frappe', label: 'Catppuccin Frappé', dotColor: '#ca9ee6', group: 'Catppuccin' },
     { id: 'catppuccin-latte', label: 'Catppuccin Latte', dotColor: '#8839ef', group: 'Catppuccin' }
   ];
@@ -104,18 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           title="AlgoSphere - Interactive Algorithm Visualizer"
         >
           <Logo height={32} />
-          <span 
-            className="badge badge-primary" 
-            style={{ 
-              fontSize: '10px', 
-              padding: '2px 7px',
-              fontWeight: 'var(--font-bold)',
-              letterSpacing: '0.04em',
-              lineHeight: 1
-            }}
-          >
-            v2.0
-          </span>
+    
         </Link>
 
         {/* Navigation Tabs with Real Routes */}

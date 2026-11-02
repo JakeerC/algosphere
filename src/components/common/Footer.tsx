@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
               <Logo height={28} />
-              <span className="badge badge-primary" style={{ fontSize: '10px', padding: '2px 6px', fontWeight: 'bold' }}>v2.0</span>
+             
             </div>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
               A high-performance, aesthetically crafted interactive algorithm visualization platform. Reimagining VisuAlgo with modern developer ergonomics.
