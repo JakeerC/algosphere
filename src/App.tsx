@@ -22,11 +22,22 @@ const ScrollToTop: React.FC = () => {
 
 export const App: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [theme, setTheme] = useState<ThemeMode>('dark');
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('algosphere-theme') as ThemeMode;
+    const validThemes: ThemeMode[] = [
+      'dark', 'cyberpunk', 'emerald', 'sunset', 'light',
+      'catppuccin-mocha', 'catppuccin-macchiato', 'catppuccin-frappe', 'catppuccin-latte'
+    ];
+    if (saved && validThemes.includes(saved)) {
+      return saved;
+    }
+    return 'dark';
+  });
 
-  // Sync theme with document root
+  // Sync theme with document root & localStorage
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('algosphere-theme', theme);
   }, [theme]);
 
   return (

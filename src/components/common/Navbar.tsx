@@ -12,7 +12,23 @@ import {
 } from 'lucide-react';
 import { Logo } from './Logo';
 
-export type ThemeMode = 'dark' | 'cyberpunk' | 'emerald' | 'sunset' | 'light';
+export type ThemeMode = 
+  | 'dark' 
+  | 'cyberpunk' 
+  | 'emerald' 
+  | 'sunset' 
+  | 'light'
+  | 'catppuccin-mocha'
+  | 'catppuccin-macchiato'
+  | 'catppuccin-frappe'
+  | 'catppuccin-latte';
+
+interface ThemeOption {
+  id: ThemeMode;
+  label: string;
+  dotColor: string;
+  group: 'Core' | 'Catppuccin';
+}
 
 interface NavbarProps {
   onOpenCommandPalette: () => void;
@@ -29,12 +45,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const themeMenuRef = useRef<HTMLDivElement>(null);
 
-  const themeOptions: { id: ThemeMode; label: string; dotColor: string }[] = [
-    { id: 'dark', label: 'Midnight Indigo', dotColor: 'hsl(221, 83%, 53%)' },
-    { id: 'cyberpunk', label: 'Cyberpunk Neon', dotColor: 'hsl(315, 95%, 60%)' },
-    { id: 'emerald', label: 'Emerald Matrix', dotColor: 'hsl(158, 64%, 48%)' },
-    { id: 'sunset', label: 'Sunset Solar', dotColor: 'hsl(24, 95%, 53%)' },
-    { id: 'light', label: 'Daylight Clean', dotColor: 'hsl(215, 20%, 75%)' }
+  const themeOptions: ThemeOption[] = [
+    { id: 'dark', label: 'Midnight Indigo', dotColor: 'hsl(221, 83%, 53%)', group: 'Core' },
+    { id: 'cyberpunk', label: 'Cyberpunk Neon', dotColor: 'hsl(315, 95%, 60%)', group: 'Core' },
+    { id: 'emerald', label: 'Emerald Matrix', dotColor: 'hsl(158, 64%, 48%)', group: 'Core' },
+    { id: 'sunset', label: 'Sunset Solar', dotColor: 'hsl(24, 95%, 53%)', group: 'Core' },
+    { id: 'light', label: 'Daylight Clean', dotColor: 'hsl(215, 20%, 75%)', group: 'Core' },
+    { id: 'catppuccin-mocha', label: 'Catppuccin Mocha', dotColor: '#cba6f7', group: 'Catppuccin' },
+    { id: 'catppuccin-macchiato', label: 'Catppuccin Macchiato', dotColor: '#8aadf4', group: 'Catppuccin' },
+    { id: 'catppuccin-frappe', label: 'Catppuccin Frappé', dotColor: '#ca9ee6', group: 'Catppuccin' },
+    { id: 'catppuccin-latte', label: 'Catppuccin Latte', dotColor: '#8839ef', group: 'Catppuccin' }
   ];
 
   useEffect(() => {
@@ -229,7 +249,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 position: 'absolute',
                 top: 'calc(100% + 8px)',
                 right: 0,
-                width: '190px',
+                width: '210px',
                 backgroundColor: 'var(--surface-raised)',
                 border: 'var(--border-1) solid var(--border-default)',
                 borderRadius: 'var(--radius-lg)',
@@ -238,19 +258,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                 zIndex: 110,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '2px'
+                gap: '2px',
+                maxHeight: 'calc(100vh - 80px)',
+                overflowY: 'auto'
               }}>
+                {/* Core Themes Group */}
                 <div style={{
-                  padding: '4px 8px',
-                  fontSize: '11px',
-                  fontWeight: 'var(--weight-heavy)',
+                  padding: '4px 8px 2px 8px',
+                  fontSize: '10px',
+                  fontWeight: 'var(--font-bold)',
                   color: 'var(--text-tertiary)',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
+                  letterSpacing: '0.06em'
                 }}>
-                  Color Theme
+                  Core Themes
                 </div>
-                {themeOptions.map(opt => (
+                {themeOptions.filter(o => o.group === 'Core').map(opt => (
                   <button
                     key={opt.id}
                     onClick={() => {
@@ -264,9 +287,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                       padding: '6px 10px',
                       borderRadius: 'var(--radius-md)',
                       backgroundColor: theme === opt.id ? 'var(--primary-surface)' : 'transparent',
-                      color: theme === opt.id ? 'var(--primary-400)' : 'var(--text-primary)',
+                      color: theme === opt.id ? 'var(--primary-500)' : 'var(--text-primary)',
                       fontSize: 'var(--text-xs)',
-                      fontWeight: theme === opt.id ? 'var(--weight-heavy)' : 'var(--weight-normal)',
+                      fontWeight: theme === opt.id ? 'var(--font-bold)' : 'var(--font-normal)',
                       textAlign: 'left',
                       cursor: 'pointer'
                     }}
@@ -277,6 +300,63 @@ export const Navbar: React.FC<NavbarProps> = ({
                         height: '10px',
                         borderRadius: 'var(--radius-full)',
                         backgroundColor: opt.dotColor
+                      }} />
+                      <span>{opt.label}</span>
+                    </div>
+                    {theme === opt.id && <Check size={14} color="var(--primary-500)" />}
+                  </button>
+                ))}
+
+                {/* Divider */}
+                <div style={{
+                  height: '1px',
+                  backgroundColor: 'var(--border-subtle)',
+                  margin: '4px 4px'
+                }} />
+
+                {/* Catppuccin Collection Group */}
+                <div style={{
+                  padding: '4px 8px 2px 8px',
+                  fontSize: '10px',
+                  fontWeight: 'var(--font-bold)',
+                  color: 'var(--text-tertiary)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <span>Catppuccin Flavors</span>
+                  <span style={{ fontSize: '9px', opacity: 0.8 }}>☕</span>
+                </div>
+                {themeOptions.filter(o => o.group === 'Catppuccin').map(opt => (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      onSelectTheme(opt.id);
+                      setIsThemeMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '6px 10px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: theme === opt.id ? 'var(--primary-surface)' : 'transparent',
+                      color: theme === opt.id ? 'var(--primary-500)' : 'var(--text-primary)',
+                      fontSize: 'var(--text-xs)',
+                      fontWeight: theme === opt.id ? 'var(--font-bold)' : 'var(--font-normal)',
+                      textAlign: 'left',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: 'var(--radius-full)',
+                        backgroundColor: opt.dotColor,
+                        boxShadow: `0 0 6px ${opt.dotColor}`
                       }} />
                       <span>{opt.label}</span>
                     </div>
