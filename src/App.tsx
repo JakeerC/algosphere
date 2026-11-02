@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { Navbar, ThemeMode } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { CommandPalette } from './components/common/CommandPalette';
@@ -114,6 +115,9 @@ export const App: React.FC = () => {
 
       {/* Vercel Speed Insights */}
       <SpeedInsights />
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </div>
   );
 };
