@@ -230,57 +230,57 @@
 }
 
 /* ==========================================================================
-   Default Theme: Catppuccin Macchiato (Cozy Medium-Dark & Sapphire Blue)
+   Default Theme: Catppuccin Mocha (Flagship Soothing Dark Espresso & Mauve)
    ========================================================================== */
 :root,
-:root[data-theme="catppuccin-macchiato"] {
-  --surface-canvas: hsl(234, 23%, 19%);  /* #24273a Base */
-  --surface-subtle: hsl(235, 23%, 15%);  /* #1e2030 Mantle */
-  --surface-card: hsl(230, 19%, 26%);    /* #363a4f Surface 0 */
-  --surface-raised: hsl(231, 16%, 34%);  /* #494d64 Surface 1 */
-  --surface-hover: hsl(230, 14%, 42%);   /* #5b6078 Surface 2 */
-  --surface-active: hsl(231, 12%, 49%);  /* #6e738d Overlay 0 */
+:root[data-theme="catppuccin-mocha"] {
+  --surface-canvas: hsl(240, 21%, 15%);  /* #1e1e2e Base */
+  --surface-subtle: hsl(240, 21%, 12%);  /* #181825 Mantle */
+  --surface-card: hsl(237, 16%, 23%);    /* #313244 Surface 0 */
+  --surface-raised: hsl(235, 13%, 31%);  /* #45475a Surface 1 */
+  --surface-hover: hsl(235, 12%, 39%);   /* #585b70 Surface 2 */
+  --surface-active: hsl(233, 11%, 48%);  /* #6c7086 Overlay 0 */
 
-  --border-subtle: hsl(234, 20%, 23%);
-  --border-default: hsl(231, 16%, 32%);
-  --border-strong: hsl(230, 14%, 44%);
-  --border-highlight: hsla(220, 83%, 75%, 0.16);
+  --border-subtle: hsl(237, 16%, 20%);
+  --border-default: hsl(235, 13%, 28%);
+  --border-strong: hsl(235, 12%, 40%);
+  --border-highlight: hsla(267, 84%, 81%, 0.16);
 
-  --text-primary: hsl(228, 64%, 88%);    /* #cad3f5 Text */
-  --text-secondary: hsl(228, 26%, 72%);  /* #a5adcb Subtext 0 */
-  --text-tertiary: hsl(228, 15%, 58%);   /* #8087a2 Overlay 1 */
-  --text-disabled: hsl(230, 14%, 44%);
+  --text-primary: hsl(226, 64%, 88%);    /* #cdd6f4 Text */
+  --text-secondary: hsl(228, 24%, 72%);  /* #a6adc8 Subtext 0 */
+  --text-tertiary: hsl(231, 13%, 58%);   /* #7f849c Overlay 1 */
+  --text-disabled: hsl(235, 12%, 40%);
 
-  --primary-500: hsl(220, 83%, 75%);     /* #8aadf4 Blue */
-  --primary-600: hsl(220, 75%, 65%);
-  --primary-surface: hsla(220, 83%, 75%, 0.18);
-  --primary-border: hsla(220, 83%, 75%, 0.48);
+  --primary-500: hsl(267, 84%, 81%);     /* #cba6f7 Mauve */
+  --primary-600: hsl(267, 75%, 72%);
+  --primary-surface: hsla(267, 84%, 81%, 0.18);
+  --primary-border: hsla(267, 84%, 81%, 0.48);
 
-  --state-inspect: hsl(40, 71%, 78%);    /* #eed49f Yellow */
-  --state-inspect-bg: hsla(40, 71%, 78%, 0.20);
-  --state-inspect-border: hsla(40, 71%, 78%, 0.55);
+  --state-inspect: hsl(41, 86%, 83%);    /* #f9e2af Yellow */
+  --state-inspect-bg: hsla(41, 86%, 83%, 0.20);
+  --state-inspect-border: hsla(41, 86%, 83%, 0.55);
 
-  --state-swap: hsl(21, 86%, 73%);       /* #f5a97f Peach */
-  --state-swap-bg: hsla(21, 86%, 73%, 0.22);
-  --state-swap-border: hsla(21, 86%, 73%, 0.58);
+  --state-swap: hsl(23, 92%, 75%);       /* #fab387 Peach */
+  --state-swap-bg: hsla(23, 92%, 75%, 0.22);
+  --state-swap-border: hsla(23, 92%, 75%, 0.58);
 
-  --state-sorted: hsl(105, 48%, 72%);    /* #a6da95 Green */
-  --state-sorted-bg: hsla(105, 48%, 72%, 0.20);
-  --state-sorted-border: hsla(105, 48%, 72%, 0.55);
+  --state-sorted: hsl(115, 54%, 76%);    /* #a6e3a1 Green */
+  --state-sorted-bg: hsla(115, 54%, 76%, 0.20);
+  --state-sorted-border: hsla(115, 54%, 76%, 0.55);
 
-  --state-pivot: hsl(351, 74%, 73%);     /* #ed8796 Red */
-  --state-pivot-bg: hsla(351, 74%, 73%, 0.22);
-  --state-pivot-border: hsla(351, 74%, 73%, 0.58);
+  --state-pivot: hsl(343, 81%, 75%);     /* #f38ba8 Red */
+  --state-pivot-bg: hsla(343, 81%, 75%, 0.22);
+  --state-pivot-border: hsla(343, 81%, 75%, 0.58);
 
-  --state-visited: hsl(199, 66%, 69%);   /* #7dc4e4 Sapphire */
-  --state-visited-bg: hsla(199, 66%, 69%, 0.20);
-  --state-visited-border: hsla(199, 66%, 69%, 0.55);
+  --state-visited: hsl(199, 76%, 69%);   /* #74c7ec Sapphire */
+  --state-visited-bg: hsla(199, 76%, 69%, 0.20);
+  --state-visited-border: hsla(199, 76%, 69%, 0.55);
 
-  --code-bg: hsl(236, 23%, 12%);          /* #181926 Crust */
-  --code-line-active: hsla(220, 83%, 75%, 0.24);
-  --code-line-border: hsl(220, 83%, 75%);
+  --code-bg: hsl(240, 23%, 9%);          /* #11111b Crust */
+  --code-line-active: hsla(267, 84%, 81%, 0.24);
+  --code-line-border: hsl(267, 84%, 81%);
 
-  --logo-text-color: hsl(220, 83%, 75%); /* #8aadf4 Blue */
+  --logo-text-color: hsl(267, 84%, 81%); /* #cba6f7 Mauve */
 }
 
 /* ==========================================================================
@@ -546,56 +546,56 @@
 }
 
 /* ==========================================================================
-   Theme 6: Catppuccin Mocha (Flagship Soothing Dark Espresso & Mauve)
+   Theme 7: Catppuccin Macchiato (Cozy Medium-Dark & Sapphire Blue)
    ========================================================================== */
-:root[data-theme="catppuccin-mocha"] {
-  --surface-canvas: hsl(240, 21%, 15%);  /* #1e1e2e Base */
-  --surface-subtle: hsl(240, 21%, 12%);  /* #181825 Mantle */
-  --surface-card: hsl(237, 16%, 23%);    /* #313244 Surface 0 */
-  --surface-raised: hsl(235, 13%, 31%);  /* #45475a Surface 1 */
-  --surface-hover: hsl(235, 12%, 39%);   /* #585b70 Surface 2 */
-  --surface-active: hsl(233, 11%, 48%);  /* #6c7086 Overlay 0 */
+:root[data-theme="catppuccin-macchiato"] {
+  --surface-canvas: hsl(234, 23%, 19%);  /* #24273a Base */
+  --surface-subtle: hsl(235, 23%, 15%);  /* #1e2030 Mantle */
+  --surface-card: hsl(230, 19%, 26%);    /* #363a4f Surface 0 */
+  --surface-raised: hsl(231, 16%, 34%);  /* #494d64 Surface 1 */
+  --surface-hover: hsl(230, 14%, 42%);   /* #5b6078 Surface 2 */
+  --surface-active: hsl(231, 12%, 49%);  /* #6e738d Overlay 0 */
 
-  --border-subtle: hsl(237, 16%, 20%);
-  --border-default: hsl(235, 13%, 28%);
-  --border-strong: hsl(235, 12%, 40%);
-  --border-highlight: hsla(267, 84%, 81%, 0.16);
+  --border-subtle: hsl(234, 20%, 23%);
+  --border-default: hsl(231, 16%, 32%);
+  --border-strong: hsl(230, 14%, 44%);
+  --border-highlight: hsla(220, 83%, 75%, 0.16);
 
-  --text-primary: hsl(226, 64%, 88%);    /* #cdd6f4 Text */
-  --text-secondary: hsl(228, 24%, 72%);  /* #a6adc8 Subtext 0 */
-  --text-tertiary: hsl(231, 13%, 58%);   /* #7f849c Overlay 1 */
-  --text-disabled: hsl(235, 12%, 40%);
+  --text-primary: hsl(228, 64%, 88%);    /* #cad3f5 Text */
+  --text-secondary: hsl(228, 26%, 72%);  /* #a5adcb Subtext 0 */
+  --text-tertiary: hsl(228, 15%, 58%);   /* #8087a2 Overlay 1 */
+  --text-disabled: hsl(230, 14%, 44%);
 
-  --primary-500: hsl(267, 84%, 81%);     /* #cba6f7 Mauve */
-  --primary-600: hsl(267, 75%, 72%);
-  --primary-surface: hsla(267, 84%, 81%, 0.18);
-  --primary-border: hsla(267, 84%, 81%, 0.48);
+  --primary-500: hsl(220, 83%, 75%);     /* #8aadf4 Blue */
+  --primary-600: hsl(220, 75%, 65%);
+  --primary-surface: hsla(220, 83%, 75%, 0.18);
+  --primary-border: hsla(220, 83%, 75%, 0.48);
 
-  --state-inspect: hsl(41, 86%, 83%);    /* #f9e2af Yellow */
-  --state-inspect-bg: hsla(41, 86%, 83%, 0.20);
-  --state-inspect-border: hsla(41, 86%, 83%, 0.55);
+  --state-inspect: hsl(40, 71%, 78%);    /* #eed49f Yellow */
+  --state-inspect-bg: hsla(40, 71%, 78%, 0.20);
+  --state-inspect-border: hsla(40, 71%, 78%, 0.55);
 
-  --state-swap: hsl(23, 92%, 75%);       /* #fab387 Peach */
-  --state-swap-bg: hsla(23, 92%, 75%, 0.22);
-  --state-swap-border: hsla(23, 92%, 75%, 0.58);
+  --state-swap: hsl(21, 86%, 73%);       /* #f5a97f Peach */
+  --state-swap-bg: hsla(21, 86%, 73%, 0.22);
+  --state-swap-border: hsla(21, 86%, 73%, 0.58);
 
-  --state-sorted: hsl(115, 54%, 76%);    /* #a6e3a1 Green */
-  --state-sorted-bg: hsla(115, 54%, 76%, 0.20);
-  --state-sorted-border: hsla(115, 54%, 76%, 0.55);
+  --state-sorted: hsl(105, 48%, 72%);    /* #a6da95 Green */
+  --state-sorted-bg: hsla(105, 48%, 72%, 0.20);
+  --state-sorted-border: hsla(105, 48%, 72%, 0.55);
 
-  --state-pivot: hsl(343, 81%, 75%);     /* #f38ba8 Red */
-  --state-pivot-bg: hsla(343, 81%, 75%, 0.22);
-  --state-pivot-border: hsla(343, 81%, 75%, 0.58);
+  --state-pivot: hsl(351, 74%, 73%);     /* #ed8796 Red */
+  --state-pivot-bg: hsla(351, 74%, 73%, 0.22);
+  --state-pivot-border: hsla(351, 74%, 73%, 0.58);
 
-  --state-visited: hsl(199, 76%, 69%);   /* #74c7ec Sapphire */
-  --state-visited-bg: hsla(199, 76%, 69%, 0.20);
-  --state-visited-border: hsla(199, 76%, 69%, 0.55);
+  --state-visited: hsl(199, 66%, 69%);   /* #7dc4e4 Sapphire */
+  --state-visited-bg: hsla(199, 66%, 69%, 0.20);
+  --state-visited-border: hsla(199, 66%, 69%, 0.55);
 
-  --code-bg: hsl(240, 23%, 9%);          /* #11111b Crust */
-  --code-line-active: hsla(267, 84%, 81%, 0.24);
-  --code-line-border: hsl(267, 84%, 81%);
+  --code-bg: hsl(236, 23%, 12%);          /* #181926 Crust */
+  --code-line-active: hsla(220, 83%, 75%, 0.24);
+  --code-line-border: hsl(220, 83%, 75%);
 
-  --logo-text-color: hsl(267, 84%, 81%); /* #cba6f7 Mauve */
+  --logo-text-color: hsl(220, 83%, 75%); /* #8aadf4 Blue */
 }
 
 /* ==========================================================================
