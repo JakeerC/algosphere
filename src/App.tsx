@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Navbar, ThemeMode } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { CommandPalette } from './components/common/CommandPalette';
@@ -110,6 +111,9 @@ export const App: React.FC = () => {
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
       />
+
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   );
 };
