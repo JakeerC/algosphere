@@ -24,19 +24,25 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
+      inputRef.current?.focus();
+      const timer = setTimeout(() => inputRef.current?.focus(), 40);
       setQuery('');
       setSelectedIndex(0);
+      document.body.style.overflow = 'hidden';
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = '';
+      };
     }
   }, [isOpen]);
 
-  // Keyboard shortcut listener
+  // Keyboard shortcut listener for Escape to close
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      if (e.key === 'Escape') {
         e.preventDefault();
-        if (isOpen) onClose();
-      } else if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
