@@ -14,36 +14,36 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
   const [colorMode, setColorMode] = useState<'rainbow' | 'semantic' | 'neon'>('rainbow');
   const effectiveMax = Math.max(...bars.map(b => b.value), maxValue);
 
-  const getBarGradient = (bar: ArrayBar) => {
+  const getBarColor = (bar: ArrayBar) => {
     // If state is not default, semantic color takes priority
     if (bar.state === 'inspect') {
-      return 'linear-gradient(180deg, var(--state-inspect) 0%, hsl(38, 92%, 42%) 100%)';
+      return 'var(--state-inspect)';
     }
     if (bar.state === 'swap') {
-      return 'linear-gradient(180deg, var(--state-swap) 0%, hsl(271, 85%, 52%) 100%)';
+      return 'var(--state-swap)';
     }
     if (bar.state === 'pivot') {
-      return 'linear-gradient(180deg, var(--state-pivot) 0%, hsl(346, 80%, 48%) 100%)';
+      return 'var(--state-pivot)';
     }
     if (bar.state === 'sorted') {
-      return 'linear-gradient(180deg, var(--state-sorted) 0%, hsl(160, 80%, 35%) 100%)';
+      return 'var(--state-sorted)';
     }
 
-    // In default state, apply chosen color mode
+    // In default state, apply chosen color mode (solid colors, no gradients)
     if (colorMode === 'rainbow') {
-      // Continuous soft pastel spectrum from hue 195° through 275° to 335°
+      // Continuous spectrum from hue 195° through 275° to 335°
       const ratio = bar.value / effectiveMax;
       const hue = Math.round(195 + ratio * 140);
-      return `linear-gradient(180deg, hsl(${hue}, 85%, 62%) 0%, hsl(${hue}, 80%, 48%) 100%)`;
+      return `hsl(${hue}, 80%, 56%)`;
     }
 
     if (colorMode === 'neon') {
       const ratio = bar.value / effectiveMax;
       const hue = Math.round(145 + ratio * 175);
-      return `linear-gradient(180deg, hsl(${hue}, 95%, 56%) 0%, hsl(${hue}, 90%, 42%) 100%)`;
+      return `hsl(${hue}, 92%, 52%)`;
     }
 
-    return 'linear-gradient(180deg, var(--primary-400) 0%, var(--primary-600) 100%)';
+    return 'var(--primary-500)';
   };
 
   const getBarGlow = (bar: ArrayBar) => {
@@ -195,7 +195,7 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
 
         {bars.map((bar, idx) => {
           const heightPercent = Math.max(12, (bar.value / effectiveMax) * 85);
-          const bg = getBarGradient(bar);
+          const color = getBarColor(bar);
           const glow = getBarGlow(bar);
           const isSpecial = bar.state !== 'default';
 
@@ -239,7 +239,7 @@ export const SortingCanvas: React.FC<SortingCanvasProps> = ({
                 style={{
                   width: '100%',
                   height: '100%',
-                  background: bg,
+                  backgroundColor: color,
                   borderRadius: '12px 12px 4px 4px',
                   boxShadow: glow,
                   transition: 'all var(--transition-fast)'
