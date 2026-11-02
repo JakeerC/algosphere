@@ -432,7 +432,7 @@ export const VisualizerPage: React.FC = () => {
             position: 'relative'
           }}>
             {currentModule.id === 'sorting' && (
-              <SortingCanvas bars={currentStep.state} />
+              <SortingCanvas bars={currentStep.state} height="380px" showControls={true} showLegend={true} />
             )}
             {currentModule.id === 'bst-avl' && (
               <TreeCanvas tree={currentStep.state} />
