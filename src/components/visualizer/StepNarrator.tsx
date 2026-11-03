@@ -6,13 +6,14 @@ import {
   RefreshCw, 
   GitBranch, 
   Terminal,
-  Sparkles
+  Sparkles,
+  Eye
 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 
 interface StepNarratorProps {
   description: string;
-  actionType: 'compare' | 'swap' | 'overwrite' | 'pivot' | 'visit' | 'complete' | 'traverse' | 'insert' | 'rotate';
+  actionType: 'compare' | 'swap' | 'overwrite' | 'pivot' | 'visit' | 'complete' | 'traverse' | 'insert' | 'rotate' | 'inspect';
   stepIndex: number;
 }
 
@@ -23,6 +24,8 @@ export const StepNarrator: React.FC<StepNarratorProps> = ({
 }) => {
   const getActionBadge = () => {
     switch (actionType) {
+      case 'inspect':
+        return <Badge variant="warning" icon={<Eye size={12} />}>Inspecting</Badge>;
       case 'compare':
         return <Badge variant="warning" icon={<ArrowLeftRight size={12} />}>Comparing</Badge>;
       case 'swap':

@@ -8,7 +8,9 @@ import {
   Activity, 
   GraduationCap, 
   Palette, 
-  Check 
+  Check,
+  Menu,
+  X
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -43,7 +45,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const location = useLocation();
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const themeMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const themeOptions: ThemeOption[] = [
     { id: 'dark', label: 'Midnight Indigo', dotColor: 'hsl(221, 83%, 53%)', group: 'Core' },
@@ -379,13 +386,133 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             )}
           </div>
+
+          {/* Mobile Hamburger Toggle Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            className="btn btn-secondary btn-sm mobile-nav-toggle"
+            style={{
+              padding: '7px 10px',
+              borderRadius: 'var(--radius-full)'
+            }}
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
         </div>
       </div>
 
+      {/* Mobile Drawer Menu */}
+      {isMobileMenuOpen && (
+        <div style={{
+          backgroundColor: 'var(--surface-raised)',
+          borderBottom: '1px solid var(--border-default)',
+          padding: 'var(--space-3) var(--space-4)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-1)',
+          boxShadow: 'var(--shadow-lg)'
+        }} className="mobile-drawer">
+          <Link
+            to="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isHome ? 'var(--primary-surface)' : 'transparent',
+              color: isHome ? 'var(--primary-400)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isHome ? 'bold' : 'normal'
+            }}
+          >
+            <Layers size={16} />
+            <span>Modules Catalog</span>
+          </Link>
+
+          <Link
+            to="/visualizer/sorting"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isVisualizer ? 'var(--primary-surface)' : 'transparent',
+              color: isVisualizer ? 'var(--primary-400)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isVisualizer ? 'bold' : 'normal'
+            }}
+          >
+            <Sparkles size={16} />
+            <span>Tri-Engine Visualizer</span>
+          </Link>
+
+          <Link
+            to="/compare"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isCompare ? 'var(--primary-surface)' : 'transparent',
+              color: isCompare ? 'var(--primary-400)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isCompare ? 'bold' : 'normal'
+            }}
+          >
+            <Activity size={16} />
+            <span>Algorithm Race Arena</span>
+          </Link>
+
+          <Link
+            to="/quiz"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isQuiz ? 'var(--primary-surface)' : 'transparent',
+              color: isQuiz ? 'var(--primary-400)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isQuiz ? 'bold' : 'normal'
+            }}
+          >
+            <Trophy size={16} />
+            <span>Interactive Quiz</span>
+          </Link>
+
+          <Link
+            to="/tracks"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isTracks ? 'var(--primary-surface)' : 'transparent',
+              color: isTracks ? 'var(--primary-400)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isTracks ? 'bold' : 'normal'
+            }}
+          >
+            <GraduationCap size={16} />
+            <span>Curated Pathways</span>
+          </Link>
+        </div>
+      )}
+
       <style>{`
+        .mobile-nav-toggle {
+          display: inline-flex !important;
+        }
         @media (min-width: 820px) {
           .desktop-nav {
             display: flex !important;
+          }
+          .mobile-nav-toggle {
+            display: none !important;
+          }
+          .mobile-drawer {
+            display: none !important;
           }
           .search-text {
             display: inline !important;

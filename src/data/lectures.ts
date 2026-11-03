@@ -199,5 +199,170 @@ Node* rotateLeft(Node* X) {
         'Transition Function: The recurrence relationship connecting states.'
       ]
     }
+  ],
+
+  'binary-heap': [
+    {
+      title: '1. The Complete Binary Heap',
+      subtitle: 'Tree Abstraction Mapped onto Contiguous Memory',
+      content: [
+        'A Binary Heap is a complete binary tree where every level except possibly the last is completely filled, and all leaf nodes are as far left as possible.',
+        'Because of this structural completeness, a Binary Heap can be represented in a compact 1D array without storing any explicit left/right child pointers!',
+        'For node at index i: Left child is at 2*i + 1, Right child is at 2*i + 2, and Parent is at floor((i - 1) / 2).'
+      ],
+      callout: {
+        type: 'important',
+        text: 'Max-Heap Property: For every node i other than the root, A[parent(i)] >= A[i]. The maximum element is always at the root index 0.'
+      },
+      keyInvariants: [
+        'Compact Array Representation: No pointer memory overhead',
+        'Height is strictly bounded by floor(log2(N))',
+        'Heapify runs in O(log N) time'
+      ],
+      codeSnippet: `// Array Indexing Formulas
+int left(int i)   { return 2 * i + 1; }
+int right(int i)  { return 2 * i + 2; }
+int parent(int i) { return (i - 1) / 2; }`
+    },
+    {
+      title: '2. Priority Queue Operations & Heapify',
+      subtitle: 'Extract Max, Insert, and Sift Operations',
+      content: [
+        'Extract Max: Swap root A[0] with the last leaf A[heapSize - 1], decrement heapSize by 1, and sift down the new root using maxHeapify in O(log N).',
+        'Insert: Place the new key at the next available leaf slot A[heapSize], increment heapSize, and sift up by swapping with its parent while the heap property is violated.',
+        'Build Heap: Applying sift-down from floor(N/2)-1 down to 0 constructs a valid heap in linear O(N) time (sum of heights bounded by N).'
+      ],
+      callout: {
+        type: 'tip',
+        text: 'Building a heap from an unordered array using bottom-up sift-down takes only O(N) time, not O(N log N)!'
+      },
+      keyInvariants: [
+        'Find Max: O(1)',
+        'Extract Max: O(log N)',
+        'Insert: O(log N)',
+        'Build Max Heap: O(N)'
+      ]
+    }
+  ],
+
+  'hash-table': [
+    {
+      title: '1. Hash Tables & Direct Addressing',
+      subtitle: 'Achieving Expected O(1) Dictionary Lookup',
+      content: [
+        'A Hash Table maps arbitrary keys to bucket indices in an array of size M using a mathematical hash function h(key).',
+        'Direct addressing allows O(1) constant-time insertions, deletions, and lookups when the hash function distributes keys uniformly.',
+        'Load Factor alpha = N / M represents the average number of items per bucket slot. Maintaining alpha <= 0.75 via dynamic resizing is crucial for O(1) performance.'
+      ],
+      callout: {
+        type: 'important',
+        text: 'The Pigeonhole Principle guarantees that collisions (distinct keys k1 != k2 with h(k1) == h(k2)) are inevitable whenever N > M.'
+      },
+      keyInvariants: [
+        'Deterministic: Given identical keys, hash function must always produce identical indices.',
+        'Uniform Distribution: Minimizes clustering and bucket variance.',
+        'Load factor alpha = N / M controls time-space trade-off.'
+      ]
+    },
+    {
+      title: '2. Collision Resolution Paradigms',
+      subtitle: 'Separate Chaining vs Open Addressing',
+      content: [
+        'Separate Chaining: Each bucket holds an independent linked list. When collisions occur, the new element is inserted into the chain. Gracefully handles load factors alpha > 1.',
+        'Open Addressing (Linear Probing): All elements reside directly in the table. On collision at index i, probe subsequent slots (i + 1) mod M until an empty bucket is encountered.',
+        'Clustering Effect: Linear probing suffers from primary clustering where long occupied runs form, degrading probe efficiency toward O(N) in worst cases.'
+      ],
+      callout: {
+        type: 'tip',
+        text: 'Java HashMap uses Separate Chaining, automatically converting linked lists into Red-Black Trees when bucket depth exceeds 8 elements (O(log N) worst-case defense).'
+      },
+      keyInvariants: [
+        'Separate Chaining: Expected search time O(1 + alpha)',
+        'Linear Probing: Probe formula index = (h(key) + i) mod M',
+        'Dynamic Resizing: Rehash all keys to double capacity when alpha exceeds threshold'
+      ]
+    }
+  ],
+
+  'mst': [
+    {
+      title: '1. Minimum Spanning Trees (MST)',
+      subtitle: 'Connecting Graphs with Minimal Total Cost',
+      content: [
+        'Given a connected, undirected, weighted graph G = (V, E), a Minimum Spanning Tree is an acyclic subgraph spanning all vertices V with exactly |V| - 1 edges having the minimal possible sum of weights.',
+        'Cut Property: For any partition of vertices into subsets S and V - S, the minimum-weight crossing edge across the cut belongs to the Minimum Spanning Tree.',
+        'Cycle Property: For any cycle in the graph, the edge with strictly maximal weight does not belong to any MST.'
+      ],
+      callout: {
+        type: 'important',
+        text: 'Spanning tree invariant: A spanning tree on V vertices always contains exactly |V| - 1 edges and is connected with zero cycles.'
+      },
+      keyInvariants: [
+        'Vertices in MST: exactly |V|',
+        'Edges in MST: exactly |V| - 1',
+        'Cut Property establishes greedy optimality'
+      ]
+    },
+    {
+      title: '2. Kruskal vs Prim: Two Greedy Philosophies',
+      subtitle: 'Edge-Centric vs Vertex-Centric Exploration',
+      content: [
+        'Kruskal Algorithm: Sort all edges in non-decreasing weight order. Iterate through edges, adding edge (u, v) if endpoints belong to different disjoint sets using UFDS. Time: O(E log V).',
+        'Prim Algorithm: Grow a single connected tree from an arbitrary root vertex. In each step, greedily choose the minimum weight edge crossing the cut between the tree and the remaining vertices. Time: O((V + E) log V) with Priority Queue.',
+        'Kruskal is naturally suited for sparse graphs (E ~ V); Prim is optimal for dense graphs (E ~ V^2).'
+      ],
+      callout: {
+        type: 'tip',
+        text: 'Kruskal and Prim both yield an identical minimum total weight, even if multiple distinct valid MSTs exist due to duplicate edge weights.'
+      },
+      keyInvariants: [
+        'Kruskal: Edge-centric with Union-Find Disjoint Set',
+        'Prim: Vertex-centric with Priority Queue',
+        'Both run in O(E log V) optimal comparison time'
+      ]
+    }
+  ],
+
+  'union-find': [
+    {
+      title: '1. Disjoint Set Union (UFDS)',
+      subtitle: 'Partitioning Sets with Near-Constant Amortized Cost',
+      content: [
+        'The Union-Find Disjoint Set maintains a collection of disjoint dynamic subsets S = {S1, S2, ..., Sk}.',
+        'Two core operations: 1) find(i): returns the representative root leader of the set containing element i, and 2) union(i, j): merges the set containing i with the set containing j.',
+        'Represented as an inverted forest where each node points to its parent, with the set leader pointing to itself (parent[root] == root).'
+      ],
+      callout: {
+        type: 'important',
+        text: 'Naive tree representation can degenerate into a linear chain of depth O(N). Two simple heuristics collapse this to amortized O(alpha(N))!'
+      },
+      keyInvariants: [
+        'Disjoint: No element can belong to multiple sets simultaneously',
+        'Canonical Leader: Every set is uniquely identified by its root node'
+      ]
+    },
+    {
+      title: '2. Two Golden Heuristics',
+      subtitle: 'Union by Rank & Path Compression',
+      content: [
+        'Union by Rank: Always attach the root of the shallower tree beneath the root of the deeper tree (rank approximates tree height). Only increment rank when both trees have equal depth.',
+        'Path Compression: During find(i), flatten the tree by pointing every traversed node directly to the root leader.',
+        'Combined Efficiency: Together, these two heuristics achieve an amortized time complexity of O(alpha(N)) per operation, where alpha is the Inverse Ackermann function—for all practical N (<= 10^80), alpha(N) <= 4!'
+      ],
+      callout: {
+        type: 'tip',
+        text: 'O(alpha(N)) is so exceptionally close to O(1) that Union-Find operations are treated as constant time in competitive programming and system designs.'
+      },
+      keyInvariants: [
+        'Union by Rank prevents tree height from exceeding floor(log2 N)',
+        'Path Compression flattens the search path on every find() call',
+        'Amortized runtime: O(alpha(N)) <= 4 operations for all practical universe sizes'
+      ],
+      codeSnippet: `// Classic UFDS Find with Path Compression
+int find(int i) {
+    if (parent[i] == i) return i;
+    return parent[i] = find(parent[i]); // Flatten!
+}`
+    }
   ]
 };

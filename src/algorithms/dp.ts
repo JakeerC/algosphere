@@ -12,6 +12,13 @@ export const DP_PSEUDOCODE: Record<string, PseudocodeLine[]> = {
     { num: 7, code: '      else:', indent: 3 },
     { num: 8, code: '        dp[i][w] = dp[i-1][w]', indent: 4 },
     { num: 9, code: '  return dp[N][W]', indent: 1 }
+  ],
+  'Fibonacci Memoization': [
+    { num: 1, code: 'function fibonacci(n):', indent: 0 },
+    { num: 2, code: '  dp[0] = 0, dp[1] = 1', indent: 1 },
+    { num: 3, code: '  for i from 2 to n:', indent: 1 },
+    { num: 4, code: '    dp[i] = dp[i - 1] + dp[i - 2]  // Overlapping subproblems', indent: 2 },
+    { num: 5, code: '  return dp[n]', indent: 1 }
   ]
 };
 
@@ -141,3 +148,95 @@ export function generateKnapsackSteps(): VisualStep<DpVisualState>[] {
   steps.forEach(s => s.totalSteps = steps.length);
   return steps;
 }
+
+export function generateFibonacciSteps(n: number = 7): VisualStep<DpVisualState>[] {
+  const steps: VisualStep<DpVisualState>[] = [];
+  const rowLabels = ['Fib Table'];
+  const colLabels = Array.from({ length: n + 1 }, (_, i) => `i=${i}`);
+
+  const table: DpCell[][] = [
+    Array.from({ length: n + 1 }, (_, c) => ({
+      row: 0,
+      col: c,
+      value: 0,
+      state: 'default'
+    }))
+  ];
+
+  function cloneTable(t: DpCell[][]): DpCell[][] {
+    return t.map(row => row.map(cell => ({ ...cell })));
+  }
+
+  table[0][0].value = 0;
+  table[0][0].state = 'sorted';
+  table[0][1].value = 1;
+  table[0][1].state = 'sorted';
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 2,
+    description: `Base cases established: dp[0] = 0 and dp[1] = 1.`,
+    actionType: 'traverse',
+    variables: { 'dp[0]': 0, 'dp[1]': 1, targetN: n },
+    state: {
+      table: cloneTable(table),
+      rowLabels,
+      colLabels,
+      currentRow: 0,
+      currentCol: 1
+    }
+  });
+
+  for (let i = 2; i <= n; i++) {
+    table[0][i - 2].state = 'inspect';
+    table[0][i - 1].state = 'inspect';
+    table[0][i].state = 'active';
+
+    const prev2 = table[0][i - 2].value;
+    const prev1 = table[0][i - 1].value;
+    const fibVal = prev1 + prev2;
+    table[0][i].value = fibVal;
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 4,
+      description: `Computing dp[${i}] = dp[${i - 1}] (${prev1}) + dp[${i - 2}] (${prev2}) = ${fibVal}. Constant O(1) transition without redundant recursion.`,
+      actionType: 'swap',
+      variables: { i, 'dp[i-1]': prev1, 'dp[i-2]': prev2, 'dp[i]': fibVal },
+      state: {
+        table: cloneTable(table),
+        rowLabels,
+        colLabels,
+        currentRow: 0,
+        currentCol: i
+      }
+    });
+
+    table[0][i - 2].state = 'sorted';
+    table[0][i - 1].state = 'sorted';
+    table[0][i].state = 'sorted';
+  }
+
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 5,
+    description: `Fibonacci Dynamic Programming complete! F(${n}) = ${table[0][n].value}. Reduced runtime from exponential O(2^N) to linear O(N)!`,
+    actionType: 'complete',
+    variables: { n, result: table[0][n].value, timeComplexity: 'O(N)' },
+    state: {
+      table: cloneTable(table),
+      rowLabels,
+      colLabels,
+      currentRow: 0,
+      currentCol: n,
+      computedValue: table[0][n].value
+    }
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+

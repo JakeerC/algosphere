@@ -91,3 +91,47 @@ export interface DpVisualState {
   selectedItems?: number[];
   computedValue?: number;
 }
+
+export interface HeapVisualState {
+  array: ArrayBar[];
+  tree: TreeVisualState;
+  heapSize: number;
+  activeIndices?: number[];
+  highlightAction?: string;
+}
+
+export interface HashBucketItem {
+  key: number;
+  label?: string;
+  state: ElementState;
+}
+
+export interface HashBucket {
+  index: number;
+  items: HashBucketItem[];
+  state: ElementState;
+}
+
+export interface HashTableVisualState {
+  buckets: HashBucket[];
+  tableSize: number;
+  probingIndex?: number;
+  lastComputedHash?: number;
+  currentKey?: number;
+  mode: 'probing' | 'chaining';
+  statusMessage?: string;
+}
+
+export interface UfdsElement {
+  id: number;
+  parent: number;
+  rank: number;
+  state: ElementState;
+}
+
+export interface UnionFindVisualState {
+  elements: UfdsElement[];
+  numSets: number;
+  activeElements?: number[];
+  explanation?: string;
+}

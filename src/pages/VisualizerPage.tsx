@@ -21,12 +21,16 @@ import { TreeCanvas } from '../components/visualizer/TreeCanvas';
 import { GraphCanvas } from '../components/visualizer/GraphCanvas';
 import { LinearCanvas } from '../components/visualizer/LinearCanvas';
 import { DpCanvas } from '../components/visualizer/DpCanvas';
+import { HeapCanvas } from '../components/visualizer/HeapCanvas';
+import { HashTableCanvas } from '../components/visualizer/HashTableCanvas';
+import { UnionFindCanvas } from '../components/visualizer/UnionFindCanvas';
 import { 
   generateBubbleSortSteps, 
   generateSelectionSortSteps, 
   generateInsertionSortSteps, 
   generateQuickSortSteps, 
   generateMergeSortSteps, 
+  generateHeapSortSteps,
   SORTING_PSEUDOCODE, 
   SortingVariant 
 } from '../algorithms/sorting';
@@ -38,19 +42,40 @@ import {
 } from '../algorithms/trees';
 import { 
   generateBfsSteps, 
+  generateDfsSteps,
   generateDijkstraSteps, 
+  generateKruskalSteps,
+  generatePrimSteps,
   GRAPH_PSEUDOCODE 
 } from '../algorithms/graphs';
 import { 
   getInitialLinkedList, 
   generateLinkedListInsertHeadSteps, 
   generateStackPushSteps, 
+  generateQueueEnqueueSteps,
   LINEAR_PSEUDOCODE 
 } from '../algorithms/linear';
 import { 
   generateKnapsackSteps, 
+  generateFibonacciSteps,
   DP_PSEUDOCODE 
 } from '../algorithms/dp';
+import {
+  generateMaxHeapifySteps,
+  generateExtractMaxSteps,
+  generateHeapInsertSteps,
+  HEAP_PSEUDOCODE
+} from '../algorithms/heaps';
+import {
+  generateLinearProbingSteps,
+  generateChainingSteps,
+  HASHING_PSEUDOCODE
+} from '../algorithms/hashing';
+import {
+  generateFindWithCompressionSteps,
+  generateUnionByRankSteps,
+  UFDS_PSEUDOCODE
+} from '../algorithms/unionfind';
 
 export const VisualizerPage: React.FC = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -105,6 +130,8 @@ export const VisualizerPage: React.FC = () => {
           return generateQuickSortSteps(dataArray);
         case 'Merge Sort':
           return generateMergeSortSteps(dataArray);
+        case 'Heap Sort':
+          return generateHeapSortSteps(dataArray);
         case 'Bubble Sort':
         default:
           return generateBubbleSortSteps(dataArray);
@@ -116,21 +143,55 @@ export const VisualizerPage: React.FC = () => {
         const tree = generateInitialTree();
         return generateBstInsertSteps(tree, 42);
       }
-    } else if (currentModule.id === 'graph-traversal' || currentModule.id === 'shortest-path' || currentModule.id === 'mst') {
-      if (activeVariant.includes('Dijkstra') || currentModule.id === 'shortest-path') {
-        return generateDijkstraSteps('0');
+    } else if (currentModule.id === 'graph-traversal') {
+      if (activeVariant.includes('DFS')) {
+        return generateDfsSteps('0');
       } else {
         return generateBfsSteps('0');
+      }
+    } else if (currentModule.id === 'shortest-path') {
+      return generateDijkstraSteps('0');
+    } else if (currentModule.id === 'mst') {
+      if (activeVariant.includes('Kruskal')) {
+        return generateKruskalSteps();
+      } else {
+        return generatePrimSteps('0');
       }
     } else if (currentModule.id === 'linear-structures') {
       if (activeVariant.includes('Stack')) {
         return generateStackPushSteps([15, 30, 45], 90);
+      } else if (activeVariant.includes('Queue')) {
+        return generateQueueEnqueueSteps([10, 25, 40, 70], 85);
       } else {
         const list = getInitialLinkedList();
         return generateLinkedListInsertHeadSteps(list, 55);
       }
     } else if (currentModule.id === 'dynamic-programming') {
-      return generateKnapsackSteps();
+      if (activeVariant.includes('Fibonacci')) {
+        return generateFibonacciSteps(7);
+      } else {
+        return generateKnapsackSteps();
+      }
+    } else if (currentModule.id === 'binary-heap') {
+      if (activeVariant.includes('Extract Max')) {
+        return generateExtractMaxSteps();
+      } else if (activeVariant.includes('Insert')) {
+        return generateHeapInsertSteps();
+      } else {
+        return generateMaxHeapifySteps();
+      }
+    } else if (currentModule.id === 'hash-table') {
+      if (activeVariant.includes('Chaining')) {
+        return generateChainingSteps();
+      } else {
+        return generateLinearProbingSteps();
+      }
+    } else if (currentModule.id === 'union-find') {
+      if (activeVariant.includes('Union')) {
+        return generateUnionByRankSteps(3, 5);
+      } else {
+        return generateFindWithCompressionSteps();
+      }
     }
 
     // Default fallback to sorting
@@ -143,12 +204,29 @@ export const VisualizerPage: React.FC = () => {
       return SORTING_PSEUDOCODE[activeVariant as SortingVariant] || SORTING_PSEUDOCODE['Bubble Sort'];
     } else if (currentModule.id === 'bst-avl') {
       return activeVariant.includes('AVL') ? TREE_PSEUDOCODE['AVL Insert'] : TREE_PSEUDOCODE['BST Insert'];
-    } else if (currentModule.id === 'graph-traversal' || currentModule.id === 'shortest-path') {
-      return activeVariant.includes('Dijkstra') ? GRAPH_PSEUDOCODE['Dijkstra'] : GRAPH_PSEUDOCODE['BFS'];
+    } else if (currentModule.id === 'graph-traversal') {
+      return activeVariant.includes('DFS') ? GRAPH_PSEUDOCODE['DFS'] : GRAPH_PSEUDOCODE['BFS'];
+    } else if (currentModule.id === 'shortest-path') {
+      return GRAPH_PSEUDOCODE['Dijkstra'];
+    } else if (currentModule.id === 'mst') {
+      return activeVariant.includes('Kruskal') ? GRAPH_PSEUDOCODE['Kruskal'] : GRAPH_PSEUDOCODE['Prim'];
     } else if (currentModule.id === 'linear-structures') {
-      return activeVariant.includes('Stack') ? LINEAR_PSEUDOCODE['Stack (LIFO)'] : LINEAR_PSEUDOCODE['Singly Linked List'];
+      if (activeVariant.includes('Stack')) return LINEAR_PSEUDOCODE['Stack (LIFO)'];
+      if (activeVariant.includes('Queue')) return LINEAR_PSEUDOCODE['Queue (FIFO)'];
+      return LINEAR_PSEUDOCODE['Singly Linked List'];
     } else if (currentModule.id === 'dynamic-programming') {
+      if (activeVariant.includes('Fibonacci')) return DP_PSEUDOCODE['Fibonacci Memoization'];
       return DP_PSEUDOCODE['0/1 Knapsack'];
+    } else if (currentModule.id === 'binary-heap') {
+      if (activeVariant.includes('Extract Max')) return HEAP_PSEUDOCODE['Extract Max'];
+      if (activeVariant.includes('Insert')) return HEAP_PSEUDOCODE['Insert'];
+      return HEAP_PSEUDOCODE['Max Heapify'];
+    } else if (currentModule.id === 'hash-table') {
+      if (activeVariant.includes('Chaining')) return HASHING_PSEUDOCODE['Chaining'];
+      return HASHING_PSEUDOCODE['Linear Probing'];
+    } else if (currentModule.id === 'union-find') {
+      if (activeVariant.includes('Union')) return UFDS_PSEUDOCODE['Union by Rank'];
+      return UFDS_PSEUDOCODE['Find with Compression'];
     }
     return SORTING_PSEUDOCODE['Bubble Sort'];
   }, [currentModule.id, activeVariant]);
@@ -445,6 +523,15 @@ export const VisualizerPage: React.FC = () => {
             )}
             {currentModule.id === 'dynamic-programming' && (
               <DpCanvas state={currentStep.state} />
+            )}
+            {currentModule.id === 'binary-heap' && (
+              <HeapCanvas state={currentStep.state} />
+            )}
+            {currentModule.id === 'hash-table' && (
+              <HashTableCanvas state={currentStep.state} />
+            )}
+            {currentModule.id === 'union-find' && (
+              <UnionFindCanvas state={currentStep.state} />
             )}
           </div>
 

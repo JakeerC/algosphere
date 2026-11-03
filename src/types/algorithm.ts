@@ -36,7 +36,7 @@ export interface VisualStep<TState = any> {
   totalSteps: number;
   line: number; // 1-based line of pseudocode
   description: string; // High-level natural explanation
-  actionType: 'compare' | 'swap' | 'overwrite' | 'pivot' | 'visit' | 'complete' | 'traverse' | 'insert' | 'rotate';
+  actionType: 'compare' | 'swap' | 'overwrite' | 'pivot' | 'visit' | 'complete' | 'traverse' | 'insert' | 'rotate' | 'inspect';
   variables: Record<string, string | number | boolean | null | undefined | (string | number)[]>;
   state: TState;
 }
