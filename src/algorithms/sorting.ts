@@ -1,7 +1,7 @@
 import { ArrayBar } from '../types/visualizer';
 import { VisualStep, PseudocodeLine } from '../types/algorithm';
 
-export type SortingVariant = 'Bubble Sort' | 'Selection Sort' | 'Insertion Sort' | 'Merge Sort' | 'Quick Sort';
+export type SortingVariant = 'Bubble Sort' | 'Selection Sort' | 'Insertion Sort' | 'Merge Sort' | 'Quick Sort' | 'Heap Sort';
 
 export const SORTING_PSEUDOCODE: Record<SortingVariant, PseudocodeLine[]> = {
   'Bubble Sort': [
@@ -54,6 +54,14 @@ export const SORTING_PSEUDOCODE: Record<SortingVariant, PseudocodeLine[]> = {
     { num: 8, code: '  for j = low to high - 1:', indent: 1 },
     { num: 9, code: '    if A[j] < pivot: i++, swap(A[i], A[j])', indent: 2 },
     { num: 10, code: '  swap(A[i + 1], A[high]); return i + 1', indent: 1 }
+  ],
+  'Heap Sort': [
+    { num: 1, code: 'function heapSort(A):', indent: 0 },
+    { num: 2, code: '  buildMaxHeap(A)  // O(N) heap construction', indent: 1 },
+    { num: 3, code: '  for i from n-1 down to 1:', indent: 1 },
+    { num: 4, code: '    swap(A[0], A[i])  // put max at sorted suffix', indent: 2 },
+    { num: 5, code: '    maxHeapify(A, 0, i)  // sift root down', indent: 2 },
+    { num: 6, code: '  return A', indent: 1 }
   ]
 };
 
@@ -624,3 +632,130 @@ export function generateMergeSortSteps(initialValues: number[]): VisualStep<Arra
   steps.forEach(s => s.totalSteps = steps.length);
   return steps;
 }
+
+// 6. Heap Sort Generator
+export function generateHeapSortSteps(initialValues: number[]): VisualStep<ArrayBar[]>[] {
+  let bars: ArrayBar[] = initialValues.map((v, idx) => ({ id: idx, value: v, state: 'default' }));
+  const steps: VisualStep<ArrayBar[]>[] = [];
+  const n = bars.length;
+
+  function maxHeapify(i: number, heapSize: number) {
+    let largest = i;
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+
+    bars = cloneBars(bars);
+    bars[i].state = 'inspect';
+    if (left < heapSize) bars[left].state = 'pivot';
+    if (right < heapSize) bars[right].state = 'pivot';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 5,
+      description: `Heapify at index ${i} (${bars[i].value}) within heap size ${heapSize}.`,
+      actionType: 'compare',
+      variables: { i, left: left < heapSize ? left : null, right: right < heapSize ? right : null, heapSize },
+      state: cloneBars(bars)
+    });
+
+    if (left < heapSize && bars[left].value > bars[largest].value) {
+      largest = left;
+    }
+    if (right < heapSize && bars[right].value > bars[largest].value) {
+      largest = right;
+    }
+
+    if (largest !== i) {
+      bars = cloneBars(bars);
+      bars[i].state = 'swap';
+      bars[largest].state = 'swap';
+
+      const temp = bars[i];
+      bars[i] = bars[largest];
+      bars[largest] = temp;
+
+      steps.push({
+        stepIndex: steps.length,
+        totalSteps: 0,
+        line: 5,
+        description: `Max heap violation: swapped index ${i} with larger child at ${largest}.`,
+        actionType: 'swap',
+        variables: { swapped: [i, largest], heapSize },
+        state: cloneBars(bars)
+      });
+
+      bars[i].state = 'default';
+      bars[largest].state = 'default';
+
+      maxHeapify(largest, heapSize);
+    } else {
+      bars[i].state = 'default';
+    }
+  }
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 1,
+    description: `Initiate Heap Sort on array of ${n} elements.`,
+    actionType: 'traverse',
+    variables: { n },
+    state: cloneBars(bars)
+  });
+
+  // Step 1: Build max heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    maxHeapify(i, n);
+  }
+
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 2,
+    description: `Max Heap built in O(N) time! Root index 0 contains overall maximum (${bars[0].value}).`,
+    actionType: 'pivot',
+    variables: { maxRoot: bars[0].value, status: 'MAX_HEAP_READY' },
+    state: cloneBars(bars)
+  });
+
+  // Step 2: Extract elements one by one
+  for (let i = n - 1; i > 0; i--) {
+    bars = cloneBars(bars);
+    bars[0].state = 'swap';
+    bars[i].state = 'swap';
+
+    const temp = bars[0];
+    bars[0] = bars[i];
+    bars[i] = temp;
+
+    bars[i].state = 'sorted';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 4,
+      description: `Moved maximum element (${bars[i].value}) to its final sorted position at index ${i}.`,
+      actionType: 'swap',
+      variables: { placedValue: bars[i].value, sortedIndex: i, remainingHeapSize: i },
+      state: cloneBars(bars)
+    });
+
+    maxHeapify(0, i);
+  }
+
+  bars.forEach(b => b.state = 'sorted');
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 6,
+    description: 'Heap Sort finished! In-place O(N log N) guarantee achieved with zero auxiliary memory.',
+    actionType: 'complete',
+    variables: { status: 'SORTED' },
+    state: cloneBars(bars)
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+

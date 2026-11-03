@@ -18,7 +18,7 @@ export const ALGORITHM_MODULES: AlgorithmModule[] = [
     difficulty: 'Beginner',
     tags: ['Divide & Conquer', 'In-Place', 'Comparative', 'CS1010', 'CS2040'],
     courseCode: 'CS2040',
-    variants: ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Quick Sort'],
+    variants: ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Quick Sort', 'Heap Sort'],
     icon: 'ArrowUpDown'
   },
   // 2. BST & AVL

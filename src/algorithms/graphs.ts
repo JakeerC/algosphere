@@ -29,6 +29,23 @@ export const GRAPH_PSEUDOCODE: Record<string, PseudocodeLine[]> = {
     { num: 6, code: '    for each neighbor (u, v) with weight w:', indent: 2 },
     { num: 7, code: '      if d[u] + w < d[v]:', indent: 3 },
     { num: 8, code: '        d[v] = d[u] + w; PQ.decreaseKey(v, d[v])', indent: 4 }
+  ],
+  'Prim': [
+    { num: 1, code: 'function Prim(graph, start):', indent: 0 },
+    { num: 2, code: '  T = {start}; MST = []', indent: 1 },
+    { num: 3, code: '  while |T| < |V|:', indent: 1 },
+    { num: 4, code: '    find min-weight edge (u, v) with u ∈ T, v ∉ T', indent: 2 },
+    { num: 5, code: '    MST.add((u, v)); T.add(v)', indent: 2 },
+    { num: 6, code: '  return MST', indent: 1 }
+  ],
+  'Kruskal': [
+    { num: 1, code: 'function Kruskal(graph):', indent: 0 },
+    { num: 2, code: '  sort all edges E by non-decreasing weight', indent: 1 },
+    { num: 3, code: '  initialize UFDS for each vertex', indent: 1 },
+    { num: 4, code: '  for each edge (u, v) in sorted order:', indent: 1 },
+    { num: 5, code: '    if find(u) != find(v):', indent: 2 },
+    { num: 6, code: '      union(u, v); MST.add((u, v))', indent: 3 },
+    { num: 7, code: '  return MST', indent: 1 }
   ]
 };
 
@@ -239,3 +256,307 @@ export function generateDijkstraSteps(startId: string = '0'): VisualStep<GraphVi
   steps.forEach(s => s.totalSteps = steps.length);
   return steps;
 }
+
+// 3. DFS Generator
+export function generateDfsSteps(startId: string = '0'): VisualStep<GraphVisualState>[] {
+  const steps: VisualStep<GraphVisualState>[] = [];
+  let graph = getSampleGraph();
+  const visited = new Set<string>();
+  const callStack: string[] = [];
+
+  function dfsRecursive(currId: string) {
+    visited.add(currId);
+    callStack.push(currId);
+
+    graph = cloneGraphState(graph);
+    graph.currentNodeId = currId;
+    graph.queueOrStack = [...callStack];
+    const currV = graph.vertices.find(v => v.id === currId)!;
+    currV.state = 'inspect';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 2,
+      description: `Visited vertex ${currId}. Pushed to active DFS call stack.`,
+      actionType: 'visit',
+      variables: { current: currId, callStack: [...callStack], visitedCount: visited.size },
+      state: cloneGraphState(graph)
+    });
+
+    const incident = graph.edges.filter(e => e.source === currId || e.target === currId);
+    for (const edge of incident) {
+      const neighborId = edge.source === currId ? edge.target : edge.source;
+      const neighborV = graph.vertices.find(v => v.id === neighborId)!;
+
+      if (!visited.has(neighborId)) {
+        graph = cloneGraphState(graph);
+        edge.state = 'inspect';
+        neighborV.state = 'active';
+
+        steps.push({
+          stepIndex: steps.length,
+          totalSteps: 0,
+          line: 5,
+          description: `Discovered unvisited neighbor ${neighborId} from ${currId}. Diving recursively down edge (${currId}, ${neighborId}).`,
+          actionType: 'traverse',
+          variables: { current: currId, divingTo: neighborId, edge: `(${currId}, ${neighborId})` },
+          state: cloneGraphState(graph)
+        });
+
+        edge.state = 'visited';
+        dfsRecursive(neighborId);
+
+        graph = cloneGraphState(graph);
+        graph.currentNodeId = currId;
+        graph.queueOrStack = [...callStack];
+        steps.push({
+          stepIndex: steps.length,
+          totalSteps: 0,
+          line: 6,
+          description: `Backtracked to vertex ${currId} after exploring subtree at ${neighborId}.`,
+          actionType: 'traverse',
+          variables: { backtrackedTo: currId, callStack: [...callStack] },
+          state: cloneGraphState(graph)
+        });
+      }
+    }
+
+    callStack.pop();
+    currV.state = 'sorted';
+  }
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 1,
+    description: `Initiate Depth-First Search (DFS) from start vertex ${startId}.`,
+    actionType: 'traverse',
+    variables: { start: startId },
+    state: cloneGraphState(graph)
+  });
+
+  dfsRecursive(startId);
+
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 6,
+    description: 'Depth-First Search complete! All connected vertices traversed.',
+    actionType: 'complete',
+    variables: { status: 'DFS_DONE', visitedTotal: visited.size },
+    state: cloneGraphState(graph)
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+
+// 4. Kruskal's MST Generator
+export function generateKruskalSteps(): VisualStep<GraphVisualState>[] {
+  const steps: VisualStep<GraphVisualState>[] = [];
+  let graph = getSampleGraph();
+
+  // Sort edges by weight ascending
+  const sortedEdges = [...graph.edges].sort((a, b) => (a.weight || 0) - (b.weight || 0));
+
+  // Disjoint set for cycle detection
+  const parent: Record<string, string> = {};
+  graph.vertices.forEach(v => parent[v.id] = v.id);
+
+  function find(u: string): string {
+    if (parent[u] === u) return u;
+    return parent[u] = find(parent[u]);
+  }
+
+  function union(u: string, v: string) {
+    const rootU = find(u);
+    const rootV = find(v);
+    if (rootU !== rootV) parent[rootU] = rootV;
+  }
+
+  let mstWeight = 0;
+  const mstEdgeIds = new Set<string>();
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 2,
+    description: `Sorted all ${sortedEdges.length} edges by weight. Initialized empty Minimum Spanning Tree (MST).`,
+    actionType: 'traverse',
+    variables: { sortedEdgeWeights: sortedEdges.map(e => `${e.source}-${e.target} (${e.weight})`), mstWeight: 0 },
+    state: cloneGraphState(graph)
+  });
+
+  for (const edge of sortedEdges) {
+    const u = edge.source;
+    const v = edge.target;
+    const w = edge.weight || 1;
+
+    graph = cloneGraphState(graph);
+    const currEdge = graph.edges.find(e => e.id === edge.id)!;
+    currEdge.state = 'inspect';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 4,
+      description: `Examining edge (${u}, ${v}) with weight ${w}. Checking if endpoints belong to different disjoint sets.`,
+      actionType: 'compare',
+      variables: { u, v, weight: w, 'find(u)': find(u), 'find(v)': find(v) },
+      state: cloneGraphState(graph)
+    });
+
+    if (find(u) !== find(v)) {
+      union(u, v);
+      mstEdgeIds.add(edge.id);
+      mstWeight += w;
+
+      graph = cloneGraphState(graph);
+      const chosenEdge = graph.edges.find(e => e.id === edge.id)!;
+      chosenEdge.state = 'sorted';
+      const uV = graph.vertices.find(vert => vert.id === u)!;
+      const vV = graph.vertices.find(vert => vert.id === v)!;
+      uV.state = 'sorted';
+      vV.state = 'sorted';
+
+      steps.push({
+        stepIndex: steps.length,
+        totalSteps: 0,
+        line: 6,
+        description: `Edge (${u}, ${v}) does not create a cycle! Added to MST. Total MST weight is now ${mstWeight}.`,
+        actionType: 'swap',
+        variables: { addedEdge: `(${u}, ${v})`, weight: w, currentMstWeight: mstWeight, edgesCount: mstEdgeIds.size },
+        state: cloneGraphState(graph)
+      });
+    } else {
+      graph = cloneGraphState(graph);
+      const rejectedEdge = graph.edges.find(e => e.id === edge.id)!;
+      rejectedEdge.state = 'pivot'; // cycle violation
+
+      steps.push({
+        stepIndex: steps.length,
+        totalSteps: 0,
+        line: 5,
+        description: `Edge (${u}, ${v}) rejected! Endpoints are already connected in the same component (would create a cycle).`,
+        actionType: 'compare',
+        variables: { rejectedEdge: `(${u}, ${v})`, reason: 'CYCLE_DETECTED' },
+        state: cloneGraphState(graph)
+      });
+    }
+
+    if (mstEdgeIds.size === graph.vertices.length - 1) break;
+  }
+
+  // Restore non-MST edges to default
+  graph = cloneGraphState(graph);
+  graph.edges.forEach(e => {
+    if (!mstEdgeIds.has(e.id)) e.state = 'default';
+  });
+
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 7,
+    description: `Kruskal MST complete! Formed a connected tree with ${mstEdgeIds.size} edges and minimal total weight = ${mstWeight}.`,
+    actionType: 'complete',
+    variables: { status: 'MST_COMPLETE', totalWeight: mstWeight, totalEdges: mstEdgeIds.size },
+    state: cloneGraphState(graph)
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+
+// 5. Prim's MST Generator
+export function generatePrimSteps(startId: string = '0'): VisualStep<GraphVisualState>[] {
+  const steps: VisualStep<GraphVisualState>[] = [];
+  let graph = getSampleGraph();
+  const inMst = new Set<string>([startId]);
+  const mstEdgeIds = new Set<string>();
+  let mstWeight = 0;
+
+  graph = cloneGraphState(graph);
+  const startV = graph.vertices.find(v => v.id === startId)!;
+  startV.state = 'sorted';
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 2,
+    description: `Initiate Prim's Algorithm from seed vertex ${startId}. Invariant: tree T grows by 1 vertex each round.`,
+    actionType: 'traverse',
+    variables: { root: startId, mstVertices: [startId], mstWeight: 0 },
+    state: cloneGraphState(graph)
+  });
+
+  while (inMst.size < graph.vertices.length) {
+    // Find crossing edge with min weight
+    let bestEdge: GraphEdge | null = null;
+    let bestWeight = Infinity;
+    let nextVertexId = '';
+
+    for (const edge of graph.edges) {
+      const uIn = inMst.has(edge.source);
+      const vIn = inMst.has(edge.target);
+      if ((uIn && !vIn) || (!uIn && vIn)) {
+        const w = edge.weight || 1;
+        if (w < bestWeight) {
+          bestWeight = w;
+          bestEdge = edge;
+          nextVertexId = uIn ? edge.target : edge.source;
+        }
+      }
+    }
+
+    if (!bestEdge) break;
+
+    graph = cloneGraphState(graph);
+    const crossingEdge = graph.edges.find(e => e.id === bestEdge!.id)!;
+    crossingEdge.state = 'inspect';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 4,
+      description: `Evaluating crossing cut edges. Minimum weight cut edge found: (${bestEdge.source}, ${bestEdge.target}) with weight ${bestWeight}.`,
+      actionType: 'compare',
+      variables: { minCrossingEdge: `(${bestEdge.source}, ${bestEdge.target})`, weight: bestWeight, connectsTo: nextVertexId },
+      state: cloneGraphState(graph)
+    });
+
+    inMst.add(nextVertexId);
+    mstEdgeIds.add(bestEdge.id);
+    mstWeight += bestWeight;
+
+    graph = cloneGraphState(graph);
+    const addedEdge = graph.edges.find(e => e.id === bestEdge!.id)!;
+    addedEdge.state = 'sorted';
+    const newVertex = graph.vertices.find(v => v.id === nextVertexId)!;
+    newVertex.state = 'sorted';
+
+    steps.push({
+      stepIndex: steps.length,
+      totalSteps: 0,
+      line: 5,
+      description: `Added vertex ${nextVertexId} and edge (${bestEdge.source}, ${bestEdge.target}) to Prim MST. Total weight: ${mstWeight}.`,
+      actionType: 'swap',
+      variables: { newMstVertex: nextVertexId, totalMstWeight: mstWeight, inMstCount: inMst.size },
+      state: cloneGraphState(graph)
+    });
+  }
+
+  steps.push({
+    stepIndex: steps.length,
+    totalSteps: 0,
+    line: 6,
+    description: `Prim's MST algorithm finished! Minimum Spanning Tree spanning all ${graph.vertices.length} vertices with weight ${mstWeight}.`,
+    actionType: 'complete',
+    variables: { status: 'MST_LOCKED', totalWeight: mstWeight, totalEdges: mstEdgeIds.size },
+    state: cloneGraphState(graph)
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+

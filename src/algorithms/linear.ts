@@ -136,3 +136,54 @@ export function generateStackPushSteps(currentValues: number[], newVal: number):
   steps.forEach(s => s.totalSteps = steps.length);
   return steps;
 }
+
+export function generateQueueEnqueueSteps(currentValues: number[] = [10, 20, 30], newVal: number = 40): VisualStep<LinearVisualState>[] {
+  const steps: VisualStep<LinearVisualState>[] = [];
+  const items: LinearElement[] = currentValues.map((v, idx) => ({
+    id: String(idx),
+    value: v,
+    state: 'default'
+  }));
+
+  steps.push({
+    stepIndex: 0,
+    totalSteps: 0,
+    line: 1,
+    description: `Prepare to enqueue value ${newVal} at the REAR of the FIFO Queue.`,
+    actionType: 'traverse',
+    variables: { val: newVal, front: 0, rear: items.length },
+    state: { items: [...items], frontIndex: 0, rearIndex: items.length }
+  });
+
+  const newElement: LinearElement = {
+    id: String(items.length),
+    value: newVal,
+    state: 'swap'
+  };
+  const updatedItems = [...items, newElement];
+
+  steps.push({
+    stepIndex: 1,
+    totalSteps: 0,
+    line: 2,
+    description: `Appended element ${newVal} at position rear = ${items.length}. Incremented rear to ${updatedItems.length}.`,
+    actionType: 'insert',
+    variables: { val: newVal, newRear: updatedItems.length, front: 0 },
+    state: { items: updatedItems, frontIndex: 0, rearIndex: updatedItems.length }
+  });
+
+  newElement.state = 'sorted';
+  steps.push({
+    stepIndex: 2,
+    totalSteps: 0,
+    line: 2,
+    description: `Enqueue completed in O(1) time! First-In First-Out order strictly maintained.`,
+    actionType: 'complete',
+    variables: { queueLength: updatedItems.length },
+    state: { items: updatedItems, frontIndex: 0, rearIndex: updatedItems.length }
+  });
+
+  steps.forEach(s => s.totalSteps = steps.length);
+  return steps;
+}
+

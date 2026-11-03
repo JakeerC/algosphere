@@ -8,13 +8,15 @@ interface QuizCardProps {
   onNext: () => void;
   questionNumber: number;
   totalQuestions: number;
+  onAnswer?: (isCorrect: boolean) => void;
 }
 
 export const QuizCard: React.FC<QuizCardProps> = ({
   question,
   onNext,
   questionNumber,
-  totalQuestions
+  totalQuestions,
+  onAnswer
 }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -27,7 +29,9 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   const handleSubmit = () => {
     if (selectedOption === null) return;
     setIsSubmitted(true);
-    if (selectedOption === question.correctIndex) {
+    const correct = selectedOption === question.correctIndex;
+    if (onAnswer) onAnswer(correct);
+    if (correct) {
       confetti({
         particleCount: 50,
         spread: 60,

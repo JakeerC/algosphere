@@ -1,6 +1,6 @@
 import React from 'react';
 import { LinearVisualState, LinearElement } from '../../types/visualizer';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, ArrowLeft } from 'lucide-react';
 
 interface LinearCanvasProps {
   state: LinearVisualState;
@@ -9,9 +9,10 @@ interface LinearCanvasProps {
 
 export const LinearCanvas: React.FC<LinearCanvasProps> = ({ state, variant = 'Singly Linked List' }) => {
   const isStack = variant.toLowerCase().includes('stack');
+  const isQueue = variant.toLowerCase().includes('queue');
 
   if (isStack) {
-    // Vertical Stack layout
+    // Vertical Stack layout (LIFO)
     return (
       <div style={{
         width: '100%',
@@ -93,6 +94,101 @@ export const LinearCanvas: React.FC<LinearCanvasProps> = ({ state, variant = 'Si
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
             Top Index: <code>{state.topIndex ?? 0}</code>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isQueue) {
+    // Horizontal Queue conduit (FIFO)
+    return (
+      <div style={{
+        width: '100%',
+        height: '380px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'var(--space-4)',
+        gap: 'var(--space-4)'
+      }}>
+        {/* Direction Indicator */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          maxWidth: '540px',
+          fontSize: 'var(--text-xs)',
+          color: 'var(--text-tertiary)',
+          fontFamily: 'var(--font-mono)'
+        }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--state-sorted)' }}>
+            <ArrowLeft size={14} /> DEQUEUE (Front)
+          </span>
+          <span className="badge badge-neutral">FIFO Queue</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--primary-400)' }}>
+            ENQUEUE (Rear) <ArrowRight size={14} />
+          </span>
+        </div>
+
+        {/* The Queue Conduit Pipe */}
+        <div style={{
+          width: '100%',
+          maxWidth: '540px',
+          height: '90px',
+          borderTop: '3px solid var(--border-strong)',
+          borderBottom: '3px solid var(--border-strong)',
+          backgroundColor: 'var(--surface-subtle)',
+          borderRadius: 'var(--radius-md)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 var(--space-3)',
+          gap: 'var(--space-3)',
+          overflowX: 'auto'
+        }}>
+          {state.items.length === 0 ? (
+            <div style={{ width: '100%', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)' }}>
+              Queue is Empty
+            </div>
+          ) : (
+            state.items.map((item, idx) => {
+              const isFront = idx === 0;
+              const isRear = idx === state.items.length - 1;
+
+              return (
+                <div
+                  key={item.id}
+                  style={{
+                    minWidth: '60px',
+                    height: '56px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: isFront ? 'var(--state-sorted-bg)' : isRear ? 'var(--primary-surface)' : 'var(--surface-card)',
+                    border: `2px solid ${isFront ? 'var(--state-sorted)' : isRear ? 'var(--primary-500)' : 'var(--border-default)'}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)',
+                    boxShadow: 'var(--shadow-xs)',
+                    position: 'relative'
+                  }}
+                >
+                  <span style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--weight-heavy)', color: 'var(--text-primary)' }}>
+                    {item.value}
+                  </span>
+                  <span style={{ fontSize: '9px', color: 'var(--text-tertiary)' }}>
+                    {isFront ? 'FRONT' : isRear ? 'REAR' : `[${idx}]`}
+                  </span>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Telemetry info */}
+        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', textAlign: 'center' }}>
+          <strong>FIFO Invariant:</strong> Oldest element at FRONT is served first. Enqueue inserts at REAR.
         </div>
       </div>
     );
@@ -189,7 +285,7 @@ export const LinearCanvas: React.FC<LinearCanvasProps> = ({ state, variant = 'Si
                   alignItems: 'center',
                   gap: 'var(--space-2)',
                   color: 'var(--text-tertiary)'
-                }}>
+                }} className="linear-node-arrow">
                   <ArrowRight size={20} />
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 'var(--weight-heavy)' }}>
                     NULL

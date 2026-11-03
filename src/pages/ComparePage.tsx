@@ -17,6 +17,7 @@ import {
   generateInsertionSortSteps, 
   generateQuickSortSteps, 
   generateMergeSortSteps, 
+  generateHeapSortSteps,
   SortingVariant 
 } from '../algorithms/sorting';
 import { VisualStep } from '../types/algorithm';
@@ -88,6 +89,9 @@ export const ComparePage: React.FC = () => {
       } else if (algoName === 'Selection Sort') {
         steps = generateSelectionSortSteps([...baseArray]);
         comp = 'O(N²)';
+      } else if (algoName === 'Heap Sort') {
+        steps = generateHeapSortSteps([...baseArray]);
+        comp = 'O(N log N)';
       } else {
         steps = generateBubbleSortSteps([...baseArray]);
         comp = 'O(N²)';
@@ -189,6 +193,7 @@ export const ComparePage: React.FC = () => {
   const allSortingOptions: SortingVariant[] = [
     'Quick Sort',
     'Merge Sort',
+    'Heap Sort',
     'Insertion Sort',
     'Selection Sort',
     'Bubble Sort'
