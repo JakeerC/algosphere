@@ -12,6 +12,7 @@ import { QuizPage } from './pages/QuizPage';
 import { TracksPage } from './pages/TracksPage';
 import { LecturePage } from './pages/LecturePage';
 import { Blind75Page } from './pages/Blind75Page';
+import { Blind75ProblemPage } from './pages/Blind75ProblemPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 // Scroll to top automatically on route change
@@ -100,7 +101,7 @@ export const App: React.FC = () => {
           />
           <Route 
             path="/blind75/:problemId" 
-            element={<Blind75Page />} 
+            element={<Blind75ProblemPage />} 
           />
           <Route 
             path="/lecture/:moduleId" 

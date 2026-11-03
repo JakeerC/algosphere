@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   CheckCircle2, 
   Circle, 
@@ -6,17 +7,16 @@ import {
   ExternalLink, 
   Sparkles, 
   Clock, 
-  ArrowRight
+  ArrowUpRight
 } from 'lucide-react';
 import { Blind75Problem, UserProblemState } from '../../types/blind75';
-import { Badge } from '../common/Badge';
 
 interface Blind75CardProps {
   problem: Blind75Problem;
   userState?: UserProblemState;
   onToggleComplete: (id: string) => void;
   onToggleStar: (id: string) => void;
-  onSelect: (problem: Blind75Problem) => void;
+  onSelect?: (problem: Blind75Problem) => void;
 }
 
 export const Blind75Card: FC<Blind75CardProps> = ({
@@ -80,7 +80,7 @@ export const Blind75Card: FC<Blind75CardProps> = ({
       }}
     >
       <div>
-        {/* Top Header: Checkbox + Star + LC# + External Link */}
+        {/* Top Header: Checkbox + Star + LC# + External Link + New Tab Link */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {/* Complete Checkbox */}
@@ -154,27 +154,46 @@ export const Blind75Card: FC<Blind75CardProps> = ({
               rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}
               style={{ color: 'var(--text-tertiary)', display: 'inline-flex', padding: '2px' }}
-              title="Open on LeetCode"
+              title="Open problem on LeetCode.com (external)"
             >
               <ExternalLink size={14} />
             </a>
+
+            {/* Open in New Tab Button */}
+            <Link
+              to={`/blind75/${problem.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ color: 'var(--primary-400)', display: 'inline-flex', padding: '2px' }}
+              title="Open problem in new page & new tab"
+            >
+              <ArrowUpRight size={16} />
+            </Link>
           </div>
         </div>
 
-        {/* Title */}
-        <h3
-          onClick={() => onSelect(problem)}
-          style={{
-            fontSize: 'var(--text-base)',
-            margin: '0 0 var(--space-2) 0',
-            cursor: 'pointer',
-            lineHeight: 1.35,
-            color: isCompleted ? 'var(--text-secondary)' : 'var(--text-primary)',
-            textDecoration: isCompleted ? 'line-through' : 'none'
-          }}
+        {/* Title Link: Opens in New Tab */}
+        <Link
+          to={`/blind75/${problem.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none', display: 'block' }}
         >
-          {problem.title}
-        </h3>
+          <h3
+            style={{
+              fontSize: 'var(--text-base)',
+              margin: '0 0 var(--space-2) 0',
+              cursor: 'pointer',
+              lineHeight: 1.35,
+              color: isCompleted ? 'var(--text-secondary)' : 'var(--text-primary)',
+              textDecoration: isCompleted ? 'line-through' : 'none',
+              transition: 'color var(--transition-fast)'
+            }}
+          >
+            {problem.title}
+          </h3>
+        </Link>
 
         {/* Summary */}
         <p style={{
@@ -231,24 +250,30 @@ export const Blind75Card: FC<Blind75CardProps> = ({
         </div>
       </div>
 
-      {/* Action Button: Solve & Visualize */}
-      <button
-        onClick={() => onSelect(problem)}
+      {/* Action Button: Opens in New Tab */}
+      <Link
+        to={`/blind75/${problem.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
         className="btn btn-sm btn-secondary"
         style={{
           width: '100%',
           justifyContent: 'space-between',
           borderRadius: 'var(--radius-full)',
-          padding: '6px 14px',
-          fontSize: 'var(--text-xs)'
+          padding: '7px 14px',
+          fontSize: 'var(--text-xs)',
+          textDecoration: 'none'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Sparkles size={13} color="var(--primary-400)" />
           <span>Interactive Solution</span>
         </div>
-        <ArrowRight size={13} />
-      </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: 'var(--text-tertiary)' }}>
+          <span>Open</span>
+          <ArrowUpRight size={13} />
+        </div>
+      </Link>
     </div>
   );
 };

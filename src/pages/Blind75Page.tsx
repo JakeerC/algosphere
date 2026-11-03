@@ -1,11 +1,9 @@
 import { useState, useEffect, useMemo, FC } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { 
   ALL_BLIND75_PROBLEMS, 
   BLIND75_CATEGORIES, 
-  calculateBlind75Stats, 
-  getBlind75ProblemById 
+  calculateBlind75Stats 
 } from '../data/blind75';
 import { 
   Blind75Problem, 
@@ -16,13 +14,9 @@ import {
 import { Blind75StatsHeader } from '../components/blind75/Blind75StatsHeader';
 import { Grind75Scheduler } from '../components/blind75/Grind75Scheduler';
 import { Blind75Card } from '../components/blind75/Blind75Card';
-import { Blind75DetailModal } from '../components/blind75/Blind75DetailModal';
 import { Calendar, Layers, CheckCircle2 } from 'lucide-react';
 
 export const Blind75Page: FC = () => {
-  const { problemId } = useParams<{ problemId?: string }>();
-  const navigate = useNavigate();
-
   // 1. Persistent User Progress State
   const [userProgress, setUserProgress] = useState<UserProgressMap>(() => {
     try {
@@ -48,22 +42,6 @@ export const Blind75Page: FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
-
-  // Currently open problem modal
-  const [selectedProblem, setSelectedProblem] = useState<Blind75Problem | null>(() => {
-    if (problemId) {
-      return getBlind75ProblemById(problemId) || null;
-    }
-    return null;
-  });
-
-  // Sync route param with selected problem
-  useEffect(() => {
-    if (problemId) {
-      const found = getBlind75ProblemById(problemId);
-      if (found) setSelectedProblem(found);
-    }
-  }, [problemId]);
 
   // Persist progress to localStorage
   useEffect(() => {
@@ -127,29 +105,9 @@ export const Blind75Page: FC = () => {
     });
   };
 
-  // Handle Save Notes
-  const handleSaveNotes = (id: string, notes: string) => {
-    setUserProgress(prev => {
-      const current = prev[id] || { completed: false, starred: false, notes: '' };
-      return {
-        ...prev,
-        [id]: {
-          ...current,
-          notes
-        }
-      };
-    });
-  };
-
-  // Select problem to open modal and update URL
+  // Select problem to open in a new tab and dedicated page
   const handleSelectProblem = (problem: Blind75Problem) => {
-    setSelectedProblem(problem);
-    navigate(`/blind75/${problem.id}`, { replace: true });
-  };
-
-  const handleCloseModal = () => {
-    setSelectedProblem(null);
-    navigate('/blind75', { replace: true });
+    window.open(`/blind75/${problem.id}`, '_blank');
   };
 
   const handleResetFilters = () => {
@@ -351,20 +309,6 @@ export const Blind75Page: FC = () => {
             );
           })}
         </div>
-      )}
-
-      {/* 5. Detail Modal Workspace */}
-      {selectedProblem && (
-        <Blind75DetailModal
-          problem={selectedProblem}
-          allProblems={ALL_BLIND75_PROBLEMS}
-          userState={userProgress[selectedProblem.id]}
-          onClose={handleCloseModal}
-          onToggleComplete={handleToggleComplete}
-          onToggleStar={handleToggleStar}
-          onSaveNotes={handleSaveNotes}
-          onSelectProblem={handleSelectProblem}
-        />
       )}
     </div>
   );
