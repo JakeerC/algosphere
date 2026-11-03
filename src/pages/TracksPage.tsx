@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, ArrowRight, Clock, Sparkles } from 'lucide-react';
+import { GraduationCap, ArrowRight, Clock, Sparkles, Flame } from 'lucide-react';
 import { LEARNING_TRACKS, ALGORITHM_MODULES } from '../data/modules';
 import { AlgorithmModule } from '../types/algorithm';
 import { Badge } from '../components/common/Badge';
@@ -37,6 +37,94 @@ export const TracksPage: React.FC = () => {
 
       {/* Tracks List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+        {/* Featured Blind 75 & Grind 75 Track */}
+        <div className="card" style={{
+          padding: 'var(--space-6)',
+          borderRadius: 'var(--radius-xl)',
+          boxShadow: 'var(--shadow-md)',
+          backgroundColor: 'var(--surface-raised)',
+          border: '1px solid var(--border-default)'
+        }}>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            gap: 'var(--space-3)',
+            marginBottom: 'var(--space-4)',
+            borderBottom: '1px solid var(--border-subtle)',
+            paddingBottom: 'var(--space-4)'
+          }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: '11px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  color: '#fff',
+                  backgroundColor: 'var(--danger-500)',
+                  padding: '2px 8px',
+                  borderRadius: 'var(--radius-full)'
+                }}>
+                  <Flame size={12} />
+                  FAANG / Big Tech Standard
+                </span>
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-tertiary)',
+                  fontFamily: 'var(--font-mono)',
+                  backgroundColor: 'var(--surface-subtle)',
+                  padding: '2px 8px',
+                  borderRadius: 'var(--radius-full)'
+                }}>
+                  <Clock size={12} />
+                  48-60 hrs • 12 Weeks (Configurable)
+                </span>
+              </div>
+              <h2 style={{ fontSize: 'var(--text-2xl)', margin: 0 }}>
+                Blind 75 & Grind 75 Coding Interview Track
+              </h2>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)', lineHeight: 1.6 }}>
+                The definitive 75 essential LeetCode coding patterns curated by Yangshun Tay. Fully equipped with step-by-step canvas visualizers, Python solutions, pseudocode tracers, and adaptive weekly schedules.
+              </p>
+            </div>
+
+            <Link
+              to="/blind75"
+              className="btn btn-primary btn-sm"
+              style={{ borderRadius: 'var(--radius-full)', padding: '8px 20px', gap: '8px' }}
+            >
+              <Flame size={14} />
+              <span>Launch Blind 75 Suite (75 Problems)</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {['Arrays & Two Pointers', 'Binary / Bitwise', 'Dynamic Programming', 'Graph BFS/DFS', 'Interval Merging', 'Linked Lists', '2D Matrices', 'Strings & Sliding Window', 'Trees & BSTs', 'Heaps & Priority Queues'].map((topic, i) => (
+              <span
+                key={i}
+                style={{
+                  fontSize: 'var(--text-xs)',
+                  fontFamily: 'var(--font-mono)',
+                  backgroundColor: 'var(--surface-subtle)',
+                  border: '1px solid var(--border-subtle)',
+                  padding: '4px 10px',
+                  borderRadius: 'var(--radius-full)',
+                  color: 'var(--text-secondary)'
+                }}
+              >
+                {topic}
+              </span>
+            ))}
+          </div>
+        </div>
         {LEARNING_TRACKS.map(track => {
           const trackModules = track.moduleIds
             .map(id => ALGORITHM_MODULES.find(m => m.id === id))
