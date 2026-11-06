@@ -15,7 +15,11 @@ import {
   Lightbulb, 
   BookOpen, 
   Clock, 
-  Cpu
+  Cpu,
+  HelpCircle,
+  Eye,
+  EyeOff,
+  ArrowUpRight
 } from 'lucide-react';
 import { Blind75Problem, UserProblemState } from '../../types/blind75';
 import { Blind75VisualizerEngine } from './Blind75VisualizerEngine';
@@ -31,7 +35,7 @@ interface Blind75DetailModalProps {
   onSelectProblem: (problem: Blind75Problem) => void;
 }
 
-type TabType = 'visualizer' | 'python' | 'pseudocode' | 'analysis' | 'notes';
+type TabType = 'problem' | 'visualizer' | 'python' | 'pseudocode' | 'analysis' | 'notes';
 
 export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
   problem,
@@ -43,12 +47,16 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
   onSaveNotes,
   onSelectProblem
 }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('visualizer');
+  // Always default to 'problem' (Question First without solution)
+  const [activeTab, setActiveTab] = useState<TabType>('problem');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedPseudo, setCopiedPseudo] = useState(false);
   const [notesText, setNotesText] = useState(userState?.notes || '');
+  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
+    setActiveTab('problem');
+    setShowHint(false);
     setNotesText(userState?.notes || '');
   }, [userState?.notes, problem?.id]);
 
@@ -235,19 +243,33 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
             </div>
           </div>
 
-          {/* Right Close Button */}
-          <button
-            onClick={onClose}
-            style={{
-              padding: '6px',
-              borderRadius: 'var(--radius-full)',
-              color: 'var(--text-secondary)',
-              cursor: 'pointer'
-            }}
-            title="Close (Esc)"
-          >
-            <X size={20} />
-          </button>
+          {/* Right Controls: Open in Full Tab + Close Button */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <a
+              href={`/blind75/${problem.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-sm btn-secondary"
+              style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px', gap: '5px', fontSize: '11px' }}
+              title="Open problem in dedicated page and new tab"
+            >
+              <span>Full Page</span>
+              <ArrowUpRight size={13} />
+            </a>
+
+            <button
+              onClick={onClose}
+              style={{
+                padding: '6px',
+                borderRadius: 'var(--radius-full)',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer'
+              }}
+              title="Close (Esc)"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         {/* 2. Navigation Tabs Bar */}
@@ -261,6 +283,7 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
           overflowX: 'auto'
         }}>
           {[
+            { id: 'problem' as TabType, label: 'Question (Problem)', icon: <HelpCircle size={14} /> },
             { id: 'visualizer' as TabType, label: 'Interactive Visualizer', icon: <Sparkles size={14} /> },
             { id: 'python' as TabType, label: 'Python 3 Solution', icon: <Code2 size={14} /> },
             { id: 'pseudocode' as TabType, label: 'Pseudocode Tracer', icon: <FileText size={14} /> },
@@ -304,7 +327,145 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
           flexDirection: 'column',
           gap: 'var(--space-4)'
         }}>
-          {/* TAB 1: Visualizer */}
+          {/* TAB 0: Question First (Problem Statement, Examples, Constraints) */}
+          {activeTab === 'problem' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+              {/* Problem Description Card */}
+              <div style={{
+                backgroundColor: 'var(--surface-subtle)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-xl)',
+                padding: 'var(--space-5)'
+              }}>
+                <h3 style={{ fontSize: 'var(--text-base)', color: 'var(--text-primary)', marginBottom: 'var(--space-3)' }}>
+                  Problem Statement
+                </h3>
+                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.8, whiteSpace: 'pre-line' }}>
+                  {problem.description}
+                </div>
+              </div>
+
+              {/* Examples Grid */}
+              <div>
+                <h4 style={{ fontSize: 'var(--text-sm)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
+                  Examples
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-3)' }}>
+                  {problem.examples.map((ex, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        backgroundColor: 'var(--surface-subtle)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: 'var(--radius-md)',
+                        padding: 'var(--space-3)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 'var(--text-xs)',
+                        lineHeight: 1.6
+                      }}
+                    >
+                      <div style={{ color: 'var(--text-tertiary)', marginBottom: '4px', fontWeight: 'bold' }}>
+                        Example {idx + 1}
+                      </div>
+                      <div><strong style={{ color: 'var(--primary-400)' }}>Input:</strong> {ex.input}</div>
+                      <div><strong style={{ color: 'var(--success-500)' }}>Output:</strong> {ex.output}</div>
+                      {ex.explanation && (
+                        <div style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
+                          <em>Explanation:</em> {ex.explanation}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Constraints */}
+              {problem.constraints && problem.constraints.length > 0 && (
+                <div style={{
+                  backgroundColor: 'var(--surface-subtle)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: 'var(--space-4)'
+                }}>
+                  <h4 style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                    Constraints
+                  </h4>
+                  <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                    {problem.constraints.map((c, idx) => (
+                      <li key={idx} style={{ fontFamily: 'var(--font-mono)' }}>{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Hint Spoiler Toggle */}
+              <div style={{
+                border: '1px dashed var(--border-default)',
+                borderRadius: 'var(--radius-lg)',
+                padding: 'var(--space-3) var(--space-4)',
+                backgroundColor: 'var(--surface-subtle)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                    Need a clue without revealing the whole solution?
+                  </span>
+                  <button
+                    onClick={() => setShowHint(prev => !prev)}
+                    className="btn btn-sm btn-secondary"
+                    style={{ borderRadius: 'var(--radius-full)', padding: '4px 10px', gap: '4px', fontSize: '11px' }}
+                  >
+                    {showHint ? <EyeOff size={12} /> : <Eye size={12} />}
+                    <span>{showHint ? 'Hide Hint' : 'Reveal Hint'}</span>
+                  </button>
+                </div>
+                {showHint && (
+                  <p style={{ marginTop: 'var(--space-2)', fontSize: 'var(--text-xs)', color: 'var(--primary-400)', lineHeight: 1.6, margin: 'var(--space-2) 0 0 0' }}>
+                    💡 {problem.intuition}
+                  </p>
+                )}
+              </div>
+
+              {/* Solution Ready CTA */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 'var(--space-4)',
+                borderRadius: 'var(--radius-lg)',
+                backgroundColor: 'var(--primary-surface)',
+                border: '1px solid var(--primary-border)'
+              }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--primary-400)' }}>
+                    Ready to explore step-by-step visualizations and code?
+                  </div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
+                    Step through array pointers, sliding windows, and test Python solutions.
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => setActiveTab('visualizer')}
+                    className="btn btn-sm btn-primary"
+                    style={{ borderRadius: 'var(--radius-full)', gap: '6px' }}
+                  >
+                    <Sparkles size={14} />
+                    <span>Launch Visualizer</span>
+                  </button>
+                  <a
+                    href={`/blind75/${problem.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-sm btn-secondary"
+                    style={{ borderRadius: 'var(--radius-full)', gap: '6px' }}
+                  >
+                    <span>Full Page</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
           {activeTab === 'visualizer' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
               <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>

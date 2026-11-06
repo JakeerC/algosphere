@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { 
   ArrowLeft, 
@@ -19,7 +19,10 @@ import {
   Clock, 
   Cpu, 
   Flame,
-  ArrowUpRight
+  HelpCircle,
+  Eye,
+  EyeOff,
+  PenLine
 } from 'lucide-react';
 import { 
   ALL_BLIND75_PROBLEMS, 
@@ -27,20 +30,21 @@ import {
 } from '../data/blind75';
 import { UserProgressMap, UserProblemState } from '../types/blind75';
 import { Blind75VisualizerEngine } from '../components/blind75/Blind75VisualizerEngine';
-import { Badge } from '../components/common/Badge';
 
-type TabType = 'visualizer' | 'python' | 'pseudocode' | 'analysis' | 'notes';
+type TabType = 'problem' | 'visualizer' | 'python' | 'pseudocode' | 'analysis' | 'notes';
 
 export const Blind75ProblemPage: FC = () => {
   const { problemId } = useParams<{ problemId: string }>();
-  const navigate = useNavigate();
 
   const problem = problemId ? getBlind75ProblemById(problemId) : undefined;
 
-  // Active Tab
-  const [activeTab, setActiveTab] = useState<TabType>('visualizer');
+  // Active Tab: Default to 'problem' (Question first without solution!)
+  const [activeTab, setActiveTab] = useState<TabType>('problem');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedPseudo, setCopiedPseudo] = useState(false);
+  const [showPattern, setShowPattern] = useState(false);
+  const [showComplexity, setShowComplexity] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 
   // User Progress from localStorage
   const [userProgress, setUserProgress] = useState<UserProgressMap>(() => {
@@ -54,17 +58,20 @@ export const Blind75ProblemPage: FC = () => {
 
   const [notesText, setNotesText] = useState('');
 
-  // Sync notes when problem loads
+  // Sync state when problem loads or changes
   useEffect(() => {
     if (problem) {
+      setActiveTab('problem'); // Always show question first on load
+      setShowPattern(false);
+      setShowComplexity(false);
+      setShowHint(false);
       setNotesText(userProgress[problem.id]?.notes || '');
-      // Update page title
-      document.title = `#${problem.number} ${problem.title} | Blind 75 Visualizer - AlgoSphere`;
+      document.title = `#${problem.number} ${problem.title} | Blind 75 - AlgoSphere`;
     }
     return () => {
       document.title = 'AlgoSphere - Interactive Algorithm Visualizer';
     };
-  }, [problem?.id, userProgress]);
+  }, [problem?.id]);
 
   // Persist progress to localStorage
   useEffect(() => {
@@ -292,7 +299,7 @@ export const Blind75ProblemPage: FC = () => {
         </div>
       </div>
 
-      {/* 2. Problem Title & Metadata Banner */}
+      {/* 2. Problem Title & Metadata Banner (Spoiler-Free) */}
       <div style={{
         backgroundColor: 'var(--surface-raised)',
         border: 'var(--border-1) solid var(--border-default)',
@@ -350,18 +357,6 @@ export const Blind75ProblemPage: FC = () => {
             <span style={{
               fontSize: '11px',
               fontFamily: 'var(--font-mono)',
-              color: 'var(--text-secondary)',
-              backgroundColor: 'var(--surface-subtle)',
-              border: '1px solid var(--border-subtle)',
-              padding: '2px 9px',
-              borderRadius: 'var(--radius-full)'
-            }}>
-              Pattern: {problem.pattern}
-            </span>
-
-            <span style={{
-              fontSize: '11px',
-              fontFamily: 'var(--font-mono)',
               color: 'var(--text-tertiary)',
               backgroundColor: 'var(--surface-subtle)',
               padding: '2px 8px',
@@ -373,6 +368,28 @@ export const Blind75ProblemPage: FC = () => {
               <Clock size={11} />
               Grind Week {problem.grindWeek} • {problem.estimatedMinutes} mins
             </span>
+
+            {/* Pattern spoiler toggle button */}
+            <button
+              onClick={() => setShowPattern(prev => !prev)}
+              style={{
+                fontSize: '11px',
+                fontFamily: 'var(--font-mono)',
+                color: showPattern ? 'var(--primary-400)' : 'var(--text-tertiary)',
+                backgroundColor: 'var(--surface-subtle)',
+                border: '1px solid var(--border-subtle)',
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-full)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                cursor: 'pointer'
+              }}
+              title="Click to reveal pattern hint"
+            >
+              {showPattern ? <EyeOff size={11} /> : <Eye size={11} />}
+              <span>{showPattern ? `Pattern: ${problem.pattern}` : 'Pattern: [Reveal]'}</span>
+            </button>
           </div>
 
           <h1 style={{
@@ -394,7 +411,7 @@ export const Blind75ProblemPage: FC = () => {
           </p>
         </div>
 
-        {/* Complexity Badges */}
+        {/* Complexity Card with Spoiler Protection */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -405,18 +422,38 @@ export const Blind75ProblemPage: FC = () => {
           border: '1px solid var(--border-subtle)',
           minWidth: '220px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 'var(--text-xs)' }}>
-            <span style={{ color: 'var(--text-tertiary)' }}>Time Complexity:</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--primary-400)' }}>
-              {problem.timeComplexity.bigO}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 'var(--text-xs)' }}>
-            <span style={{ color: 'var(--text-tertiary)' }}>Space Complexity:</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--success-500)' }}>
-              {problem.spaceComplexity.bigO}
-            </span>
-          </div>
+          {showComplexity || activeTab !== 'problem' ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 'var(--text-xs)' }}>
+                <span style={{ color: 'var(--text-tertiary)' }}>Target Time:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--primary-400)' }}>
+                  {problem.timeComplexity.bigO}
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 'var(--text-xs)' }}>
+                <span style={{ color: 'var(--text-tertiary)' }}>Target Space:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--success-500)' }}>
+                  {problem.spaceComplexity.bigO}
+                </span>
+              </div>
+            </>
+          ) : (
+            <button
+              onClick={() => setShowComplexity(true)}
+              className="btn btn-sm btn-secondary"
+              style={{
+                width: '100%',
+                fontSize: '11px',
+                padding: '6px 10px',
+                borderRadius: 'var(--radius-full)',
+                gap: '6px'
+              }}
+              title="Reveal target time and space complexity without spoiling the code"
+            >
+              <Eye size={12} />
+              <span>Reveal Target Complexity</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -432,6 +469,7 @@ export const Blind75ProblemPage: FC = () => {
         overflowX: 'auto'
       }}>
         {[
+          { id: 'problem' as TabType, label: 'Question (Problem)', icon: <HelpCircle size={15} /> },
           { id: 'visualizer' as TabType, label: 'Interactive Canvas Visualizer', icon: <Sparkles size={15} /> },
           { id: 'python' as TabType, label: 'Python 3 Solution', icon: <Code2 size={15} /> },
           { id: 'pseudocode' as TabType, label: 'Pseudocode Tracer', icon: <FileText size={15} /> },
@@ -469,14 +507,226 @@ export const Blind75ProblemPage: FC = () => {
 
       {/* 4. Tab Content Body */}
       <div style={{ minHeight: '480px' }}>
-        {/* TAB 1: Visualizer Canvas */}
+        {/* TAB 1: QUESTION FIRST (Problem Statement, Examples, Constraints, Scratchpad) */}
+        {activeTab === 'problem' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+            {/* Problem Statement Card */}
+            <div style={{
+              backgroundColor: 'var(--surface-raised)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-xl)',
+              padding: 'var(--space-6)',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)', color: 'var(--text-primary)' }}>
+                Problem Statement
+              </h3>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.8,
+                whiteSpace: 'pre-line'
+              }}>
+                {problem.description}
+              </div>
+            </div>
+
+            {/* Test Examples Grid */}
+            <div>
+              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)' }}>
+                Examples
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
+                {problem.examples.map((ex, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      backgroundColor: 'var(--surface-subtle)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--radius-lg)',
+                      padding: 'var(--space-4)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 'var(--text-xs)',
+                      lineHeight: 1.65
+                    }}
+                  >
+                    <div style={{ color: 'var(--text-tertiary)', marginBottom: '6px', fontWeight: 'bold' }}>
+                      Example {idx + 1}
+                    </div>
+                    <div><strong style={{ color: 'var(--primary-400)' }}>Input:</strong> {ex.input}</div>
+                    <div><strong style={{ color: 'var(--success-500)' }}>Output:</strong> {ex.output}</div>
+                    {ex.explanation && (
+                      <div style={{ color: 'var(--text-secondary)', marginTop: '6px' }}>
+                        <em>Explanation:</em> {ex.explanation}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Constraints */}
+            <div style={{
+              backgroundColor: 'var(--surface-raised)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-xl)',
+              padding: 'var(--space-5)'
+            }}>
+              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-2)' }}>
+                Constraints & Edge Cases
+              </h3>
+              <ul style={{
+                paddingLeft: 'var(--space-4)',
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.8,
+                margin: 0
+              }}>
+                {problem.constraints.map((c, i) => (
+                  <li key={i}>
+                    <code>{c}</code>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Collapsible Algorithmic Hint / Intuition (Optional Nudge) */}
+            <div style={{
+              backgroundColor: 'var(--surface-subtle)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-xl)',
+              padding: 'var(--space-4) var(--space-5)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Lightbulb size={16} color="var(--cat-sorting)" />
+                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    Need a gentle hint before checking the solution?
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => setShowHint(prev => !prev)}
+                  className="btn btn-sm btn-secondary"
+                  style={{ borderRadius: 'var(--radius-full)', padding: '5px 12px', fontSize: '11px', gap: '6px' }}
+                >
+                  {showHint ? <EyeOff size={13} /> : <Eye size={13} />}
+                  <span>{showHint ? 'Hide Hint' : 'Reveal Core Intuition'}</span>
+                </button>
+              </div>
+
+              {showHint && (
+                <div style={{
+                  marginTop: 'var(--space-3)',
+                  paddingTop: 'var(--space-3)',
+                  borderTop: '1px solid var(--border-subtle)',
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text-secondary)',
+                  lineHeight: 1.7
+                }}>
+                  {problem.intuition}
+                </div>
+              )}
+            </div>
+
+            {/* Ready for the Solution Action Callout */}
+            <div style={{
+              backgroundColor: 'var(--primary-surface)',
+              border: '1px solid var(--primary-border)',
+              borderRadius: 'var(--radius-2xl)',
+              padding: 'var(--space-6)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--space-4)',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}>
+              <div>
+                <h3 style={{ fontSize: 'var(--text-lg)', color: 'var(--primary-400)', margin: '0 0 var(--space-1) 0' }}>
+                  Ready to explore the solution & visualization?
+                </h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', margin: 0, maxWidth: '65ch' }}>
+                  Step through execution with the interactive visualizer, inspect optimal Python 3 code, or review the line-by-line pseudocode.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', justifyContent: 'center' }}>
+                <button
+                  onClick={() => setActiveTab('visualizer')}
+                  className="btn btn-primary btn-sm"
+                  style={{ borderRadius: 'var(--radius-full)', padding: '8px 20px', gap: '8px' }}
+                >
+                  <Sparkles size={15} />
+                  <span>Launch Interactive Visualizer</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('python')}
+                  className="btn btn-secondary btn-sm"
+                  style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', gap: '8px' }}
+                >
+                  <Code2 size={15} />
+                  <span>View Python 3 Solution</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('pseudocode')}
+                  className="btn btn-secondary btn-sm"
+                  style={{ borderRadius: 'var(--radius-full)', padding: '8px 18px', gap: '8px' }}
+                >
+                  <FileText size={15} />
+                  <span>View Pseudocode Tracer</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Scratchpad / Thinking Space */}
+            <div style={{
+              backgroundColor: 'var(--surface-raised)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-xl)',
+              padding: 'var(--space-5)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--space-3)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <PenLine size={15} color="var(--primary-400)" />
+                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    My Approach & Brainstorming Scratchpad
+                  </span>
+                </div>
+                <span style={{ fontSize: '11px', color: 'var(--success-500)' }}>
+                  ✓ Auto-saved to browser
+                </span>
+              </div>
+
+              <textarea
+                value={notesText}
+                onChange={e => handleNotesChange(e.target.value)}
+                placeholder="Draft your approach here before looking at the solution... (e.g. Can we use two pointers? What happens on duplicates? What is the base case?)"
+                rows={4}
+                style={{
+                  width: '100%',
+                  padding: 'var(--space-3)',
+                  fontSize: 'var(--text-sm)',
+                  lineHeight: 1.6,
+                  borderRadius: 'var(--radius-md)'
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: Visualizer Canvas */}
         {activeTab === 'visualizer' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <Blind75VisualizerEngine steps={steps} title={problem.title} />
           </div>
         )}
 
-        {/* TAB 2: Python 3 Solution */}
+        {/* TAB 3: Python 3 Solution */}
         {activeTab === 'python' && (
           <div style={{
             display: 'flex',
@@ -541,7 +791,7 @@ export const Blind75ProblemPage: FC = () => {
           </div>
         )}
 
-        {/* TAB 3: Pseudocode Tracer */}
+        {/* TAB 4: Pseudocode Tracer */}
         {activeTab === 'pseudocode' && (
           <div style={{
             display: 'flex',
@@ -603,7 +853,7 @@ export const Blind75ProblemPage: FC = () => {
           </div>
         )}
 
-        {/* TAB 4: Deep Analysis & Mathematical Proofs */}
+        {/* TAB 5: Deep Analysis & Mathematical Proofs */}
         {activeTab === 'analysis' && (
           <div style={{
             display: 'flex',
@@ -614,51 +864,6 @@ export const Blind75ProblemPage: FC = () => {
             borderRadius: 'var(--radius-xl)',
             padding: 'var(--space-6)'
           }}>
-            {/* Full Problem Description */}
-            <div>
-              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-2)' }}>Problem Statement</h3>
-              <div style={{
-                fontSize: 'var(--text-sm)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.75,
-                whiteSpace: 'pre-line'
-              }}>
-                {problem.description}
-              </div>
-            </div>
-
-            {/* Test Examples */}
-            <div>
-              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-3)' }}>Input & Output Examples</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-3)' }}>
-                {problem.examples.map((ex, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      backgroundColor: 'var(--surface-subtle)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--radius-lg)',
-                      padding: 'var(--space-3) var(--space-4)',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: 'var(--text-xs)',
-                      lineHeight: 1.6
-                    }}
-                  >
-                    <div style={{ color: 'var(--text-tertiary)', marginBottom: '4px', fontWeight: 'bold' }}>
-                      Example {idx + 1}
-                    </div>
-                    <div><strong style={{ color: 'var(--primary-400)' }}>Input:</strong> {ex.input}</div>
-                    <div><strong style={{ color: 'var(--success-500)' }}>Output:</strong> {ex.output}</div>
-                    {ex.explanation && (
-                      <div style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>
-                        <em>Explanation:</em> {ex.explanation}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Intuition & Algorithmic Eureka */}
             <div style={{
               backgroundColor: 'var(--primary-surface)',
@@ -680,23 +885,6 @@ export const Blind75ProblemPage: FC = () => {
               }}>
                 {problem.intuition}
               </p>
-            </div>
-
-            {/* Constraints */}
-            <div>
-              <h3 style={{ fontSize: 'var(--text-base)', marginBottom: 'var(--space-2)' }}>Constraints & Edge Cases</h3>
-              <ul style={{
-                paddingLeft: 'var(--space-4)',
-                fontSize: 'var(--text-sm)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.75
-              }}>
-                {problem.constraints.map((c, i) => (
-                  <li key={i}>
-                    <code>{c}</code>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* Mathematical Complexity Proofs */}
@@ -743,7 +931,7 @@ export const Blind75ProblemPage: FC = () => {
           </div>
         )}
 
-        {/* TAB 5: Personal Notes */}
+        {/* TAB 6: Personal Notes */}
         {activeTab === 'notes' && (
           <div style={{
             display: 'flex',
