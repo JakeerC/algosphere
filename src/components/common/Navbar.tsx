@@ -10,7 +10,8 @@ import {
   Palette, 
   Check,
   Menu,
-  X
+  X,
+  Flame
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -79,6 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isCompare = location.pathname.startsWith('/compare');
   const isQuiz = location.pathname.startsWith('/quiz');
   const isTracks = location.pathname.startsWith('/tracks');
+  const isBlind75 = location.pathname.startsWith('/blind75');
 
   return (
     <header style={{
@@ -208,6 +210,36 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <GraduationCap size={15} />
             <span>Tracks</span>
+          </Link>
+
+          <Link
+            to="/blind75"
+            className="btn btn-sm"
+            style={{ 
+              backgroundColor: isBlind75 ? 'var(--surface-card)' : 'transparent',
+              color: isBlind75 ? 'var(--danger-500)' : 'var(--text-secondary)',
+              border: isBlind75 ? 'var(--border-1) solid var(--border-default)' : 'none',
+              boxShadow: isBlind75 ? 'var(--shadow-sm)' : 'none',
+              textDecoration: 'none',
+              fontWeight: isBlind75 ? 700 : 600,
+              padding: '6px 14px',
+              position: 'relative'
+            }}
+          >
+            <Flame size={15} color={isBlind75 ? 'var(--danger-500)' : 'var(--danger-400)'} />
+            <span>Blind 75</span>
+            <span style={{
+              fontSize: '9px',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 800,
+              color: '#fff',
+              backgroundColor: 'var(--danger-500)',
+              padding: '1px 5px',
+              borderRadius: 'var(--radius-full)',
+              marginLeft: '2px'
+            }}>
+              75
+            </span>
           </Link>
         </nav>
 
@@ -496,6 +528,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <GraduationCap size={16} />
             <span>Curated Pathways</span>
+          </Link>
+
+          <Link
+            to="/blind75"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="btn btn-sm"
+            style={{
+              justifyContent: 'flex-start',
+              backgroundColor: isBlind75 ? 'var(--danger-surface)' : 'transparent',
+              color: isBlind75 ? 'var(--danger-500)' : 'var(--text-primary)',
+              borderRadius: 'var(--radius-md)',
+              padding: '8px 12px',
+              fontWeight: isBlind75 ? 'bold' : 'normal',
+              gap: '8px'
+            }}
+          >
+            <Flame size={16} color="var(--danger-500)" />
+            <span>Blind 75 & Grind 75 Mastery</span>
           </Link>
         </div>
       )}

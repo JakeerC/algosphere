@@ -19,7 +19,8 @@ import {
   Share2,
   Trophy,
   CheckCircle2,
-  Cpu
+  Cpu,
+  Flame
 } from 'lucide-react';
 import { ALGORITHM_MODULES, LEARNING_TRACKS } from '../data/modules';
 import { AlgorithmModule, AlgorithmCategory } from '../types/algorithm';
@@ -213,6 +214,31 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>Duel Arena</span>
             </Link>
 
+            <Link
+              to="/blind75"
+              className="btn btn-secondary btn-lg"
+              style={{
+                gap: 'var(--space-2)',
+                backgroundColor: 'var(--surface-raised)',
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-primary)'
+              }}
+            >
+              <Flame size={18} color="var(--danger-500)" />
+              <span>Blind 75 & Grind 75</span>
+              <span style={{
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 800,
+                backgroundColor: 'var(--danger-500)',
+                color: '#fff',
+                padding: '2px 7px',
+                borderRadius: 'var(--radius-full)'
+              }}>
+                75
+              </span>
+            </Link>
+
             {/* Playful Floating Arrow Doodle on Desktop */}
             <div style={{
               display: 'none',
@@ -257,6 +283,24 @@ export const HomePage: React.FC<HomePageProps> = ({
               <CheckCircle2 size={13} color="var(--state-sorted)" />
               <span>12+ Full Visualizers</span>
             </div>
+
+            <Link
+              to="/blind75"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                backgroundColor: 'var(--surface-card)',
+                border: 'var(--border-1) solid var(--border-subtle)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--text-xs)',
+                color: 'var(--text-secondary)'
+              }}
+            >
+              <Flame size={13} color="var(--danger-500)" />
+              <span>Blind 75 & Grind 75 Mastery</span>
+            </Link>
 
             <div style={{
               display: 'inline-flex',
