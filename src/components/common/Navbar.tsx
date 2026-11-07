@@ -1,36 +1,36 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  Sparkles, 
-  Search, 
-  Layers, 
-  Trophy, 
-  Activity, 
-  GraduationCap, 
-  Palette, 
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Sparkles,
+  Search,
+  Layers,
+  Trophy,
+  Activity,
+  GraduationCap,
+  Palette,
   Check,
   Menu,
   X,
-  Flame
-} from 'lucide-react';
-import { Logo } from './Logo';
+  BookHeart,
+} from "lucide-react";
+import { Logo } from "./Logo";
 
-export type ThemeMode = 
-  | 'dark' 
-  | 'cyberpunk' 
-  | 'emerald' 
-  | 'sunset' 
-  | 'light'
-  | 'catppuccin-mocha'
-  | 'catppuccin-macchiato'
-  | 'catppuccin-frappe'
-  | 'catppuccin-latte';
+export type ThemeMode =
+  | "dark"
+  | "cyberpunk"
+  | "emerald"
+  | "sunset"
+  | "light"
+  | "catppuccin-mocha"
+  | "catppuccin-macchiato"
+  | "catppuccin-frappe"
+  | "catppuccin-latte";
 
 interface ThemeOption {
   id: ThemeMode;
   label: string;
   dotColor: string;
-  group: 'Core' | 'Catppuccin';
+  group: "Core" | "Catppuccin";
 }
 
 interface NavbarProps {
@@ -42,7 +42,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenCommandPalette,
   theme,
-  onSelectTheme
+  onSelectTheme,
 }) => {
   const location = useLocation();
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
@@ -54,90 +54,147 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, [location.pathname]);
 
   const themeOptions: ThemeOption[] = [
-    { id: 'dark', label: 'Midnight Indigo', dotColor: 'hsl(221, 83%, 53%)', group: 'Core' },
-    { id: 'cyberpunk', label: 'Cyberpunk Neon', dotColor: 'hsl(315, 95%, 60%)', group: 'Core' },
-    { id: 'emerald', label: 'Emerald Matrix', dotColor: 'hsl(158, 64%, 48%)', group: 'Core' },
-    { id: 'sunset', label: 'Sunset Solar', dotColor: 'hsl(24, 95%, 53%)', group: 'Core' },
-    { id: 'light', label: 'Daylight Clean', dotColor: 'hsl(215, 20%, 75%)', group: 'Core' },
-    { id: 'catppuccin-mocha', label: 'Catppuccin Mocha (Default)', dotColor: '#cba6f7', group: 'Catppuccin' },
-    { id: 'catppuccin-macchiato', label: 'Catppuccin Macchiato', dotColor: '#8aadf4', group: 'Catppuccin' },
-    { id: 'catppuccin-frappe', label: 'Catppuccin Frappé', dotColor: '#ca9ee6', group: 'Catppuccin' },
-    { id: 'catppuccin-latte', label: 'Catppuccin Latte', dotColor: '#8839ef', group: 'Catppuccin' }
+    {
+      id: "dark",
+      label: "Midnight Indigo",
+      dotColor: "hsl(221, 83%, 53%)",
+      group: "Core",
+    },
+    {
+      id: "cyberpunk",
+      label: "Cyberpunk Neon",
+      dotColor: "hsl(315, 95%, 60%)",
+      group: "Core",
+    },
+    {
+      id: "emerald",
+      label: "Emerald Matrix",
+      dotColor: "hsl(158, 64%, 48%)",
+      group: "Core",
+    },
+    {
+      id: "sunset",
+      label: "Sunset Solar",
+      dotColor: "hsl(24, 95%, 53%)",
+      group: "Core",
+    },
+    {
+      id: "light",
+      label: "Daylight Clean",
+      dotColor: "hsl(215, 20%, 75%)",
+      group: "Core",
+    },
+    {
+      id: "catppuccin-mocha",
+      label: "Catppuccin Mocha (Default)",
+      dotColor: "#cba6f7",
+      group: "Catppuccin",
+    },
+    {
+      id: "catppuccin-macchiato",
+      label: "Catppuccin Macchiato",
+      dotColor: "#8aadf4",
+      group: "Catppuccin",
+    },
+    {
+      id: "catppuccin-frappe",
+      label: "Catppuccin Frappé",
+      dotColor: "#ca9ee6",
+      group: "Catppuccin",
+    },
+    {
+      id: "catppuccin-latte",
+      label: "Catppuccin Latte",
+      dotColor: "#8839ef",
+      group: "Catppuccin",
+    },
   ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (themeMenuRef.current && !themeMenuRef.current.contains(e.target as Node)) {
+      if (
+        themeMenuRef.current &&
+        !themeMenuRef.current.contains(e.target as Node)
+      ) {
         setIsThemeMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const isHome = location.pathname === '/';
-  const isVisualizer = location.pathname.startsWith('/visualizer');
-  const isCompare = location.pathname.startsWith('/compare');
-  const isQuiz = location.pathname.startsWith('/quiz');
-  const isTracks = location.pathname.startsWith('/tracks');
-  const isBlind75 = location.pathname.startsWith('/blind75');
+  const isHome = location.pathname === "/";
+  const isVisualizer = location.pathname.startsWith("/visualizer");
+  const isCompare = location.pathname.startsWith("/compare");
+  const isQuiz = location.pathname.startsWith("/quiz");
+  const isTracks = location.pathname.startsWith("/tracks");
+  const isBlind75 = location.pathname.startsWith("/blind75");
 
   return (
-    <header style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      backgroundColor: 'var(--surface-subtle)',
-      borderBottom: 'var(--border-1) solid var(--border-subtle)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)'
-    }}>
-      <div className="container" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '64px',
-        gap: 'var(--space-4)'
-      }}>
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        backgroundColor: "var(--surface-subtle)",
+        borderBottom: "var(--border-1) solid var(--border-subtle)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "64px",
+          gap: "var(--space-4)",
+        }}
+      >
         {/* Brand Logo */}
-        <Link 
+        <Link
           to="/"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--space-2)',
-            cursor: 'pointer',
-            userSelect: 'none',
-            textDecoration: 'none'
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+            cursor: "pointer",
+            userSelect: "none",
+            textDecoration: "none",
           }}
           title="AlgoSphere - Interactive Algorithm Visualizer"
         >
           <Logo height={32} />
-    
         </Link>
 
         {/* Navigation Tabs with Real Routes - Soft ScribbleKit Pill Island */}
-        <nav style={{
-          display: 'none',
-          alignItems: 'center',
-          gap: '4px',
-          backgroundColor: 'var(--surface-subtle)',
-          padding: '4px 6px',
-          borderRadius: 'var(--radius-full)',
-          border: 'var(--border-1) solid var(--border-default)',
-          boxShadow: 'var(--shadow-xs)'
-        }} className="desktop-nav">
+        <nav
+          style={{
+            display: "none",
+            alignItems: "center",
+            gap: "4px",
+            backgroundColor: "var(--surface-subtle)",
+            padding: "4px 6px",
+            borderRadius: "var(--radius-full)",
+            border: "var(--border-1) solid var(--border-default)",
+            boxShadow: "var(--shadow-xs)",
+          }}
+          className="desktop-nav"
+        >
           <Link
             to="/"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isHome ? 'var(--surface-card)' : 'transparent',
-              color: isHome ? 'var(--primary-500)' : 'var(--text-secondary)',
-              border: isHome ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isHome ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isHome ? "var(--surface-card)" : "transparent",
+              color: isHome ? "var(--primary-500)" : "var(--text-secondary)",
+              border: isHome
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isHome ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isHome ? 700 : 500,
-              padding: '6px 14px'
+              padding: "6px 14px",
             }}
           >
             <Layers size={15} />
@@ -147,14 +204,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             to="/visualizer/sorting"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isVisualizer ? 'var(--surface-card)' : 'transparent',
-              color: isVisualizer ? 'var(--primary-500)' : 'var(--text-secondary)',
-              border: isVisualizer ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isVisualizer ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isVisualizer
+                ? "var(--surface-card)"
+                : "transparent",
+              color: isVisualizer
+                ? "var(--primary-500)"
+                : "var(--text-secondary)",
+              border: isVisualizer
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isVisualizer ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isVisualizer ? 700 : 500,
-              padding: '6px 14px'
+              padding: "6px 14px",
             }}
           >
             <Sparkles size={15} />
@@ -164,14 +227,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             to="/compare"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isCompare ? 'var(--surface-card)' : 'transparent',
-              color: isCompare ? 'var(--primary-500)' : 'var(--text-secondary)',
-              border: isCompare ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isCompare ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isCompare
+                ? "var(--surface-card)"
+                : "transparent",
+              color: isCompare ? "var(--primary-500)" : "var(--text-secondary)",
+              border: isCompare
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isCompare ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isCompare ? 700 : 500,
-              padding: '6px 14px'
+              padding: "6px 14px",
             }}
           >
             <Activity size={15} />
@@ -181,14 +248,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             to="/quiz"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isQuiz ? 'var(--surface-card)' : 'transparent',
-              color: isQuiz ? 'var(--primary-500)' : 'var(--text-secondary)',
-              border: isQuiz ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isQuiz ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isQuiz ? "var(--surface-card)" : "transparent",
+              color: isQuiz ? "var(--primary-500)" : "var(--text-secondary)",
+              border: isQuiz
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isQuiz ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isQuiz ? 700 : 500,
-              padding: '6px 14px'
+              padding: "6px 14px",
             }}
           >
             <Trophy size={15} />
@@ -198,14 +267,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             to="/tracks"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isTracks ? 'var(--surface-card)' : 'transparent',
-              color: isTracks ? 'var(--primary-500)' : 'var(--text-secondary)',
-              border: isTracks ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isTracks ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isTracks ? "var(--surface-card)" : "transparent",
+              color: isTracks ? "var(--primary-500)" : "var(--text-secondary)",
+              border: isTracks
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isTracks ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isTracks ? 700 : 500,
-              padding: '6px 14px'
+              padding: "6px 14px",
             }}
           >
             <GraduationCap size={15} />
@@ -215,217 +286,271 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             to="/blind75"
             className="btn btn-sm"
-            style={{ 
-              backgroundColor: isBlind75 ? 'var(--surface-card)' : 'transparent',
-              color: isBlind75 ? 'var(--danger-500)' : 'var(--text-secondary)',
-              border: isBlind75 ? 'var(--border-1) solid var(--border-default)' : 'none',
-              boxShadow: isBlind75 ? 'var(--shadow-sm)' : 'none',
-              textDecoration: 'none',
+            style={{
+              backgroundColor: isBlind75
+                ? "var(--surface-card)"
+                : "transparent",
+              color: isBlind75 ? "var(--danger-500)" : "var(--text-secondary)",
+              border: isBlind75
+                ? "var(--border-1) solid var(--border-default)"
+                : "none",
+              boxShadow: isBlind75 ? "var(--shadow-sm)" : "none",
+              textDecoration: "none",
               fontWeight: isBlind75 ? 700 : 600,
-              padding: '6px 14px',
-              position: 'relative'
+              padding: "6px 14px",
+              position: "relative",
             }}
           >
-            <Flame size={15} color={isBlind75 ? 'var(--danger-500)' : 'var(--danger-400)'} />
-            <span>Blind 75</span>
-            <span style={{
-              fontSize: '9px',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 800,
-              color: '#fff',
-              backgroundColor: 'var(--danger-500)',
-              padding: '1px 5px',
-              borderRadius: 'var(--radius-full)',
-              marginLeft: '2px'
-            }}>
-              75
-            </span>
+            <BookHeart size={15} />
+            Technical Mastery
           </Link>
         </nav>
 
         {/* Right Actions: Search + Color Theme Menu - Soft ScribbleKit Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+          }}
+        >
           <button
             onClick={onOpenCommandPalette}
             className="btn btn-secondary btn-sm"
             style={{
-              gap: 'var(--space-3)',
-              color: 'var(--text-secondary)',
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-full)'
+              gap: "var(--space-3)",
+              color: "var(--text-secondary)",
+              padding: "6px 14px",
+              borderRadius: "var(--radius-full)",
             }}
             title="Search algorithms (Cmd+K)"
           >
             <Search size={14} />
-            <span style={{ display: 'none' }} className="search-text">Search...</span>
-            <kbd style={{
-              backgroundColor: 'var(--surface-subtle)',
-              border: 'var(--border-1) solid var(--border-default)',
-              borderRadius: 'var(--radius-full)',
-              padding: '2px 7px',
-              fontSize: '10px',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--text-tertiary)',
-              letterSpacing: '0.04em'
-            }}>⌘K</kbd>
+            <span style={{ display: "none" }} className="search-text">
+              Search...
+            </span>
+            <kbd
+              style={{
+                backgroundColor: "var(--surface-subtle)",
+                border: "var(--border-1) solid var(--border-default)",
+                borderRadius: "var(--radius-full)",
+                padding: "2px 7px",
+                fontSize: "10px",
+                fontFamily: "var(--font-mono)",
+                color: "var(--text-tertiary)",
+                letterSpacing: "0.04em",
+              }}
+            >
+              ⌘K
+            </kbd>
           </button>
 
           {/* Color Themes Menu */}
-          <div style={{ position: 'relative' }} ref={themeMenuRef}>
+          <div style={{ position: "relative" }} ref={themeMenuRef}>
             <button
-              onClick={() => setIsThemeMenuOpen(prev => !prev)}
+              onClick={() => setIsThemeMenuOpen((prev) => !prev)}
               className="btn btn-secondary btn-sm"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '7px 12px',
-                borderRadius: 'var(--radius-full)'
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "7px 12px",
+                borderRadius: "var(--radius-full)",
               }}
               title="Select color theme"
             >
               <Palette size={15} color="var(--primary-500)" />
               <span
                 style={{
-                  width: '9px',
-                  height: '9px',
-                  borderRadius: 'var(--radius-full)',
-                  backgroundColor: 'var(--primary-500)',
-                  boxShadow: '0 0 6px var(--primary-500)'
+                  width: "9px",
+                  height: "9px",
+                  borderRadius: "var(--radius-full)",
+                  backgroundColor: "var(--primary-500)",
+                  boxShadow: "0 0 6px var(--primary-500)",
                 }}
               />
             </button>
 
             {isThemeMenuOpen && (
-              <div style={{
-                position: 'absolute',
-                top: 'calc(100% + 8px)',
-                right: 0,
-                width: '220px',
-                backgroundColor: 'var(--surface-raised)',
-                border: 'var(--border-1) solid var(--border-default)',
-                borderRadius: 'var(--radius-xl)',
-                boxShadow: 'var(--shadow-xl)',
-                padding: 'var(--space-2)',
-                zIndex: 110,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2px',
-                maxHeight: 'calc(100vh - 80px)',
-                overflowY: 'auto'
-              }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 8px)",
+                  right: 0,
+                  width: "220px",
+                  backgroundColor: "var(--surface-raised)",
+                  border: "var(--border-1) solid var(--border-default)",
+                  borderRadius: "var(--radius-xl)",
+                  boxShadow: "var(--shadow-xl)",
+                  padding: "var(--space-2)",
+                  zIndex: 110,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "2px",
+                  maxHeight: "calc(100vh - 80px)",
+                  overflowY: "auto",
+                }}
+              >
                 {/* Core Themes Group */}
-                <div style={{
-                  padding: '4px 8px 2px 8px',
-                  fontSize: '10px',
-                  fontWeight: 'var(--font-bold)',
-                  color: 'var(--text-tertiary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em'
-                }}>
+                <div
+                  style={{
+                    padding: "4px 8px 2px 8px",
+                    fontSize: "10px",
+                    fontWeight: "var(--font-bold)",
+                    color: "var(--text-tertiary)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                  }}
+                >
                   Core Themes
                 </div>
-                {themeOptions.filter(o => o.group === 'Core').map(opt => (
-                  <button
-                    key={opt.id}
-                    onClick={() => {
-                      onSelectTheme(opt.id);
-                      setIsThemeMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '6px 10px',
-                      borderRadius: 'var(--radius-md)',
-                      backgroundColor: theme === opt.id ? 'var(--primary-surface)' : 'transparent',
-                      color: theme === opt.id ? 'var(--primary-500)' : 'var(--text-primary)',
-                      fontSize: 'var(--text-xs)',
-                      fontWeight: theme === opt.id ? 'var(--font-bold)' : 'var(--font-normal)',
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: 'var(--radius-full)',
-                        backgroundColor: opt.dotColor
-                      }} />
-                      <span>{opt.label}</span>
-                    </div>
-                    {theme === opt.id && <Check size={14} color="var(--primary-500)" />}
-                  </button>
-                ))}
+                {themeOptions
+                  .filter((o) => o.group === "Core")
+                  .map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => {
+                        onSelectTheme(opt.id);
+                        setIsThemeMenuOpen(false);
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "6px 10px",
+                        borderRadius: "var(--radius-md)",
+                        backgroundColor:
+                          theme === opt.id
+                            ? "var(--primary-surface)"
+                            : "transparent",
+                        color:
+                          theme === opt.id
+                            ? "var(--primary-500)"
+                            : "var(--text-primary)",
+                        fontSize: "var(--text-xs)",
+                        fontWeight:
+                          theme === opt.id
+                            ? "var(--font-bold)"
+                            : "var(--font-normal)",
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "var(--radius-full)",
+                            backgroundColor: opt.dotColor,
+                          }}
+                        />
+                        <span>{opt.label}</span>
+                      </div>
+                      {theme === opt.id && (
+                        <Check size={14} color="var(--primary-500)" />
+                      )}
+                    </button>
+                  ))}
 
                 {/* Divider */}
-                <div style={{
-                  height: '1px',
-                  backgroundColor: 'var(--border-subtle)',
-                  margin: '4px 4px'
-                }} />
+                <div
+                  style={{
+                    height: "1px",
+                    backgroundColor: "var(--border-subtle)",
+                    margin: "4px 4px",
+                  }}
+                />
 
                 {/* Catppuccin Collection Group */}
-                <div style={{
-                  padding: '4px 8px 2px 8px',
-                  fontSize: '10px',
-                  fontWeight: 'var(--font-bold)',
-                  color: 'var(--text-tertiary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}>
+                <div
+                  style={{
+                    padding: "4px 8px 2px 8px",
+                    fontSize: "10px",
+                    fontWeight: "var(--font-bold)",
+                    color: "var(--text-tertiary)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <span>Catppuccin Flavors</span>
-                  <span style={{ fontSize: '9px', opacity: 0.8 }}>☕</span>
+                  <span style={{ fontSize: "9px", opacity: 0.8 }}>☕</span>
                 </div>
-                {themeOptions.filter(o => o.group === 'Catppuccin').map(opt => (
-                  <button
-                    key={opt.id}
-                    onClick={() => {
-                      onSelectTheme(opt.id);
-                      setIsThemeMenuOpen(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '6px 10px',
-                      borderRadius: 'var(--radius-md)',
-                      backgroundColor: theme === opt.id ? 'var(--primary-surface)' : 'transparent',
-                      color: theme === opt.id ? 'var(--primary-500)' : 'var(--text-primary)',
-                      fontSize: 'var(--text-xs)',
-                      fontWeight: theme === opt.id ? 'var(--font-bold)' : 'var(--font-normal)',
-                      textAlign: 'left',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: 'var(--radius-full)',
-                        backgroundColor: opt.dotColor,
-                        boxShadow: `0 0 6px ${opt.dotColor}`
-                      }} />
-                      <span>{opt.label}</span>
-                    </div>
-                    {theme === opt.id && <Check size={14} color="var(--primary-500)" />}
-                  </button>
-                ))}
+                {themeOptions
+                  .filter((o) => o.group === "Catppuccin")
+                  .map((opt) => (
+                    <button
+                      key={opt.id}
+                      onClick={() => {
+                        onSelectTheme(opt.id);
+                        setIsThemeMenuOpen(false);
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "6px 10px",
+                        borderRadius: "var(--radius-md)",
+                        backgroundColor:
+                          theme === opt.id
+                            ? "var(--primary-surface)"
+                            : "transparent",
+                        color:
+                          theme === opt.id
+                            ? "var(--primary-500)"
+                            : "var(--text-primary)",
+                        fontSize: "var(--text-xs)",
+                        fontWeight:
+                          theme === opt.id
+                            ? "var(--font-bold)"
+                            : "var(--font-normal)",
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "var(--radius-full)",
+                            backgroundColor: opt.dotColor,
+                            boxShadow: `0 0 6px ${opt.dotColor}`,
+                          }}
+                        />
+                        <span>{opt.label}</span>
+                      </div>
+                      {theme === opt.id && (
+                        <Check size={14} color="var(--primary-500)" />
+                      )}
+                    </button>
+                  ))}
               </div>
             )}
           </div>
 
           {/* Mobile Hamburger Toggle Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             className="btn btn-secondary btn-sm mobile-nav-toggle"
             style={{
-              padding: '7px 10px',
-              borderRadius: 'var(--radius-full)'
+              padding: "7px 10px",
+              borderRadius: "var(--radius-full)",
             }}
             aria-label="Toggle navigation menu"
           >
@@ -436,26 +561,31 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div style={{
-          backgroundColor: 'var(--surface-raised)',
-          borderBottom: '1px solid var(--border-default)',
-          padding: 'var(--space-3) var(--space-4)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-1)',
-          boxShadow: 'var(--shadow-lg)'
-        }} className="mobile-drawer">
+        <div
+          style={{
+            backgroundColor: "var(--surface-raised)",
+            borderBottom: "1px solid var(--border-default)",
+            padding: "var(--space-3) var(--space-4)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-1)",
+            boxShadow: "var(--shadow-lg)",
+          }}
+          className="mobile-drawer"
+        >
           <Link
             to="/"
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isHome ? 'var(--primary-surface)' : 'transparent',
-              color: isHome ? 'var(--primary-400)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isHome ? 'bold' : 'normal'
+              justifyContent: "flex-start",
+              backgroundColor: isHome
+                ? "var(--primary-surface)"
+                : "transparent",
+              color: isHome ? "var(--primary-400)" : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isHome ? "bold" : "normal",
             }}
           >
             <Layers size={16} />
@@ -467,12 +597,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isVisualizer ? 'var(--primary-surface)' : 'transparent',
-              color: isVisualizer ? 'var(--primary-400)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isVisualizer ? 'bold' : 'normal'
+              justifyContent: "flex-start",
+              backgroundColor: isVisualizer
+                ? "var(--primary-surface)"
+                : "transparent",
+              color: isVisualizer
+                ? "var(--primary-400)"
+                : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isVisualizer ? "bold" : "normal",
             }}
           >
             <Sparkles size={16} />
@@ -484,12 +618,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isCompare ? 'var(--primary-surface)' : 'transparent',
-              color: isCompare ? 'var(--primary-400)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isCompare ? 'bold' : 'normal'
+              justifyContent: "flex-start",
+              backgroundColor: isCompare
+                ? "var(--primary-surface)"
+                : "transparent",
+              color: isCompare ? "var(--primary-400)" : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isCompare ? "bold" : "normal",
             }}
           >
             <Activity size={16} />
@@ -501,12 +637,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isQuiz ? 'var(--primary-surface)' : 'transparent',
-              color: isQuiz ? 'var(--primary-400)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isQuiz ? 'bold' : 'normal'
+              justifyContent: "flex-start",
+              backgroundColor: isQuiz
+                ? "var(--primary-surface)"
+                : "transparent",
+              color: isQuiz ? "var(--primary-400)" : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isQuiz ? "bold" : "normal",
             }}
           >
             <Trophy size={16} />
@@ -518,12 +656,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isTracks ? 'var(--primary-surface)' : 'transparent',
-              color: isTracks ? 'var(--primary-400)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isTracks ? 'bold' : 'normal'
+              justifyContent: "flex-start",
+              backgroundColor: isTracks
+                ? "var(--primary-surface)"
+                : "transparent",
+              color: isTracks ? "var(--primary-400)" : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isTracks ? "bold" : "normal",
             }}
           >
             <GraduationCap size={16} />
@@ -535,17 +675,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
-              justifyContent: 'flex-start',
-              backgroundColor: isBlind75 ? 'var(--danger-surface)' : 'transparent',
-              color: isBlind75 ? 'var(--danger-500)' : 'var(--text-primary)',
-              borderRadius: 'var(--radius-md)',
-              padding: '8px 12px',
-              fontWeight: isBlind75 ? 'bold' : 'normal',
-              gap: '8px'
+              justifyContent: "flex-start",
+              backgroundColor: isBlind75
+                ? "var(--danger-surface)"
+                : "transparent",
+              color: isBlind75 ? "var(--danger-500)" : "var(--text-primary)",
+              borderRadius: "var(--radius-md)",
+              padding: "8px 12px",
+              fontWeight: isBlind75 ? "bold" : "normal",
+              gap: "8px",
             }}
           >
-            <Flame size={16} color="var(--danger-500)" />
-            <span>Blind 75 & Grind 75 Mastery</span>
+            <BookHeart size={16} color="var(--danger-500)" />
+            <span>Blind 75 Mastery</span>
           </Link>
         </div>
       )}
