@@ -96,7 +96,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       if (onNavigateTab) onNavigateTab("visualizer");
       navigate(`/visualizer/${item.data.id}`);
     } else {
-      window.open(`/blind75/${item.data.id}`, "_blank");
+      window.open(`/mastery/${item.data.id}`, "_blank");
     }
     onClose();
   };

@@ -128,7 +128,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isCompare = location.pathname.startsWith("/compare");
   const isQuiz = location.pathname.startsWith("/quiz");
   const isTracks = location.pathname.startsWith("/tracks");
-  const isBlind75 = location.pathname.startsWith("/blind75");
+  const isMastery =
+    location.pathname.startsWith("/mastery") ||
+    location.pathname.startsWith("/blind75");
 
   return (
     <header
@@ -284,19 +286,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Link>
 
           <Link
-            to="/blind75"
+            to="/mastery"
             className="btn btn-sm"
             style={{
-              backgroundColor: isBlind75
+              backgroundColor: isMastery
                 ? "var(--surface-card)"
                 : "transparent",
-              color: isBlind75 ? "var(--danger-500)" : "var(--text-secondary)",
-              border: isBlind75
+              color: isMastery ? "var(--danger-500)" : "var(--text-secondary)",
+              border: isMastery
                 ? "var(--border-1) solid var(--border-default)"
                 : "none",
-              boxShadow: isBlind75 ? "var(--shadow-sm)" : "none",
+              boxShadow: isMastery ? "var(--shadow-sm)" : "none",
               textDecoration: "none",
-              fontWeight: isBlind75 ? 700 : 600,
+              fontWeight: isMastery ? 700 : 600,
               padding: "6px 14px",
               position: "relative",
             }}
@@ -671,18 +673,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </Link>
 
           <Link
-            to="/blind75"
+            to="/mastery"
             onClick={() => setIsMobileMenuOpen(false)}
             className="btn btn-sm"
             style={{
               justifyContent: "flex-start",
-              backgroundColor: isBlind75
+              backgroundColor: isMastery
                 ? "var(--danger-surface)"
                 : "transparent",
-              color: isBlind75 ? "var(--danger-500)" : "var(--text-primary)",
+              color: isMastery ? "var(--danger-500)" : "var(--text-primary)",
               borderRadius: "var(--radius-md)",
               padding: "8px 12px",
-              fontWeight: isBlind75 ? "bold" : "normal",
+              fontWeight: isMastery ? "bold" : "normal",
               gap: "8px",
             }}
           >

@@ -246,7 +246,7 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
           {/* Right Controls: Open in Full Tab + Close Button */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <a
-              href={`/blind75/${problem.id}`}
+              href={`/mastery/${problem.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-sm btn-secondary"
@@ -453,7 +453,7 @@ export const Blind75DetailModal: FC<Blind75DetailModalProps> = ({
                     <span>Launch Visualizer</span>
                   </button>
                   <a
-                    href={`/blind75/${problem.id}`}
+                    href={`/mastery/${problem.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-sm btn-secondary"

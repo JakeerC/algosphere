@@ -107,7 +107,7 @@ export const Blind75Page: FC = () => {
 
   // Select problem to open in a new tab and dedicated page
   const handleSelectProblem = (problem: Blind75Problem) => {
-    window.open(`/blind75/${problem.id}`, '_blank');
+    window.open(`/mastery/${problem.id}`, '_blank');
   };
 
   const handleResetFilters = () => {

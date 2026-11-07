@@ -203,12 +203,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenCommandPalette }) => {
 
       {/* Hero Section */}
       <section
+        className="hero-fullscreen"
         style={{
-          paddingTop: "var(--space-8)",
-          paddingBottom: "var(--space-4)",
+          marginTop: "calc(-1 * var(--space-4))",
+          minHeight: "calc(100vh - 64px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: "var(--space-6)",
+          paddingBottom: "var(--space-6)",
           textAlign: "center",
           position: "relative",
           zIndex: 1,
+          boxSizing: "border-box",
         }}
       >
         <div
@@ -217,6 +225,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenCommandPalette }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            width: "100%",
           }}
         >
           {/* Punchy Headline with Scribble Wave */}
@@ -289,7 +298,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenCommandPalette }) => {
               </kbd>
             </button>
             <Link
-              to="/blind75"
+              to="/mastery"
               className="btn btn-secondary btn-lg"
               style={{
                 gap: "var(--space-2)",
@@ -995,6 +1004,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenCommandPalette }) => {
       </section>
 
       <style>{`
+        .hero-fullscreen {
+          min-height: calc(100vh - 64px);
+          min-height: calc(100dvh - 64px);
+        }
         @media (min-width: 900px) {
           .desktop-arrow {
             display: flex !important;
