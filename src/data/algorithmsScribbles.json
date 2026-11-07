@@ -1,0 +1,538 @@
+[
+  {
+    "id": "algo-binary-tree",
+    "name": "Binary Search Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "tree",
+      "binary-tree",
+      "bst",
+      "nodes",
+      "hierarchy",
+      "search"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Hand-drawn binary search tree with root node, branch edges, and child leaves.",
+    "path": "d=\"M90 14 C98 14 105 20 105 28 C105 36 98 42 90 42 C82 42 75 36 75 28 C75 20 82 14 90 14 Z M50 64 C58 64 64 70 64 78 C64 86 58 92 50 92 C42 92 36 86 36 78 C36 70 42 64 50 64 Z M130 64 C138 64 144 70 144 78 C144 86 138 92 130 92 C122 92 116 86 116 78 C116 70 122 64 130 64 Z M26 114 C33 114 38 119 38 126 C38 133 33 138 26 138 C19 138 14 133 14 126 C14 119 19 114 26 114 Z M74 114 C81 114 86 119 86 126 C86 133 81 138 74 138 C67 138 62 133 62 126 C62 119 67 114 74 114 Z M106 114 C113 114 118 119 118 126 C118 133 113 138 106 138 C99 138 94 133 94 126 C94 119 99 114 106 114 Z M154 114 C161 114 166 119 166 126 C166 133 161 138 154 138 C147 138 142 133 142 126 C142 119 147 114 154 114 Z M79 38 C68 48 59 56 56 65 M101 38 C112 48 121 56 124 65 M42 90 C36 98 32 106 29 115 M58 90 C64 98 68 106 71 115 M122 90 C116 98 112 106 109 115 M138 90 C144 98 148 106 151 115\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-linked-list",
+    "name": "Singly Linked List",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "linked-list",
+      "pointers",
+      "nodes",
+      "chain",
+      "linear",
+      "data-structures"
+    ],
+    "viewBox": "0 0 210 90",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Chained linked list nodes with data compartments, pointer arrows, and null terminator.",
+    "path": "d=\"M12 28 C12 23 16 20 22 20 H58 C64 20 68 23 68 28 V62 C68 67 64 70 58 70 H22 C16 70 12 67 12 62 Z M46 20 V70 M29 45 H31 M57 45 H78 M72 39 L78 45 L72 51 M80 28 C80 23 84 20 90 20 H126 C132 20 136 23 136 28 V62 C136 67 132 70 126 70 H90 C84 70 80 67 80 62 Z M114 20 V70 M97 45 H99 M125 45 H146 M140 39 L146 45 L140 51 M148 28 C148 23 152 20 158 20 H194 C200 20 204 23 204 28 V62 C204 67 200 70 194 70 H158 C152 70 148 67 148 62 Z M182 20 V70 M165 45 H167 M191 36 L197 54 M188 54 H200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-doubly-linked-list",
+    "name": "Doubly Linked List",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "doubly-linked-list",
+      "bidirectional",
+      "pointers",
+      "nodes",
+      "chains"
+    ],
+    "viewBox": "0 0 220 100",
+    "type": "stroke",
+    "defaultColor": "#4CA96D",
+    "description": "Bidirectional linked list nodes with forward and backward hand-drawn pointer arrows.",
+    "path": "d=\"M14 24 C14 20 18 18 24 18 H90 C96 18 100 20 100 24 V76 C100 80 96 82 90 82 H24 C18 82 14 80 14 76 Z M38 18 V82 M76 18 V82 M57 50 H59 M120 24 C120 20 124 18 130 18 H196 C202 18 206 20 206 24 V76 C206 80 202 82 196 82 H130 C124 82 120 80 120 76 Z M144 18 V82 M182 18 V82 M163 50 H165 M88 38 C98 36 109 36 118 38 M112 32 L119 38 L112 44 M132 62 C122 64 111 64 102 62 M108 56 L101 62 L108 68 M26 50 H32 M194 50 H200\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-array-buffer",
+    "name": "Indexed Array Buffer",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "array",
+      "buffer",
+      "indices",
+      "memory",
+      "linear",
+      "pointers"
+    ],
+    "viewBox": "0 0 200 110",
+    "type": "stroke",
+    "defaultColor": "#F7D046",
+    "description": "Contiguous array cells with index markers and a hand-drawn pointer cursor.",
+    "path": "d=\"M16 40 C16 35 20 32 26 32 H174 C180 32 184 35 184 40 V74 C184 79 180 82 174 82 H26 C20 82 16 79 16 74 Z M50 32 V82 M84 32 V82 M118 32 V82 M152 32 V82 M33 57 H35 M67 57 H69 M101 57 H103 M135 57 H137 M168 57 H170 M33 96 C33 92 37 92 37 96 C37 100 33 100 33 96 Z M67 92 V100 M99 93 C101 93 104 94 104 96 C104 99 98 100 98 101 H105 M132 93 H138 L134 97 C138 97 138 101 133 101 M168 93 L166 97 H172 M170 93 V101 M101 8 L101 24 M95 18 L101 25 L107 18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-stack-lifo",
+    "name": "LIFO Stack Container",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "stack",
+      "lifo",
+      "push",
+      "pop",
+      "container",
+      "depth"
+    ],
+    "viewBox": "0 0 160 160",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Vertical stack container with nested data plates and curved push/pop trajectory arrows.",
+    "path": "d=\"M38 46 L40 134 C40 144 50 148 80 148 C110 148 120 144 120 134 L122 46 M50 128 C56 123 72 121 80 121 C88 121 104 123 110 128 C110 133 98 136 80 136 C62 136 50 133 50 128 Z M50 100 C56 95 72 93 80 93 C88 93 104 95 110 100 C110 105 98 108 80 108 C62 108 50 105 50 100 Z M50 72 C56 67 72 65 80 65 C88 65 104 67 110 72 C110 77 98 80 80 80 C62 80 50 77 50 72 Z M26 22 C44 14 68 20 74 38 M66 36 L75 39 L79 30 M86 38 C92 20 116 14 134 22 M126 16 L135 22 L131 31\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-queue-fifo",
+    "name": "FIFO Queue Pipeline",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "queue",
+      "fifo",
+      "enqueue",
+      "dequeue",
+      "pipeline",
+      "buffer"
+    ],
+    "viewBox": "0 0 210 100",
+    "type": "stroke",
+    "defaultColor": "#0BDC85",
+    "description": "Horizontal queue pipeline with items enqueuing at the rear and dequeuing from the front.",
+    "path": "d=\"M44 26 C80 24 130 24 166 26 M44 74 C80 76 130 76 166 74 M58 35 C56 35 54 38 54 50 C54 62 56 65 58 65 H78 C80 65 82 62 82 50 C82 38 80 35 78 35 Z M92 35 C90 35 88 38 88 50 C88 62 90 65 92 65 H112 C114 65 116 62 116 50 C116 38 114 35 112 35 Z M126 35 C124 35 122 38 122 50 C122 62 124 65 126 65 H146 C148 65 150 62 150 50 C150 38 148 35 146 35 Z M12 50 H34 M26 43 L34 50 L26 57 M176 50 H198 M190 43 L198 50 L190 57\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-hash-table",
+    "name": "Hash Table & Buckets",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "hash-table",
+      "hash-map",
+      "buckets",
+      "collision",
+      "key-value",
+      "dictionary"
+    ],
+    "viewBox": "0 0 190 150",
+    "type": "stroke",
+    "defaultColor": "#EE8DB9",
+    "description": "Key hashing into an array of buckets with an attached collision resolution chain.",
+    "path": "d=\"M14 42 C14 35 18 32 26 32 H54 C62 32 66 35 66 42 V62 C66 69 62 72 54 72 H26 C18 72 14 69 14 62 Z M28 52 H32 M37 46 V58 M43 48 C46 48 48 50 48 53 C48 58 43 58 43 58 M66 52 C72 52 78 52 82 52 M88 44 C84 47 84 57 88 60 M82 52 H92 M100 18 C100 15 103 14 108 14 H134 C139 14 142 15 142 18 V132 C142 135 139 136 134 136 H108 C103 136 100 135 100 132 Z M100 44 H142 M100 74 H142 M100 104 H142 M92 52 C95 52 97 52 100 52 M134 89 H156 M150 83 L157 89 L150 95 M158 78 C158 75 160 74 164 74 H182 C186 74 188 75 188 78 V100 C188 103 186 104 182 104 H164 C160 104 158 103 158 100 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-graph-network",
+    "name": "Graph Network Topology",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "graph",
+      "nodes",
+      "edges",
+      "network",
+      "mesh",
+      "topology"
+    ],
+    "viewBox": "0 0 170 160",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Multi-node undirected graph with organic interconnecting edge paths.",
+    "path": "d=\"M85 16 C93 16 100 22 100 30 C100 38 93 44 85 44 C77 44 70 38 70 30 C70 22 77 16 85 16 Z M32 58 C40 58 46 64 46 72 C46 80 40 86 32 86 C24 86 18 80 18 72 C18 64 24 58 32 58 Z M138 58 C146 58 152 64 152 72 C152 80 146 86 138 86 C130 86 124 80 124 72 C124 64 130 58 138 58 Z M50 118 C58 118 64 124 64 132 C64 140 58 146 50 146 C42 146 36 140 36 132 C36 124 42 118 50 118 Z M120 118 C128 118 134 124 134 132 C134 140 128 146 120 146 C112 146 106 140 106 132 C106 124 112 118 120 118 Z M74 38 C62 48 52 58 43 65 M96 38 C108 48 118 58 127 65 M46 73 C68 73 102 73 124 73 M36 86 C40 96 44 107 47 118 M134 86 C130 96 126 107 123 118 M64 132 C80 132 94 132 106 132\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-dag-topological",
+    "name": "Directed Acyclic Graph (DAG)",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "dag",
+      "directed-graph",
+      "topological",
+      "dependencies",
+      "workflow",
+      "sort"
+    ],
+    "viewBox": "0 0 190 130",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Directed acyclic graph with flow arrows demonstrating task dependencies and topological sorting.",
+    "path": "d=\"M26 52 C33 52 38 57 38 65 C38 73 33 78 26 78 C19 78 14 73 14 65 C14 57 19 52 26 52 Z M80 20 C87 20 92 25 92 32 C92 39 87 44 80 44 C73 44 68 39 68 32 C68 25 73 20 80 20 Z M80 86 C87 86 92 91 92 98 C92 105 87 110 80 110 C73 110 68 105 68 98 C68 91 73 86 80 86 Z M138 34 C145 34 150 39 150 46 C150 53 145 58 138 58 C131 58 126 53 126 46 C126 39 131 34 138 34 Z M166 74 C173 74 178 79 178 86 C178 93 173 98 166 98 C159 98 154 93 154 86 C154 79 159 74 166 74 Z M36 58 C47 49 57 41 68 35 M60 34 L69 34 L66 42 M36 72 C47 81 57 89 68 95 M66 88 L69 96 L60 96 M92 34 C104 37 114 40 126 43 M118 38 L126 43 L119 47 M92 98 C104 95 116 90 128 84 M90 42 C102 56 122 72 154 83 M145 77 L154 83 L146 86 M148 52 C153 58 157 65 161 74 M154 68 L161 74 L163 66\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-heap-tree",
+    "name": "Min/Max Priority Heap",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "heap",
+      "priority-queue",
+      "binary-heap",
+      "min-heap",
+      "max-heap",
+      "pyramid"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#F7D046",
+    "description": "Triangular hierarchical heap with root priority element highlighted at the summit.",
+    "path": "d=\"M90 12 L164 136 C166 140 162 144 154 144 H26 C18 144 14 140 16 136 Z M90 32 C97 32 103 37 103 44 C103 51 97 56 90 56 C83 56 77 51 77 44 C77 37 83 32 90 32 Z M60 76 C66 76 71 81 71 87 C71 93 66 98 60 98 C54 98 49 93 49 87 C49 81 54 76 60 76 Z M120 76 C126 76 131 81 131 87 C131 93 126 98 120 98 C114 98 109 93 109 87 C109 81 114 76 120 76 Z M82 52 L68 76 M98 52 L112 76 M52 96 L42 120 M68 96 L74 120 M112 96 L106 120 M128 96 L138 120 M42 124 H44 M74 124 H76 M106 124 H108 M138 124 H140 M90 18 L90 24 M85 21 H95\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-recursion-spiral",
+    "name": "Recursive Call Stack",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "recursion",
+      "call-stack",
+      "spiral",
+      "fractal",
+      "depth",
+      "base-case"
+    ],
+    "viewBox": "0 0 160 160",
+    "type": "stroke",
+    "defaultColor": "#4CA96D",
+    "description": "Descending recursive spiral frames zooming into the base case and unwinding back.",
+    "path": "d=\"M142 80 C142 114 114 142 80 142 C46 142 18 114 18 80 C18 46 46 18 80 18 C108 18 130 40 130 68 C130 94 108 116 82 116 C58 116 40 98 40 74 C40 52 58 36 78 36 C96 36 110 50 110 68 C110 82 98 94 84 94 C72 94 62 84 62 72 C62 62 70 54 80 54 C88 54 94 60 94 68 C94 74 88 80 82 80 C78 80 74 76 74 72 M144 72 L142 82 L132 80 M76 72 A 2 2 0 1 1 76 71.9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-binary-search",
+    "name": "Binary Search Split",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "binary-search",
+      "divide-and-conquer",
+      "log-n",
+      "array-split",
+      "search"
+    ],
+    "viewBox": "0 0 200 110",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Sorted array partitioned down the middle with discarded half and target pointer.",
+    "path": "d=\"M16 40 H184 V78 H16 Z M40 40 V78 M64 40 V78 M88 40 V78 M112 40 V78 M136 40 V78 M160 40 V78 M18 43 L38 75 M42 43 L62 75 M66 43 L86 75 M100 32 C108 32 114 36 114 59 C114 82 108 86 100 86 C92 86 86 82 86 59 C86 36 92 32 100 32 Z M100 10 L100 24 M94 18 L100 25 L106 18 M116 90 C130 96 160 96 180 90 M148 94 V102\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-two-pointers",
+    "name": "Two Pointers Convergence",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "two-pointers",
+      "left-right",
+      "indices",
+      "sliding",
+      "algorithm",
+      "pointers"
+    ],
+    "viewBox": "0 0 200 110",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Left and right pointer arrows stepping toward each other over an array segment.",
+    "path": "d=\"M16 34 H184 V70 H16 Z M44 34 V70 M72 34 V70 M100 34 V70 M128 34 V70 M156 34 V70 M30 52 H32 M58 52 H60 M86 52 H88 M114 52 H116 M142 52 H144 M170 52 H172 M30 96 V80 M24 86 L30 79 L36 86 M18 102 H26 M170 96 V80 M164 86 L170 79 L176 86 M164 102 H172 M30 22 C64 10 136 10 170 22 M96 16 L100 20 L104 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-big-o-complexity",
+    "name": "Big-O Complexity Curves",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "big-o",
+      "complexity",
+      "asymptotic",
+      "o-n",
+      "time-complexity",
+      "chart"
+    ],
+    "viewBox": "0 0 160 160",
+    "type": "stroke",
+    "defaultColor": "#EE8DB9",
+    "description": "Hand-sketched time complexity axes with O(1), O(log n), O(n), and O(n²) growth curves.",
+    "path": "d=\"M22 140 L22 18 M16 26 L22 16 L28 26 M22 140 L144 140 M136 134 L146 140 L136 146 M22 120 C50 120 100 120 138 120 M22 138 C54 122 92 104 138 96 M22 138 C58 102 96 66 138 30 M22 138 C52 134 76 86 86 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-matrix-grid",
+    "name": "2D Matrix & Traversal",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "matrix",
+      "2d-grid",
+      "dynamic-programming",
+      "traversal",
+      "pathfinding",
+      "grid"
+    ],
+    "viewBox": "0 0 160 160",
+    "type": "stroke",
+    "defaultColor": "#0BDC85",
+    "description": "Hand-drawn 2D matrix grid with a meandering dynamic programming traversal path from start to goal.",
+    "path": "d=\"M20 20 H140 V140 H20 Z M60 20 V140 M100 20 V140 M20 60 H140 M20 100 H140 M40 40 C44 40 46 36 46 40 C46 44 36 44 40 40 Z M38 40 C50 40 70 40 80 40 C80 50 80 70 80 80 C90 80 110 80 120 80 C120 90 120 110 120 120 M114 114 L120 122 L126 114 M120 120 L124 124 M116 124 L124 116\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-trie-tree",
+    "name": "Prefix Trie Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "trie",
+      "prefix-tree",
+      "autocomplete",
+      "strings",
+      "search-tree",
+      "dictionary"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#F7D046",
+    "description": "Prefix trie branching from a central root node into characters spelling dictionary words.",
+    "path": "d=\"M90 16 C96 16 102 21 102 28 C102 35 96 40 90 40 C84 40 78 35 78 28 C78 21 84 16 90 16 Z M52 64 C58 64 64 69 64 76 C64 83 58 88 52 88 C46 88 40 83 40 76 C40 69 46 64 52 64 Z M128 64 C134 64 140 69 140 76 C140 83 134 88 128 88 C122 88 116 83 116 76 C116 69 122 64 128 64 Z M32 114 C38 114 44 119 44 126 C44 133 38 138 32 138 C26 138 20 133 20 126 C20 119 26 114 32 114 Z M72 114 C78 114 84 119 84 126 C84 133 78 138 72 138 C66 138 60 133 60 126 C60 119 66 114 72 114 Z M108 114 C114 114 120 119 120 126 C120 133 114 138 108 138 C102 138 96 133 96 126 C96 119 102 114 108 114 Z M148 114 C154 114 160 119 160 126 C160 133 154 138 148 138 C142 138 136 133 136 126 C136 119 142 114 148 114 Z M80 36 L62 64 M100 36 L118 64 M44 86 L36 114 M60 86 L68 114 M120 86 L112 114 M136 86 L144 114\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-sliding-window",
+    "name": "Sliding Window Frame",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "sliding-window",
+      "subarray",
+      "range",
+      "pointers",
+      "window",
+      "algorithm"
+    ],
+    "viewBox": "0 0 200 110",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Highlighted sliding bracket window framing contiguous elements with a directional shift arrow.",
+    "path": "d=\"M16 38 H184 V74 H16 Z M44 38 V74 M72 38 V74 M100 38 V74 M128 38 V74 M156 38 V74 M42 30 H130 C134 30 136 32 136 36 V76 C136 80 134 82 130 82 H42 C38 82 36 80 36 76 V36 C36 32 38 30 42 30 Z M56 16 C84 8 118 8 144 18 M136 12 L146 18 L140 26 M86 96 C80 96 76 98 76 102 C76 106 86 106 86 102 M92 98 V104\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-quicksort-partition",
+    "name": "Quicksort Partition",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "quicksort",
+      "partition",
+      "pivot",
+      "sorting",
+      "divide-and-conquer"
+    ],
+    "viewBox": "0 0 200 120",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Array elements divided around a circled pivot element with left/right partitioning brackets.",
+    "path": "d=\"M100 36 C114 36 124 46 124 60 C124 74 114 84 100 84 C86 84 76 74 76 60 C76 46 86 36 100 36 Z M95 50 V70 M95 50 H103 C107 50 109 52 109 56 C109 60 107 62 103 62 H95 M64 38 C48 38 40 48 40 60 C40 72 48 82 64 82 M136 38 C152 38 160 48 160 60 C160 72 152 82 136 82 M60 98 H24 M30 92 L22 98 L30 104 M140 98 H176 M170 92 L178 98 L170 104\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-red-black-tree",
+    "name": "Red-Black Balanced Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "red-black-tree",
+      "bst",
+      "balanced",
+      "tree",
+      "rotation",
+      "search"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Self-balancing Red-Black binary search tree with distinct red accent nodes and rotation arc arrow.",
+    "path": "d=\"M90 16 C98 16 104 22 104 30 C104 38 98 44 90 44 C82 44 76 38 76 30 C76 22 82 16 90 16 Z M50 64 C58 64 64 70 64 78 C64 86 58 92 50 92 C42 92 36 86 36 78 C36 70 42 64 50 64 Z M130 64 C138 64 144 70 144 78 C144 86 138 92 130 92 C122 92 116 86 116 78 C116 70 122 64 130 64 Z M28 114 C35 114 40 119 40 126 C40 133 35 138 28 138 C21 138 16 133 16 126 C16 119 21 114 28 114 Z M72 114 C79 114 84 119 84 126 C84 133 79 138 72 138 C65 138 60 133 60 126 C60 119 65 114 72 114 Z M110 114 C117 114 122 119 122 126 C122 133 117 138 110 138 C103 138 98 133 98 126 C98 119 103 114 110 114 Z M152 114 C159 114 164 119 164 126 C164 133 159 138 152 138 C145 138 140 133 140 126 C140 119 145 114 152 114 Z M80 38 L58 66 M100 38 L122 66 M42 90 L32 115 M58 90 L68 115 M122 90 L114 115 M138 90 L148 115 M50 78 H52 M152 126 H154 M28 126 H30 M98 48 C108 52 114 58 116 64 M110 66 L118 64 L118 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-b-tree-node",
+    "name": "B-Tree Multi-Key Node",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "b-tree",
+      "database-index",
+      "multiway",
+      "keys",
+      "pointers",
+      "storage"
+    ],
+    "viewBox": "0 0 200 130",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Multi-key B-Tree root node branching downward into partitioned sub-range child leaves.",
+    "path": "d=\"M32 20 H168 C174 20 178 24 178 30 V56 C178 62 174 66 168 66 H32 C26 66 22 62 22 56 V30 C22 24 26 20 32 20 Z M74 20 V66 M126 20 V66 M53 44 H55 M100 44 H102 M147 44 H149 M48 66 L30 96 M100 66 L100 96 M152 66 L170 96 M24 94 L30 98 L36 94 M94 94 L100 98 L106 94 M164 94 L170 98 L176 94 M14 98 H50 V122 H14 Z M84 98 H116 V122 H84 Z M150 98 H186 V122 H150 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-bloom-filter",
+    "name": "Bloom Filter Hash Bitset",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "bloom-filter",
+      "probabilistic",
+      "hashing",
+      "bits",
+      "membership",
+      "cache"
+    ],
+    "viewBox": "0 0 210 110",
+    "type": "stroke",
+    "defaultColor": "#0BDC85",
+    "description": "Probabilistic Bloom filter bitset array with 3 hash function mapping arrows pinning bit positions.",
+    "path": "d=\"M16 64 H194 V98 H16 Z M41 64 V98 M66 64 V98 M91 64 V98 M116 64 V98 M141 64 V98 M166 64 V98 M28 82 H30 M53 74 V90 M78 82 H80 M103 82 H105 M128 74 V90 M153 74 V90 M178 82 H180 M24 24 C24 18 28 14 36 14 H64 C72 14 76 18 76 24 V36 C76 42 72 46 64 46 H36 C28 46 24 42 24 36 Z M42 30 H58 M54 46 C54 54 54 56 54 62 M50 56 L54 62 L58 56 M64 46 C76 56 102 56 126 62 M120 58 L127 62 L125 54 M72 46 C92 56 122 56 150 62 M144 58 L151 62 L149 54\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-lru-cache",
+    "name": "LRU Cache Memory Buffer",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "lru",
+      "cache",
+      "eviction",
+      "doubly-linked",
+      "hashmap",
+      "queue"
+    ],
+    "viewBox": "0 0 200 120",
+    "type": "stroke",
+    "defaultColor": "#F7D046",
+    "description": "Least Recently Used (LRU) cache buffer showing most recent promotion and least recent eviction.",
+    "path": "d=\"M20 40 H180 V80 H20 Z M60 40 V80 M100 40 V80 M140 40 V80 M40 60 H42 M80 60 H82 M120 60 H122 M160 60 H162 M40 24 V34 M34 28 L40 34 L46 28 M24 18 H56 M160 86 V96 M154 90 L160 96 L166 90 M144 104 H176 M72 32 C86 24 114 24 128 32 M120 28 L128 32 L124 38 M128 88 C114 96 86 96 72 88 M80 92 L72 88 L76 82\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-union-find-dsu",
+    "name": "Disjoint Set Union (DSU)",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "dsu",
+      "union-find",
+      "disjoint-set",
+      "components",
+      "graph",
+      "forest"
+    ],
+    "viewBox": "0 0 190 140",
+    "type": "stroke",
+    "defaultColor": "#EE8DB9",
+    "description": "Disjoint Set Union forest with representative roots merging subsets through path compression.",
+    "path": "d=\"M48 24 C56 24 62 30 62 38 C62 46 56 52 48 52 C40 52 34 46 34 38 C34 30 40 24 48 24 Z M26 84 C33 84 38 89 38 96 C38 103 33 108 26 108 C19 108 14 103 14 96 C14 89 19 84 26 84 Z M70 84 C77 84 82 89 82 96 C82 103 77 108 70 108 C63 108 58 103 58 96 C58 89 63 84 70 84 Z M42 50 L30 84 M54 50 L66 84 M142 24 C150 24 156 30 156 38 C156 46 150 52 142 52 C134 52 128 46 128 38 C128 30 134 24 142 24 Z M142 84 C149 84 154 89 154 96 C154 103 149 108 142 108 C135 108 130 103 130 96 C130 89 135 84 142 84 Z M142 52 V84 M64 36 C86 20 108 20 126 34 M120 28 L127 34 L120 38\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-segment-tree",
+    "name": "Interval Segment Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "segment-tree",
+      "intervals",
+      "range-query",
+      "divide-conquer",
+      "tree"
+    ],
+    "viewBox": "0 0 190 140",
+    "type": "stroke",
+    "defaultColor": "#4CA96D",
+    "description": "Binary segment tree partitioning interval bounds with highlighted active range query nodes.",
+    "path": "d=\"M95 16 H105 C116 16 122 20 122 28 C122 36 116 40 105 40 H95 C84 40 78 36 78 28 C78 20 84 16 95 16 Z M50 64 H60 C70 64 74 68 74 74 C74 80 70 84 60 84 H50 C40 84 36 80 36 74 C36 68 40 64 50 64 Z M130 64 H140 C150 64 154 68 154 74 C154 80 150 84 140 84 H130 C120 84 116 80 116 74 C116 68 120 64 130 64 Z M24 108 H32 V124 H24 Z M64 108 H72 V124 H64 Z M104 108 H112 V124 H104 Z M144 108 H152 V124 H144 Z M86 38 L62 64 M114 38 L138 64 M48 84 L32 108 M62 84 L68 108 M128 84 L112 108 M142 84 L148 108 M55 74 H57 M135 74 H137\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-huffman-encoding",
+    "name": "Huffman Coding Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "huffman",
+      "compression",
+      "binary-code",
+      "prefix-tree",
+      "greedy",
+      "entropy"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "Optimal prefix Huffman coding tree with binary 0 and 1 branch weights leading to leaf symbols.",
+    "path": "d=\"M90 18 C97 18 102 23 102 30 C102 37 97 42 90 42 C83 42 78 37 78 30 C78 23 83 18 90 18 Z M50 68 C57 68 62 73 62 80 C62 87 57 92 50 92 C43 92 38 87 38 80 C38 73 43 68 50 68 Z M130 68 C137 68 142 73 142 80 C142 87 137 92 130 92 C123 92 118 87 118 80 C118 73 123 68 130 68 Z M30 118 H46 V134 H30 Z M70 118 H86 V134 H70 Z M82 40 L58 68 M98 40 L122 68 M44 92 L38 118 M56 92 L78 118 M64 48 C68 48 70 50 70 53 M114 48 V56 M34 100 C38 100 40 102 40 105 M72 100 V108 M124 92 L128 118 M130 120 H142 V134 H130 Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-shortest-path-dijkstra",
+    "name": "Dijkstra Shortest Path",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "dijkstra",
+      "shortest-path",
+      "graph",
+      "weights",
+      "greedy",
+      "relaxation"
+    ],
+    "viewBox": "0 0 190 150",
+    "type": "stroke",
+    "defaultColor": "#55BBDA",
+    "description": "Weighted graph showing edge cost relaxation and the optimal shortest path route highlighted.",
+    "path": "d=\"M28 75 C36 75 42 81 42 89 C42 97 36 103 28 103 C20 103 14 97 14 89 C14 81 20 75 28 75 Z M85 24 C93 24 99 30 99 38 C99 46 93 52 85 52 C77 52 71 46 71 38 C71 30 77 24 85 24 Z M85 106 C93 106 99 112 99 120 C99 128 93 134 85 134 C77 134 71 128 71 120 C71 112 77 106 85 106 Z M158 64 C166 64 172 70 172 78 C172 86 166 92 158 92 C150 92 144 86 144 78 C144 70 150 64 158 64 Z M38 78 L74 44 M38 98 L74 114 M98 42 L146 70 M98 114 L146 86 M85 52 V106 M50 56 H54 M52 110 H56 M122 52 H126 M122 104 H126 M40 88 C60 88 120 74 144 78\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-min-spanning-tree",
+    "name": "Minimum Spanning Tree (MST)",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "mst",
+      "spanning-tree",
+      "kruskal",
+      "prim",
+      "graph",
+      "greedy"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#F7D046",
+    "description": "Minimum weight acyclic tree spanning all network vertices with discarded cycle edges dashed.",
+    "path": "d=\"M32 36 C39 36 44 41 44 48 C44 55 39 60 32 60 C25 60 20 55 20 48 C20 41 25 36 32 36 Z M90 18 C97 18 102 23 102 30 C102 37 97 42 90 42 C83 42 78 37 78 30 C78 23 83 18 90 18 Z M148 36 C155 36 160 41 160 48 C160 55 155 60 148 60 C141 60 136 55 136 48 C136 41 141 36 148 36 Z M48 114 C55 114 60 119 60 126 C60 133 55 138 48 138 C41 138 36 133 36 126 C36 119 41 114 48 114 Z M132 114 C139 114 144 119 144 126 C144 133 139 138 132 138 C125 138 120 133 120 126 C120 119 125 114 132 114 Z M42 44 L80 32 M98 32 L138 44 M34 58 L46 114 M146 58 L134 114 M44 54 C74 84 104 84 136 54 M60 126 H120\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-consistent-hash-ring",
+    "name": "Consistent Hashing Ring",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "consistent-hashing",
+      "distributed",
+      "hash-ring",
+      "sharding",
+      "nodes",
+      "replication"
+    ],
+    "viewBox": "0 0 180 180",
+    "type": "stroke",
+    "defaultColor": "#EE8DB9",
+    "description": "Circular hash ring partitioning continuous keyspace clockwise into distributed cluster nodes.",
+    "path": "d=\"M90 24 C126 24 156 54 156 90 C156 126 126 156 90 156 C54 156 24 126 24 90 C24 54 54 24 90 24 Z M90 18 V30 M156 90 H168 M90 156 V168 M24 90 H12 M136 44 C142 44 146 48 146 54 C146 60 142 64 136 64 C130 64 126 60 126 54 C126 48 130 44 136 44 Z M136 116 C142 116 146 120 146 126 C146 132 142 136 136 136 C130 136 126 132 126 126 C126 120 130 116 136 116 Z M44 116 C50 116 54 120 54 126 C54 132 50 136 44 136 C38 136 34 132 34 126 C34 120 38 116 44 116 Z M44 44 C50 44 54 48 54 54 C54 60 50 64 44 64 C38 64 34 60 34 54 C34 48 38 44 44 44 Z M90 60 C106 60 120 74 120 90 M116 82 L120 90 L112 90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-fenwick-bit-tree",
+    "name": "Fenwick Tree Prefix Array",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "fenwick-tree",
+      "binary-indexed-tree",
+      "bit",
+      "prefix-sums",
+      "cumulative",
+      "array"
+    ],
+    "viewBox": "0 0 200 120",
+    "type": "stroke",
+    "defaultColor": "#0BDC85",
+    "description": "Binary Indexed Tree (BIT) with hierarchical power-of-two prefix sum coverage brackets.",
+    "path": "d=\"M16 70 H184 V102 H16 Z M37 70 V102 M58 70 V102 M79 70 V102 M100 70 V102 M121 70 V102 M142 70 V102 M163 70 V102 M26 86 H28 M47 86 H49 M68 86 H70 M89 86 H91 M110 86 H112 M131 86 H133 M152 86 H154 M173 86 H175 M22 56 C28 50 46 50 52 56 M64 56 C70 50 88 50 94 56 M106 56 C112 50 130 50 136 56 M148 56 C154 50 172 50 178 56 M22 40 C32 30 84 30 94 40 M106 40 C116 30 168 30 178 40 M22 22 C42 10 158 10 178 22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  },
+  {
+    "id": "algo-backtracking-nqueens",
+    "name": "Backtracking Search Tree",
+    "category": "algorithms-data-structures",
+    "tags": [
+      "backtracking",
+      "dfs",
+      "pruning",
+      "n-queens",
+      "recursion",
+      "decision-tree"
+    ],
+    "viewBox": "0 0 180 150",
+    "type": "stroke",
+    "defaultColor": "#EA552B",
+    "description": "State-space decision tree exploring candidate solutions with pruned dead-ends and backtrack arrows.",
+    "path": "d=\"M90 16 C97 16 102 21 102 28 C102 35 97 40 90 40 C83 40 78 35 78 28 C78 21 83 16 90 16 Z M48 64 C55 64 60 69 60 76 C60 83 55 88 48 88 C41 88 36 83 36 76 C36 69 41 64 48 64 Z M132 64 C139 64 144 69 144 76 C144 83 139 88 132 88 C125 88 120 83 120 76 C120 69 125 64 132 64 Z M26 114 C33 114 38 119 38 126 C38 133 33 138 26 138 C19 138 14 133 14 126 C14 119 19 114 26 114 Z M70 114 C77 114 82 119 82 126 C82 133 77 138 70 138 C63 138 58 133 58 126 C58 119 63 114 70 114 Z M80 36 L56 64 M100 36 L124 64 M40 86 L30 114 M56 86 L66 114 M126 86 L118 106 M138 86 L146 106 M112 118 L124 130 M124 118 L112 130 M120 102 C116 94 114 88 116 80 M110 86 L116 80 L122 84\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\""
+  }
+]
