@@ -113,7 +113,7 @@ export const Blind75ProblemPage: FC = () => {
         >
           Could not find Blind 75 question "{problemId}".
         </p>
-        <Link to="/blind75" className="btn btn-primary">
+        <Link to="/mastery" className="btn btn-primary">
           <ArrowLeft size={16} />
           <span>Return to Blind 75 Catalog</span>
         </Link>
@@ -245,7 +245,7 @@ export const Blind75ProblemPage: FC = () => {
           }}
         >
           <Link
-            to="/blind75"
+            to="/mastery"
             className="btn btn-secondary btn-sm"
             style={{
               borderRadius: "var(--radius-full)",
@@ -270,7 +270,7 @@ export const Blind75ProblemPage: FC = () => {
               Home
             </Link>
             <span>/</span>
-            <Link to="/blind75" style={{ color: "var(--text-secondary)" }}>
+            <Link to="/mastery" style={{ color: "var(--text-secondary)" }}>
               Blind 75
             </Link>
             <span>/</span>
@@ -350,7 +350,7 @@ export const Blind75ProblemPage: FC = () => {
           >
             {prevProblem && (
               <Link
-                to={`/blind75/${prevProblem.id}`}
+                to={`/mastery/${prevProblem.id}`}
                 className="btn btn-sm btn-secondary"
                 style={{
                   borderRadius: "var(--radius-full)",
@@ -364,7 +364,7 @@ export const Blind75ProblemPage: FC = () => {
 
             {nextProblem && (
               <Link
-                to={`/blind75/${nextProblem.id}`}
+                to={`/mastery/${nextProblem.id}`}
                 className="btn btn-sm btn-secondary"
                 style={{
                   borderRadius: "var(--radius-full)",
@@ -1471,7 +1471,7 @@ export const Blind75ProblemPage: FC = () => {
       >
         {prevProblem ? (
           <Link
-            to={`/blind75/${prevProblem.id}`}
+            to={`/mastery/${prevProblem.id}`}
             className="btn btn-secondary btn-sm"
             style={{
               borderRadius: "var(--radius-full)",
@@ -1500,7 +1500,7 @@ export const Blind75ProblemPage: FC = () => {
 
         {nextProblem ? (
           <Link
-            to={`/blind75/${nextProblem.id}`}
+            to={`/mastery/${nextProblem.id}`}
             className="btn btn-secondary btn-sm"
             style={{
               borderRadius: "var(--radius-full)",

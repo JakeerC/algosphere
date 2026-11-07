@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { Navbar, ThemeMode } from './components/common/Navbar';
@@ -22,6 +22,12 @@ const ScrollToTop: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [pathname]);
   return null;
+};
+
+// Redirect legacy /blind75/:problemId to /mastery/:problemId
+const Blind75Redirect: React.FC = () => {
+  const { problemId } = useParams();
+  return <Navigate to={problemId ? `/mastery/${problemId}` : '/mastery'} replace />;
 };
 
 export const App: React.FC = () => {
@@ -96,12 +102,21 @@ export const App: React.FC = () => {
             element={<TracksPage />} 
           />
           <Route 
-            path="/blind75" 
+            path="/mastery" 
             element={<Blind75Page />} 
           />
           <Route 
-            path="/blind75/:problemId" 
+            path="/mastery/:problemId" 
             element={<Blind75ProblemPage />} 
+          />
+          {/* Legacy /blind75 redirects */}
+          <Route 
+            path="/blind75" 
+            element={<Navigate to="/mastery" replace />} 
+          />
+          <Route 
+            path="/blind75/:problemId" 
+            element={<Blind75Redirect />} 
           />
           <Route 
             path="/lecture/:moduleId" 

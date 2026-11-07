@@ -175,7 +175,7 @@ export const TracksPage: React.FC = () => {
             </div>
 
             <Link
-              to="/blind75"
+              to="/mastery"
               className="btn btn-primary btn-sm"
               style={{
                 borderRadius: "var(--radius-full)",

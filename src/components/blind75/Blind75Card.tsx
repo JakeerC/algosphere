@@ -161,7 +161,7 @@ export const Blind75Card: FC<Blind75CardProps> = ({
 
             {/* Open in New Tab Button */}
             <Link
-              to={`/blind75/${problem.id}`}
+              to={`/mastery/${problem.id}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={e => e.stopPropagation()}
@@ -175,7 +175,7 @@ export const Blind75Card: FC<Blind75CardProps> = ({
 
         {/* Title Link: Opens in New Tab */}
         <Link
-          to={`/blind75/${problem.id}`}
+          to={`/mastery/${problem.id}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{ textDecoration: 'none', display: 'block' }}
@@ -252,7 +252,7 @@ export const Blind75Card: FC<Blind75CardProps> = ({
 
       {/* Action Button: Opens in New Tab */}
       <Link
-        to={`/blind75/${problem.id}`}
+        to={`/mastery/${problem.id}`}
         target="_blank"
         rel="noopener noreferrer"
         className="btn btn-sm btn-secondary"
